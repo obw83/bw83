@@ -1,0 +1,28 @@
+<h1>for_Mr-Ohmori</h1>
+<h3>毎回の作業前セッティング</h3>
+<h1>プロジェクトフォルダに移動</h1>
+<p>cd /Users/lapis/git/neon/for_Mr-Ohmori</p>
+<h1>.nvmrc に書かれたバージョンに切り替え</h1>
+<p>nvm use</p>
+<h1>依存パッケージを確認・インストール（初回または追加後）</h1>
+<p>npm install</p>
+<h1>開発サーバー起動（変更が即反映される）</h1>
+<p>npm run dev</p>
+<h1>これでブラウザで http://localhost:8080 を開きながらページ作りが可能</h1>
+<h3>dev環境で確認</h3>
+<h1>開発用からビルド</h1>
+<p>npm run build</p>
+<ul>
+<li>docs/ フォルダに GitHub Pages 用のファイルが生成される</li>
+</ul>
+<h1>確認したい場合はローカルサーバーでも確認可能：</h1>
+<h1>serve コマンドで docs/ をブラウザで確認</h1>
+<p>npx serve docs</p>
+<h1>または npm run dev のままでも OK（ソースファイル編集中はこっち）</h1>
+<h3>本番環境（GitHub Pages）への公開方法</h3>
+<h1>変更を Git にコミット</h1>
+<p>git add -A
+git commit -m &quot;build: update pages&quot;</p>
+<h1>GitHub に push</h1>
+<p>git push origin main</p>
+<h1>GitHub → Settings → Pages → Branch: main / Folder: /docs を選択</h1>
