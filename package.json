@@ -1,0 +1,21 @@
+{
+  "name": "for_mr-ohmori",
+  "version": "1.0.0",
+  "description": "cd /Users/lapis/git/neon/for_Mr-Ohmori",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-ohmori:obw83/for_Mr-Ohmori.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}
