@@ -21,14 +21,17 @@ npm run dev
 ### dev環境で確認
 
 
-# 開発用からビルド
+# dev で最新ビルド
 npm run build
- - docs/ フォルダに GitHub Pages 用のファイルが生成される
 
-# 確認したい場合はローカルサーバーでも確認可能：
-# serve コマンドで docs/ をブラウザで確認
-npx serve docs
-# または npm run dev のままでも OK（ソースファイル編集中はこっち）
+# main に切り替え
+git checkout main
+
+# dev の _site を main に反映
+git checkout dev -- _site
+git add _site
+git commit -m "chore: update _site from dev build"
+git push origin main
 
 
 ### 本番環境（GitHub Pages）への公開方法
