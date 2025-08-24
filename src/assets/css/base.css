@@ -1,0 +1,50 @@
+/* base.css - normalize.css の上に軽いリセット＋Google Fonts */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: #fff;
+    color: #000;
+}
+
+ul, ol,dd {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 画像を親幅に収める */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 見出しの余白を少しだけ調整 */
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+p{
+    margin: 0;
+}
