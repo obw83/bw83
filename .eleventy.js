@@ -17,6 +17,8 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy({"node_modules/normalize.css/normalize.css": "assets/css/normalize.css"});
   eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
 
+  eleventyConfig.addPassthroughCopy({"src/assets/js": "assets/js"});
+
   return {
     dir: {
       input: "src",
