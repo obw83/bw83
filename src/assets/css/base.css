@@ -57,14 +57,23 @@ p{
 
 /* ヘッダー共通 */
 .site-header {
+  position: fixed; /* 固定に変更 */
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
   background: #fff;
   border-bottom: 1px solid #ddd;
-  position: relative;
-  z-index: 10;
+  z-index: 1000;
+  height: 60px; /* 高さを固定 */
+}
+
+/* body paddingでコンテンツがヘッダーと重ならないように調整 */
+body {
+  padding-top: 60px; /* SP高さに合わせる */
 }
 
 /* ロゴ */
@@ -75,11 +84,10 @@ p{
   text-decoration: none;
   color: #333;
 }
-
 @media (min-width: 768px) {
-    .logo a {
-        font-size: 1.5rem;
-    }
+  .logo a {
+    font-size: 1.5rem;
+  }
 }
 
 /* グローバルナビ（PC） */
@@ -100,7 +108,6 @@ p{
 }
 
 /* ハンバーガー */
-
 .hamburger {
   width: 40px;
   height: 40px;
@@ -115,8 +122,6 @@ p{
   cursor: pointer;
   position: relative;
 }
-
-
 .hamburger span {
   display: block;
   width: 18px;
@@ -149,7 +154,7 @@ p{
   overflow: hidden;
   transition: all 0.3s ease;
   position: absolute;
-  top: 100%;
+  top: 60px; /* ヘッダーの下 */
   left: 0;
   width: 100%;
   background: #fff;
@@ -207,6 +212,14 @@ p{
   }
   .sp-only {
     display: none;
+  }
+
+  /* PC高さ調整 */
+  .site-header {
+    height: 70px;
+  }
+  body {
+    padding-top: 70px;
   }
 }
 
