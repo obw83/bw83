@@ -39,6 +39,7 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    padding: 0;
     margin: 0;
     font-size: inherit;
     font-weight: inherit;
@@ -80,7 +81,6 @@ p{
         font-size: 1.5rem;
     }
 }
-
 
 /* グローバルナビ（PC） */
 .global-nav {
@@ -230,13 +230,15 @@ p{
 .footer-brand .small-text {
   font-size: 12px;
   margin: 0;
-  color: #bbb;
+  color: #fff;
 }
 
 .footer-brand .brand-title {
-  font-size: 20px;
-  margin: 0.2rem 0 0;
+  font-family: "Zen Old Mincho", serif;
+  font-size: 1.2rem;
   font-weight: bold;
+  text-decoration: none;
+  color: #fff;
 }
 
 .footer-section h3 {

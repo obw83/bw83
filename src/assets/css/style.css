@@ -2,7 +2,7 @@
 
 body {
   font-family: "Noto Sans JP", sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
   line-height: 1.6;
   background-color: #fff;
   color: #3D3D43;
@@ -13,12 +13,316 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+.sp-break {
+  display: none;
 }
 
-.container {
+@media (max-width: 767px) {
+  .sp-break {
+    display: block;
+  }
+}
+
+
+/********** TOPページ **********/
+
+/****** Heroセクション ******/
+
+.hero {
+  position: relative;
+  width: 100%;
+}
+
+.hero__image-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero__content {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+}
+
+.hero__subtitle {
+  font-size: 0.9rem;
+  font-family: "Zen Old Mincho", serif;
+  margin-bottom: 2rem;
+}
+
+.hero__title {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-family: "Zen Old Mincho", serif;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.hero__lead {
+  font-size: 0.85rem;
+  font-family: "Noto Sans JP", sans-serif;
+  color:#404170;
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  max-width: 70%;
+  text-align: left;
+}
+
+/* レスポンシブ: PC */
+@media (min-width: 768px) {
+  .hero__content {
+    position: absolute; /* タイトルとサブタイトルは画像上中央 */
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .hero__title {
+    font-size: 3rem;
+  }
+
+  .hero__subtitle {
+    font-size: 1.5rem;
+  }
+
+  .hero__lead {
+    position: relative; /* 画像下に配置 */
+    bottom: auto;
+    left: auto;
+    transform: none;
+    max-width: 60%;
+    font-size: 1.2rem;
+    margin: 1.5rem auto 0 auto;
+    text-align: center;
+  }
+}
+
+/****** about ******/
+
+
+.about {
+  padding: 2rem 1rem; /* 上下余白 */
+  text-align: center; /* 中央揃え */
+}
+
+.about__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+
+
+/* PC用 */
+@media (min-width: 768px) {
+  .about {
+    padding: 4rem 2rem;
+  }
+  .about__title {
+    font-size: 2.5rem;
+  }
+}
+
+/* スライダー */
+.about__slider {
+  position: relative;
   width: 90%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
+  overflow: hidden;
+}
+
+.about__slider img {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+/* 現在のスライドだけ表示 */
+.about__slider img.active {
+  display: block;
+}
+
+/* 矢印ボタンのベース */
+.slider__arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 20px; 
+  height: 20px;
+  position: relative;
+  padding: 0;
+}
+
+/* 左矢印 */
+.slider__arrow--prev::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: #333; /* 矢印の色 */
+  transform: translate(-50%, -50%);
+  clip-path: polygon(100% 0%, 0% 50%, 100% 100%); /* ← 左向き三角 */
+  border-radius: 2px; /* 丸み */
+}
+
+/* 右矢印 */
+.slider__arrow--next::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: #333; /* 矢印の色 */
+  transform: translate(-50%, -50%);
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%); /* → 右向き三角 */
+  border-radius: 2px; /* 丸み */
+}
+
+/* 矢印＋丸ポチをまとめる */
+.slider__controls {
+  margin-top: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* 丸ポチ */
+.slider__dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.slider__dots .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ccc;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.slider__dots .dot.active {
+  background: #333;
+}
+
+/* 矢印を丸ポチの左右に配置 */
+.slider__controls .slider__arrow--prev {
+  order: 0;
+}
+
+.slider__controls .slider__dots {
+  order: 1;
+}
+
+.slider__controls .slider__arrow--next {
+  order: 2;
+}
+
+/* PC用レスポンシブ（必要に応じてサイズ調整） */
+@media (min-width: 768px) {
+  .about__slider {
+  width: 50%;
+  max-width: 800px;
+  }
+
+  .slider__dots {
+     gap: 1rem;
+  }
+
+  .slider__dots .dot {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* About セクション - テキストボックス内 */
+
+/* ボックス全体 */
+.about__inner {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto 0;
+  padding: 1.8rem;
+  background-color: #f9f9f9; 
+  border: 1px solid #ddd;    
+  border-radius: 4px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* ほんのり影 */
+  text-align: center; /* 初期は中央揃え */
+}
+
+/* 小見出し */
+.about__heading {
+  font-size: 1rem;
+  font-family: "Zen Old Mincho", serif;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* 本文 */
+.about__text {
+  font-size: 0.85rem;
+  font-family: "Noto Sans JP", sans-serif;
+  letter-spacing: 1.4px;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+/* ボタン */
+/* ボタン */
+.about__button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #333;
+  border-radius: 999px; /* pill型 */
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 50, 100, 0.25); /* 青系ドロップシャドウ */
+}
+
+.about__button:hover {
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 50, 100, 0.35); 
+}
+
+
+/* レスポンシブ */
+@media (min-width: 768px) {
+  .about__inner {
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .about__heading {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about__text {
+    font-size: 1rem;
+    text-align: left; 
+  }
 }

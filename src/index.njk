@@ -1,7 +1,72 @@
 ---
 layout: base.njk
-title: トップページ
+title: トップ
 ---
 
-<h2>Welcome!</h2>
-<p>Eleventy で作ったトップページです。</p>
+<section class="hero">
+  <picture class="hero__image-wrapper">
+    <!-- SP画像 -->
+    <source media="(max-width: 767px)" srcset="/assets/images/top_main_sp.png">
+    <!-- PC画像 -->
+    <img class="hero__image" src="/assets/images/top_main_pc.png" alt="メインビジュアル">
+  </picture>
+
+  <div class="hero__content">
+    <p class="hero__subtitle">藍に愛を込めて</p>
+    <h1 class="hero__title">藍染屋ミオカザロ</h1>
+  </div>
+
+  <div class="hero__lead">
+磐梯山の麓に位置する<br/>
+豊かな湧水源が広がる<span class="sp-break"></span>
+磐梯町を拠点とする<span class="sp-break"></span>
+藍染工房です。<br/>
+豊かな四季に恵まれたこの地で、<br/>
+ミオカザロは静かに藍を紡ぎます。
+  </div>
+</section>
+
+<section class="about">
+  <h2 class="about__title">藍染屋ミオカザロについて</h2>
+
+    <div class="about__slider">
+    <div class="about__track">
+      <div class="about__item"><img src="/assets/images/top_slide_1.png" alt=""></div>
+      <div class="about__item"><img src="/assets/images/top_slide_2.png" alt=""></div>
+      <div class="about__item"><img src="/assets/images/top_slide_3.png" alt=""></div>
+      <div class="about__item"><img src="/assets/images/top_slide_4.png" alt=""></div>
+      <div class="about__item"><img src="/assets/images/top_slide_5.png" alt=""></div>
+
+    　<div class="slider__controls">
+    <button class="slider__arrow slider__arrow--prev">&lt;</button>
+    <div class="slider__dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <button class="slider__arrow slider__arrow--next">&gt;</button>
+  </div>
+  
+  <div class="about__inner">
+    <h3 class="about__heading">小さな工房の、大きな想い</h3>
+    <p class="about__text">
+      藍染をあなたの手で染めてみませんか？<br/>
+会津の広い空の下で、藍染と触れ合って、会津の文化を体験してみましょう。<br/><br/>
+
+藍染は日本で古くから親しまれる染め物の文化です。会津でも古くから会津木綿などで利用されてきた、会津の風土に根付いた文化です。<br/><br/>
+
+藍染屋ミオカザロは、磐梯山の麓に佇む小さな工房。<br/>
+完璧な作品を作る場所ではありません。「今日は楽しかった」「また来たい」そう思っていただける時間を作る場所です。<br/><br/>
+
+失敗したって、にじんだって、<br/>
+それもあなたの作品。一緒に「世界にひとつ」を楽しみましょう！
+    </p>
+    <a href="/workshop/" class="about__button">体験予約はこちら</a>
+  </div>
+
+</section>
+
+<script src="/assets/js/slider.js" defer></script>
+
