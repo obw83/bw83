@@ -1,7 +1,7 @@
-const slides = document.querySelectorAll(".about__slider img");
-const prevBtn = document.querySelector(".slider__arrow--prev");
-const nextBtn = document.querySelector(".slider__arrow--next");
-const dots = document.querySelectorAll(".slider__dots .dot");
+const slides = document.querySelectorAll(".about-top__slider img");
+const prevBtn = document.querySelector(".about-top__arrow--prev");
+const nextBtn = document.querySelector(".about-top__arrow--next");
+const dots = document.querySelectorAll(".about-top__dots .dot");
 let current = 0;
 const total = slides.length;
 
@@ -12,6 +12,7 @@ function showSlide(index) {
   });
 }
 
+// ボタン操作
 prevBtn.addEventListener("click", () => {
   current = (current - 1 + total) % total;
   showSlide(current);
@@ -20,6 +21,11 @@ prevBtn.addEventListener("click", () => {
 nextBtn.addEventListener("click", () => {
   current = (current + 1) % total;
   showSlide(current);
+});
+
+// ドット操作
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => showSlide(i));
 });
 
 // 初期表示
