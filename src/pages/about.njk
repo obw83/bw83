@@ -4,5 +4,122 @@ title: 工房の想い
 permalink: /about/index.html
 ---
 
-<h2>ABOUT</h2>
-<p>工房の情報を記載します。</p>
+
+<section class="about-ws__page-hero">
+  <picture>
+    <!-- PC用画像 -->
+    <source srcset="/assets/images/ttl_pc.jpg" media="(min-width: 768px)">
+    <!-- SP用画像 -->
+    <img src="/assets/images/ttl_sp.jpg" alt="藍染屋ミオカザロの想い" class="about-ws__page-hero-image">
+  </picture>
+  <h1 class="about-ws__page-hero-text">藍染屋ミオカザロの<span class="sp-break"></span>想い</h1>
+</section>
+
+
+<section class="about-ws__intro">
+  <p class="about-ws__intro-text">
+    磐梯山の麓に位置する<br>
+    豊かな湧水源の広がる磐梯町で<br>
+    小さな藍染工房は始まりました。<br>
+    豊かな四季に囲まれたこの地で、<br>
+    ミオカザロは静かに藍を紡ぎます。
+  </p>
+</section>
+
+
+<!-- 特徴セクション -->
+<section class="about-ws__features">
+  <div class="about-ws__features-container">
+    <!-- セット1 -->
+    <div class="about-ws__feature">
+      <p class="about-ws__feature-text">都会にはないものが、ある</p>
+      <img src="/assets/images/general_600x600.jpg" alt="職人の技" class="about-ws__feature-image">
+    </div>
+    <!-- セット2 -->
+    <div class="about-ws__feature">
+      <p class="about-ws__feature-text">藍染をきっかけに農業を身近に</p>
+      <img src="/assets/images/general_600x600.jpg" alt="自然の恵み" class="about-ws__feature-image">
+    </div>
+    <!-- セット3 -->
+    <div class="about-ws__feature">
+      <p class="about-ws__feature-text">楽しんだからこそわかる農業</p>
+      <img src="/assets/images/general_600x600.jpg" alt="暮らしに寄り添う" class="about-ws__feature-image">
+    </div>
+  </div>
+</section>
+
+<!-- ギャラリー -->
+<section class="gallery-ws">
+  <div class="gallery-ws__container">
+    <div class="gallery-ws__grid">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+      <img src="/assets/images/general_600x600.jpg" alt="" class="gallery-ws__img">
+    </div>
+  </div>
+</section>
+
+<!-- モーダル -->
+<div class="gallery-ws__modal" id="galleryModal">
+  <span class="gallery-ws__close" id="galleryClose">&times;</span>
+  <img class="gallery-ws__modal-img" id="galleryModalImg" alt="">
+</div>
+
+<script>
+  // モーダル要素
+  const modal = document.getElementById('galleryModal');
+  const modalImg = document.getElementById('galleryModalImg');
+  const closeBtn = document.getElementById('galleryClose');
+
+  // 画像クリックでモーダル表示
+  document.querySelectorAll('.gallery-ws__img').forEach(img => {
+    img.addEventListener('click', () => {
+      modal.style.display = 'flex'; // flexで中央寄せ
+      modalImg.src = img.src;
+      document.body.style.overflow = 'hidden'; // 背景スクロール禁止
+    });
+  });
+
+  // ❌ボタンクリックでモーダル閉じる
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    modalImg.src = '';
+    document.body.style.overflow = ''; // スクロール戻す
+  });
+
+  // モーダル背景クリックで閉じる
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
+  });
+</script>
+
+
+<section class="about-ws__main-text">
+  <p class="about-ws__main-text-item">
+    工房は磐梯町の中心地から離れた<span class="sp-break"></span>
+    山々に囲まれた集落に位置します。<br><span class="sp-break"></span>
+    農業が盛んな集落の中で、<span class="sp-break"></span>
+    小鳥のさえずりに耳を傾けて<span class="sp-break"></span>
+    藍染の時間より早めにお越しになって<span class="sp-break"></span>
+    お散歩もぜひ楽しんでください。<br><span class="sp-break"></span>
+    コースもご案内いたします！
+  </p>
+  <p class="about-ws__main-text-item">
+    工房は作品作りの場という<span class="sp-break"></span>
+    イメージがあるかもしれません。<br><span class="sp-break"></span>
+    しかし、私は「楽しい」からこそ<span class="sp-break"></span>
+    良い藍染が生まれると考えています。<br><span class="sp-break"></span> 
+    私も楽しいことが大好きです！<span class="sp-break"></span>
+    ぜひ藍染を「楽しんで」いただけるように<span class="sp-break"></span>
+    ご用意してお待ちしております！
+  </p>
+</section>

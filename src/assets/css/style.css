@@ -765,7 +765,7 @@ a {
   }
 }
 
-/********** ABOUTページ **********/
+/********** WORKSHOPページ **********/
 
 /* ページタイトル */
 .charm-ws__page-hero {
@@ -1097,6 +1097,7 @@ a {
 .workshop-ws__flow-bubble-text {
   font-size: 0.85rem;
   letter-spacing: 0.05rem;
+  text-align: left;
 }
 
 /* 代表写真 */
@@ -1624,4 +1625,410 @@ a {
 .faq-ws__text {
   margin: 0;
   line-height: 1.6;
+}
+
+/********** ABOUTページ **********/
+/* ページタイトル */
+.about-ws__page-hero {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.about-ws__page-hero img,
+.about-ws__page-hero picture {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 中央テキスト */
+.about-ws__page-hero-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-family: "Zen Old Mincho", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  margin: 0;
+}
+
+/* PC用文字サイズ調整 */
+@media (min-width: 768px) {
+  .about-ws__page-hero-text {
+    font-size: 3rem;
+  }
+}
+
+/* Aboutページ・イントロセクション */
+.about-ws__intro {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  text-align: center;
+}
+
+.about-ws__intro-text {
+  font-size: 0.9rem;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* ---------------- 特徴セクション ---------------- */
+.about-ws__features-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-ws__feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.about-ws__feature-text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.about-ws__feature-image {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+/* PC横並び */
+@media (min-width: 768px) {
+  .about-ws__features-container {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .about-ws__feature {
+    flex: 1;
+  }
+
+  .about-ws__feature-image {
+    width: 100%;
+  }
+}
+
+/* ---------------- ギャラリー ---------------- */
+.gallery-ws__container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
+}
+
+.gallery-ws__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* SP: 2列 */
+  gap: 0.5rem;
+}
+
+.gallery-ws__img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+/* PC: 4列 */
+@media (min-width: 768px) {
+  .gallery-ws__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------------- モーダル ---------------- */
+.gallery-ws__modal {
+  display: none; /* 初期非表示 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-ws__modal-img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.gallery-ws__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* ---------------- main-text ---------------- */
+
+.about-ws__main-text {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.about-ws__main-text-item {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* ---------------- プロフィールページ ---------------- */
+
+.profile-ws {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* 見出し① */
+.profile-ws__heading-main {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* コンテンツラッパー（画像＋右側テキスト） */
+.profile-ws__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* 画像 */
+.profile-ws__image {
+  width: 90%;
+  max-width: 400px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* 右側テキストグループ */
+.profile-ws__text-group {
+  width: 90%;
+}
+
+/* 見出し② */
+.profile-ws__heading-sub {
+  text-align: left;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 本文 */
+.profile-ws__text {
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* PC表示: 横並びに */
+@media (min-width: 768px) {
+  .profile-ws__content {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .profile-ws__image {
+    width: 50%;
+  }
+
+  .profile-ws__text-group {
+    width: 50%;
+  }
+
+  .profile-ws__heading-main {
+    text-align: left; /* PCでは右側にあるので左寄せ */
+  }
+}
+
+.profile-ws__photos {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+.profile-ws__photo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-ws__photo {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.profile-ws__catchphrase {
+  text-align: center;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* PC: 写真横並び、一言は下 */
+@media (min-width: 768px) {
+  .profile-ws__photo-list {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .profile-ws__photo {
+    flex: 1 1 0; /* 親幅に合わせて自動縮小 */
+    min-width: 0; /* overflow防止 */
+  }
+
+  .profile-ws__catchphrase {
+    margin-top: 1rem;
+  }
+}
+
+.about-ws__blog-links {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+}
+
+.about-ws__boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+}
+
+/* ボックス共通 */
+.about-ws__box {
+  border: 1px solid #004466;
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+
+/* ボックス内文章 */
+.about-ws__box-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* ボタン */
+.about-ws__box-btn {
+  display: inline-block;
+  padding: 0.8rem 1.2rem;
+  background-color: #004466;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.about-ws__box-btn:hover {
+  background-color: #006699;
+}
+
+/* note記事 */
+.about-ws__note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.about-ws__note-card {
+  border: 1px solid #004466;
+  border-radius: 6px;
+  padding: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-ws__note-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.about-ws__note-title {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-ws__note-excerpt {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* PC: 横並び＋高さ揃え */
+@media (min-width: 768px) {
+  .about-ws__blog-links {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+
+  .about-ws__boxes {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .about-ws__box {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* 縦並び */
+    justify-content: flex-start; /* ボタンが上にくるように */
+  }
+
+  /* ボタンのある要素だけ、見出し下に固定 */
+  .about-ws__box a,
+  .about-ws__box button {
+    margin-top: 3rem;
+    order: 0; /* 見出しの下 */
+  }
+
+  .about-ws__note-list {
+    flex: 1; /* 記事リストが余白で伸びる */
+  }
 }
