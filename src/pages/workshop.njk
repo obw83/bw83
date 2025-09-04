@@ -360,8 +360,8 @@ permalink: /workshop/index.html
       <h2 class="workshop-ws__heading">アクセス</h2>
 
       <div class="access-ws__map">
-        <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-      </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d818489.0328619406!2d139.1129006154534!3d36.74122322315971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8aa958262e378f%3A0x13ac4435760c5c3f!2z6JeN5p-T5bGL44Of44Kq44Kr44K244Ot!5e0!3m2!1sja!2sjp!4v1756988001460!5m2!1sja!2sjp" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
 
       <div class="access-ws__item">
         <h4 class="access-ws__subheading">住所</h4>
@@ -384,9 +384,12 @@ permalink: /workshop/index.html
     <div class="hours-ws__box">
       <h2 class="workshop-ws__heading">営業日</h2>
 
-      <div class="hours-ws__calendar">
-        <iframe src="https://calendar.google.com/calendar/embed?src=..." style="border:0" width="100%" height="300" frameborder="0" scrolling="no"></iframe>
-      </div>
+        <div class="calendar-wrapper">
+            <button class="calendar__prev"></button>
+          <div class="calendar__month"></div>
+            <button class="calendar__next"></button>
+          <div class="calendar"></div>
+        </div>
 
       <div class="hours-ws__item">
         <h4 class="hours-ws__subheading">営業時間</h4>

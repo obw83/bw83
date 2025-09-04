@@ -1114,7 +1114,7 @@ a {
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     margin: 0 auto 3rem auto;
   }
@@ -1665,16 +1665,22 @@ a {
 
 /* Aboutページ・イントロセクション */
 .about-ws__intro {
-  width: 90%;
+  width: 80%;
   max-width: 800px;
   margin: 0 auto 3rem auto;
-  text-align: center;
+  text-align: left;
 }
 
 .about-ws__intro-text {
   font-size: 0.9rem;
   line-height: 1.8;
   color: #333;
+}
+
+@media (min-width: 768px) {
+  .about-ws__intro-text {
+    text-align: center;
+  }
 }
 
 /* ---------------- 特徴セクション ---------------- */
@@ -1784,17 +1790,24 @@ a {
 /* ---------------- main-text ---------------- */
 
 .about-ws__main-text {
-  text-align: center;
+  width: 80%;
+  text-align: left;
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  margin-bottom: 3rem;
+  margin: 0 auto 3rem auto;
 }
 
 .about-ws__main-text-item {
   margin: 0;
   font-size: 0.85rem;
   line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .about-ws__main-text {
+    text-align: center;
+  }
 }
 
 /* ---------------- プロフィールページ ---------------- */
