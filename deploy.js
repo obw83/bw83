@@ -1,92 +1,98 @@
-// deploy.js
+#!/usr/bin/env node
 const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const siteDir = path.join(__dirname, "_site");
-const publicDir = path.join(__dirname, "_site_public");
+// 設定
+const siteDir = path.resolve(__dirname, "_site");
+const publicDir = path.resolve(__dirname, "_site_public");
+const remoteRepo = "git@github.com:obw83/bw83.git"; // public repo
+const branch = "main";
 
-// PathPrefix 更新用（必要であれば）
-function updateLinks() {
-  console.log("Updating HTML/CSS links with pathPrefix...");
-  try {
-    execSync("node add-url-filter.js", { stdio: "inherit" });
-    console.log("HTML and CSS links updated successfully!");
-  } catch (err) {
-    console.error("Error updating links:", err);
-  }
+// 1. HTML/CSS リンク更新（pathPrefix 用）
+console.log("Updating HTML/CSS links with pathPrefix...");
+try {
+  execSync("node add-url-filter.js", { stdio: "inherit" });
+} catch (e) {
+  console.error("Error running add-url-filter.js", e);
+  process.exit(1);
+}
+console.log("HTML and CSS links updated successfully!");
+
+// 2. _site_public が存在するか確認
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir);
+  console.log(`Created _site_public at ${publicDir}`);
 }
 
-// _site_public の初期化とリモート設定
-function setupPublicRepo() {
-  if (!fs.existsSync(path.join(publicDir, ".git"))) {
-    console.log("_site_public is not a git repo, initializing...");
-    execSync(`git -C "${publicDir}" init`, { stdio: "inherit" });
-  }
-
-  // public リポジトリに origin を設定
-  execSync(`git -C "${publicDir}" remote remove origin || true`, {
+// 3. Git 初期化・remote 設定
+try {
+  execSync(`git -C ${publicDir} init`, { stdio: "inherit" });
+  execSync(`git -C ${publicDir} remote remove origin || true`, {
     stdio: "inherit",
   });
-  execSync(
-    `git -C "${publicDir}" remote add origin git@github-ohmori:obw83/bw83.git`,
-    { stdio: "inherit" }
-  );
+  execSync(`git -C ${publicDir} remote add origin ${remoteRepo}`, {
+    stdio: "inherit",
+  });
+} catch (e) {
+  console.error("Error initializing git repo", e);
+  process.exit(1);
+}
 
-  // リセットして clean
-  console.log("Resetting _site_public to latest origin/main...");
-  try {
-    execSync(`git -C "${publicDir}" fetch origin main`, { stdio: "inherit" });
-    execSync(`git -C "${publicDir}" reset --hard origin/main`, {
+// 4. リモートブランチ取得 & リセット
+try {
+  execSync(`git -C ${publicDir} fetch origin ${branch} || true`, {
+    stdio: "inherit",
+  });
+  execSync(`git -C ${publicDir} reset --hard origin/${branch} || true`, {
+    stdio: "inherit",
+  });
+  execSync(`git -C ${publicDir} clean -fd`, { stdio: "inherit" });
+  console.log("Reset _site_public to origin/main");
+} catch (e) {
+  console.log("No remote branch yet, continuing...");
+}
+
+// 5. _site → _site_public にコピー
+try {
+  execSync(`rsync -a --delete ${siteDir}/ ${publicDir}/`, { stdio: "inherit" });
+  console.log("Copied files from _site → _site_public");
+} catch (e) {
+  console.error("Error copying files", e);
+  process.exit(1);
+}
+
+// 6. Git add / commit
+try {
+  execSync(`git -C ${publicDir} add -A`, { stdio: "inherit" });
+  const status = execSync(`git -C ${publicDir} status --porcelain`)
+    .toString()
+    .trim();
+  if (status) {
+    execSync(`git -C ${publicDir} commit -m "Deploy site"`, {
       stdio: "inherit",
     });
-  } catch (err) {
-    console.log("Branch main may not exist yet, continue.");
+    console.log("Committed changes");
+  } else {
+    console.log("Nothing to commit");
   }
-  execSync(`git -C "${publicDir}" clean -fd`, { stdio: "inherit" });
+} catch (e) {
+  console.error("Error committing changes", e);
+  process.exit(1);
 }
 
-// _site → _site_public コピー
-function copySite() {
-  console.log(`Copying ${siteDir} → ${publicDir}`);
-  execSync(`rsync -a --delete "${siteDir}/" "${publicDir}/"`, {
+// 7. Git push
+try {
+  execSync(`git -C ${publicDir} branch -M ${branch}`, { stdio: "inherit" });
+  execSync(`git -C ${publicDir} push origin ${branch} --force`, {
     stdio: "inherit",
   });
-}
-
-// git commit & push
-function commitAndPush() {
-  console.log("Staging files...");
-  execSync(`git -C "${publicDir}" add -A`, { stdio: "inherit" });
-
-  console.log("Committing changes...");
-  try {
-    execSync(`git -C "${publicDir}" commit -m "Deploy site"`, {
-      stdio: "inherit",
-    });
-  } catch (err) {
-    console.log("Nothing to commit, continuing...");
-  }
-
-  // ブランチ作成（初回 push 用）
-  try {
-    execSync(`git -C "${publicDir}" branch -M main`, { stdio: "inherit" });
-  } catch (err) {
-    // すでに main なら無視
-  }
-
-  console.log("Pushing to GitHub Pages repository...");
-  execSync(`git -C "${publicDir}" push origin main --force`, {
-    stdio: "inherit",
-  });
-}
-
-function main() {
-  updateLinks();
-  setupPublicRepo();
-  copySite();
-  commitAndPush();
   console.log("Deployment complete!");
+} catch (e) {
+  console.error("Error pushing to remote", e);
+  console.error(
+    "Make sure your SSH key has write access to the repo:",
+    remoteRepo
+  );
+  process.exit(1);
 }
-
-main();
