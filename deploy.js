@@ -5,13 +5,13 @@ const { execSync } = require("child_process");
 // ================================
 // 設定
 // ================================
-const SITE_DIR = path.join(__dirname, "_site"); // ビルド済みサイト
+const SITE_DIR = path.join(__dirname, "_site"); // Eleventy ビルド済みサイト
 const PUBLIC_DIR = path.join(__dirname, "_site_public"); // clone 先
 const PUBLIC_REPO = "git@github-obw83:obw83/bw83.git"; // obw83 用リポジトリ
 const BRANCH = "main";
 
 // ================================
-// HTML 内リンクを書き換え（既に add-url-filter.js で実行済みならスキップ可能）
+// HTML 内リンク書き換えは add-url-filter.js で実行済み前提
 console.log("HTML links already updated via add-url-filter.js");
 
 // ================================
@@ -23,7 +23,7 @@ if (!fs.existsSync(PUBLIC_DIR)) {
   });
 } else {
   console.log(`${PUBLIC_DIR} already exists, pulling latest...`);
-  execSync(`cd ${PUBLIC_DIR} && git pull origin ${BRANCH}`, {
+  execSync(`cd ${PUBLIC_DIR} && git pull origin ${BRANCH} --rebase`, {
     stdio: "inherit",
   });
 }
