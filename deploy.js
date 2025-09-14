@@ -2,9 +2,7 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-// ビルド済み出力先
 const SITE_DIR = path.join(__dirname, "_site");
-// Public リポジトリ URL
 const PUBLIC_REPO = "https://github.com/obw83/bw83.git";
 const COMMIT_MESSAGE = "Deploy Eleventy site";
 

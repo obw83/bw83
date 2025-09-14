@@ -8,19 +8,17 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => b.date - a.date);
   });
 
-  // date フィルター
+  // date フィルター追加
   eleventyConfig.addFilter("date", (dateObj, format = "yyyy-MM-dd") => {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
 
-  // ファイルコピー
+  // 静的ファイルをコピー
   eleventyConfig.addPassthroughCopy({
     "node_modules/normalize.css/normalize.css": "assets/css/normalize.css",
   });
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
 
-  // Publicリポジトリ名に合わせた pathPrefix
   return {
     dir: {
       input: "src",
@@ -32,6 +30,6 @@ module.exports = function (eleventyConfig) {
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
     passthroughFileCopy: true,
-    pathPrefix: "/bw83/", // ←ここ重要
+    pathPrefix: "/bw83/", // ← ここ重要
   };
 };
