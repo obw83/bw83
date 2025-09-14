@@ -1,6 +1,6 @@
 const { DateTime } = require("luxon");
 
-const pathPrefix = "/bw83"; // GitHub Pages の場合
+const pathPrefix = "/bw83/"; // GitHub Pages の場合
 
 module.exports = function (eleventyConfig) {
   // posts collection

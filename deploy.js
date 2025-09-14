@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE_DIR = path.join(__dirname, "_site");
-const PUBLIC_REPO = "git@github.com:username/bw83.git"; // Public リポジトリ SSH URL
+const PUBLIC_REPO = "git@github-obw83:obw83/bw83.git";
 const BRANCH = "main"; // 公開ブランチ
 const PATH_PREFIX = "/bw83"; // GitHub Pages 用
 
