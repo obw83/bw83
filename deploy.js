@@ -1,88 +1,55 @@
-const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
-const SITE_DIR = path.join(__dirname, "_site");
-const PUBLIC_REPO = "git@github-obw83:obw83/bw83.git";
-const BRANCH = "main"; // 公開ブランチ
-const PATH_PREFIX = "/bw83"; // GitHub Pages 用
+// ================================
+// 設定
+// ================================
+const SITE_DIR = path.join(__dirname, "_site"); // ビルド済みサイト
+const PUBLIC_DIR = path.join(__dirname, "_site_public"); // clone 先
+const PUBLIC_REPO = "git@github-obw83:obw83/bw83.git"; // obw83 用リポジトリ
+const BRANCH = "main";
 
-// ------------------------------
-// 1. URL 書き換え関数
-// ------------------------------
-function getHtmlFiles(dir) {
-  let results = [];
-  fs.readdirSync(dir).forEach((file) => {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-    if (stat.isDirectory()) {
-      results = results.concat(getHtmlFiles(filePath));
-    } else if (file.endsWith(".html")) {
-      results.push(filePath);
-    }
-  });
-  return results;
-}
+// ================================
+// HTML 内リンクを書き換え（既に add-url-filter.js で実行済みならスキップ可能）
+console.log("HTML links already updated via add-url-filter.js");
 
-function addUrlFilterToFile(filePath) {
-  let content = fs.readFileSync(filePath, "utf8");
-
-  // {{ ... | url }} の変換
-  content = content.replace(
-    /\{\{\s*['"](.+?)['"]\s*\|\s*url\s*\}\}/g,
-    (_, url) => `${PATH_PREFIX}${url}`
-  );
-
-  // /assets/... の変換
-  content = content.replace(
-    /(\s(?:src|href|srcset)=["'])(\/assets\/.+?)["']/g,
-    (_, prefix, url) => `${prefix}${PATH_PREFIX}${url.slice(1)}"`
-  );
-
-  fs.writeFileSync(filePath, content, "utf8");
-  console.log(`Updated: ${filePath}`);
-}
-
-function updateUrls() {
-  const files = getHtmlFiles(SITE_DIR);
-  files.forEach(addUrlFilterToFile);
-  console.log("All HTML files updated with pathPrefix.");
-}
-
-// ------------------------------
-// 2. Public リポジトリへ push
-// ------------------------------
-function deploy() {
-  const publicDir = path.join(__dirname, "_site_public");
-
-  // 既存ディレクトリがあれば削除
-  if (fs.existsSync(publicDir)) {
-    fs.rmSync(publicDir, { recursive: true, force: true });
-  }
-
-  // clone Public リポジトリ
-  execSync(`git clone -b ${BRANCH} ${PUBLIC_REPO} ${publicDir}`, {
+// ================================
+// Public リポジトリの clone / 初期化
+if (!fs.existsSync(PUBLIC_DIR)) {
+  console.log(`Cloning ${PUBLIC_REPO} into ${PUBLIC_DIR}...`);
+  execSync(`git clone -b ${BRANCH} ${PUBLIC_REPO} ${PUBLIC_DIR}`, {
     stdio: "inherit",
   });
-
-  // _site の中身をコピー
-  execSync(`cp -r ${SITE_DIR}/* ${publicDir}/`, { stdio: "inherit" });
-
-  // Public リポジトリ内で commit & push
-  execSync(`cd ${publicDir} && git add .`, { stdio: "inherit" });
-  execSync(
-    `cd ${publicDir} && git commit -m "Deploy site" || echo "Nothing to commit"`,
-    { stdio: "inherit" }
-  );
-  execSync(`cd ${publicDir} && git push origin ${BRANCH}`, {
+} else {
+  console.log(`${PUBLIC_DIR} already exists, pulling latest...`);
+  execSync(`cd ${PUBLIC_DIR} && git pull origin ${BRANCH}`, {
     stdio: "inherit",
   });
-
-  console.log("Deployment complete!");
 }
 
-// ------------------------------
-// 3. 実行フロー
-// ------------------------------
-updateUrls();
-deploy();
+// ================================
+// _site 内のファイルをコピー
+console.log("Copying _site files to _site_public...");
+execSync(`rsync -av --delete ${SITE_DIR}/ ${PUBLIC_DIR}/`, {
+  stdio: "inherit",
+});
+
+// ================================
+// commit & push
+console.log("Adding, committing, and pushing changes...");
+execSync(`cd ${PUBLIC_DIR} && git config user.name "obw83"`, {
+  stdio: "inherit",
+});
+execSync(
+  `cd ${PUBLIC_DIR} && git config user.email "あなたの obw83 メールアドレス"`,
+  { stdio: "inherit" }
+);
+execSync(`cd ${PUBLIC_DIR} && git add .`, { stdio: "inherit" });
+execSync(
+  `cd ${PUBLIC_DIR} && git commit -m "Deploy site from obw83" || echo "Nothing to commit"`,
+  { stdio: "inherit" }
+);
+execSync(`cd ${PUBLIC_DIR} && git push origin ${BRANCH}`, { stdio: "inherit" });
+
+console.log("Deployment complete!");
