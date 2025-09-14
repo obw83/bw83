@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Fonts Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS/JS-->
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/normalize.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/base.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/style.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/calendar.css">
+
+  <script ="/bw83/bw83/assets/js/calendar.js" defer></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="logo">
+    <a ="/bw83/bw83/">藍染屋ミオカザロ</a>
+
+  </div>
+
+  <!-- SP用フロートボタン + ハンバーガー -->
+  <div class="sp-controls sp-only">
+    <a ="/bw83/bw83/reserve/" class="float-btn" aria-label="体験予約">体験予約</a>
+    <button class="hamburger" aria-label="メニュー">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- ドロワーメニュー（SP用） -->
+  <nav class="drawer-menu sp-only">
+    <ul>
+      <li><a ="/bw83/bw83/">TOP</a></li>
+      <li><a ="/bw83/bw83/workshop/">藍染体験</a></li>
+      <li><a ="/bw83/bw83/about/">藍染屋ミオカザロの想い</a></li>
+      <li><a ="/bw83/bw83/profile/">代表紹介</a></li>
+      <!---<li><a ="/bw83/bw83/about-farm/">大森農園ミオカザロ</a></li>--->
+      <li><a ="/bw83/bw83/news/">お知らせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- PC用グローバルナビ -->
+  <div class="pc-controls">
+    <nav class="global-nav pc-only">
+      <ul>
+        <li><a ="/bw83/bw83/">TOP</a></li>
+        <li><a ="/bw83/bw83/workshop/">藍染体験</a></li>
+       <li><a ="/bw83/bw83/about/">藍染屋ミオカザロの想い</a></li>
+       <li><a ="/bw83/bw83/profile/">代表紹介</a></li>
+       <!---<li><a ="/bw83/bw83/about-farm/">大森農園ミオカザロ</a></li>--->
+        <li><a ="/bw83/bw83/news/">お知らせ</a></li>
+     </ul>
+    </nav>
+
+    <!-- PC用フロートボタン -->
+    <a ="/bw83/bw83/reserve/" class="float-btn pc-only" aria-label="体験予約">体験予約</a>
+  </div>
+</header>
+
+
+
+<main class="container">
+  
+<section class="hero-top">
+  <picture class="hero-top__image-wrapper">
+    <!-- SP画像 -->
+    <source media="(max-width: 767px)" srcset="/assets/images/index-main-sp.png">
+    <!-- PC画像 -->
+    <img class="hero-top__image" ="/bw83/bw83/assets/images/index-main-pc.png" alt="藍染屋ミオカザロメインビジュアル">
+  </picture>
+
+  <div class="hero-top__content">
+    <p class="hero-top__subtitle">藍に愛をこめて</p>
+    <h1 class="hero-top__title">藍染屋ミオカザロ</h1>
+  </div>
+
+  <div class="hero-top__lead">
+    とっても<br>あなたに<br>藍たくて
+  </div>
+</section>
+
+<section class="about-top">
+  <h2 class="about-top__title visually-hidden">藍染屋ミオカザロについて</h2>
+
+  <div class="about-top__slider">
+    <div class="about-top__track">
+      <div class="about-top__item"><img ="/bw83/bw83/assets/images/index-slide-1.png" alt="藍染屋ミオカザロ原産の藍"></div>
+      <div class="about-top__item"><img ="/bw83/bw83/assets/images/index-slide-2.png" alt="藍染屋ミオカザロの畑で様子を見る代表"></div>
+      <div class="about-top__item"><img ="/bw83/bw83/assets/images/index-slide-3.png" alt="染料の藍を仕込む藍染屋ミオカザロ代表"></div>
+      <div class="about-top__item"><img ="/bw83/bw83/assets/images/index-slide-4.png" alt="藍染屋ミオカザロの藍"></div>
+      <div class="about-top__item"><img ="/bw83/bw83/assets/images/index-slide-5.png" alt="藍染屋ミオカザロの工房外観"></div>
+    </div>
+
+    <div class="about-top__controls">
+      <button class="about-top__arrow about-top__arrow--prev">&lt;</button>
+      <div class="about-top__dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      <button class="about-top__arrow about-top__arrow--next">&gt;</button>
+    </div>
+  </div>
+
+  <div class="about-top__inner">
+    <h3 class="about-top__heading">小さな工房の、大きな想い</h3>
+    <p class="about-top__text">
+      藍染をあなたの手で染めてみませんか？<br>
+      会津の広い空の下で、藍染と触れ合って、藍染を体験してみましょう。<br><br>
+
+      藍染は日本で古くから親しまれる染め物の文化です。<br>
+      日本各地でその土地に根差した藍染文化が花開いてきました。<br>
+      磐梯山の麓に広がる空の下、藍染工房は静かに産声を上げました。<br><br>
+
+      藍染屋ミオカザロは、磐梯山の麓に佇む小さな工房。<br>
+      完璧な作品を作る場所ではありません。「今日は楽しかった」「また来たい」そう思っていただける時間を作る場所です。<br><br>
+
+      にじんで、こぼして、思いもよらない形になって。<br>
+      それが世界で一つのあなたの藍染です。一緒に「世界にひとつ」を楽しみましょう！
+    </p>
+    <a ="/bw83/bw83/about/" class="about-top__button">工房について</a>
+　</div>
+　
+</section>
+
+<script ="/bw83/bw83/assets/js/slider.js" defer></script>
+
+<section class="charm-top">
+  <h2 class="charm-top__title visually-hidden">藍の魅力</h2>
+  <p class="charm-top__text">
+    藍には古くから人々を魅了してきた奥深い色合いがあります。<br>その美しさは日常の中に自然に溶け込み、心を落ち着かせてくれます。
+  </p>
+
+  <div class="charm-top__images">
+    <div class="charm-top__item charm-top__item--left">
+      <img ="/bw83/bw83/assets/images/index-ai-1.png" alt="自家栽培の藍の畑の様子">
+      <p class="charm-top__caption">自然な藍の原料</p>
+    </div>
+    <div class="charm-top__item charm-top__item--right">
+      <img ="/bw83/bw83/assets/images/index-ai-2.png" alt="染料の壺の中の様子">
+      <p class="charm-top__caption">様々な藍の色合い</p>
+    </div>
+    <!---<div class="charm-top__item charm-top__item--left">
+      <img ="/bw83/bw83/assets/images/top_ai_3.png" alt="藍染の布">
+      <p class="charm-top__caption">藍染の多様さ</p>
+    </div>--->
+  </div>
+</section>
+
+<section class="profile-top">
+  <h2 class="profile-top__title visually-hidden">代表メッセージ</h2>
+
+  <div class="profile-top__image-wrapper">
+    <img ="/bw83/bw83/assets/images/index-profile.png" alt="藍染屋ミオカザロ代表の写真" class="profile-top__image">
+  </div>
+
+  <div class="profile-top__comment">
+    <p class="profile-top__subheading">藍の栽培から営む</p>
+    <p class="profile-top__text">
+      藍染屋ミオカザロ代表の大森佳幸です。<br>
+      福島県会津（喜多方）出身。<br>
+      藍染屋ミオカザロを営みながら、
+      さつまいもの品質にもこだわる大森農園を運営しています。<br>
+      農業や藍染を通して多くのみなさまと触れ合っていきたいと考えています。
+    </p>
+  </div>
+  </div>
+
+  <a ="/bw83/bw83/profile/" class="profile-top__button">代表プロフィールはこちら</a>
+</section>
+
+<section class="experience-top">
+  <h2 class="experience-top__title visually-hidden">あなたの藍染体験</h2>
+
+  <div class="experience-top__image-wrapper">
+    <img ="/bw83/bw83/assets/images/index-ws.png" alt="藍染屋ミオカザロでの藍染体験イメージ" class="experience-top__image">
+  </div>
+
+  <div class="experience-top__content">
+    <p class="experience-top__subheading">あなたの藍染体験</p>
+    <p class="experience-top__text">
+      初めての方も安心して楽しめる藍染体験。<br/>
+      会津の自然に囲まれた工房で、世界にひとつのオリジナル作品を作りましょう。
+      家族や友人と一緒に、思い出に残る時間をお過ごしください。
+    </p>
+  </div>
+
+  <div class="experience-top__button-wrapper">
+    <a ="/bw83/bw83/workshop/" class="experience-top__button">体験の詳細はこちら</a>
+  </div>
+</section>
+
+
+<section class="contact-top">
+  <h2 class="contact-top__title visually-hidden">アクセス・お問い合わせ</h2>
+
+  <div class="contact-top__boxes">
+    <!-- アクセス -->
+  <div class="contact-top__box">
+  <h3 class="contact-top__heading">アクセス</h3>
+  
+  <div class="contact-top__map">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d818489.0328619406!2d139.1129006154534!3d36.74122322315971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8aa958262e378f%3A0x13ac4435760c5c3f!2z6JeN5p-T5bGL44Of44Kq44Kr44K244Ot!5e0!3m2!1sja!2sjp!4v1756988001460!5m2!1sja!2sjp" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <div class="contact-top__item">
+    <h4 class="contact-top__subheading">住所</h4>
+    <p class="contact-top__text--bold">〒969-3302<br>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6</p>
+  </div>
+
+  <div class="contact-top__item">
+    <h4 class="contact-top__subheading">駐車場</h4>
+    <p class="contact-top__text--bold">2台分あり</p>
+  </div>
+  
+  <div class="contact-top__note">
+    <p>公共交通機関でのアクセスは難しくなっております。そのためお車でのお越しを推奨しております。<br>猪苗代駅・磐梯町駅から車で12分です。</p>
+  </div>
+
+  <img ="/bw83/bw83/assets/images/miocasalo-access.png" alt="藍染屋ミオカザロアクセス" class="contact-top__image">
+
+  <div class="contact-top__note">
+    <p>迷われたらお気軽にお電話ください。最後の曲がり角は写真のような細道です。</p>
+  </div>
+</div>
+
+    <!-- お問い合わせ -->
+    <div class="contact-top__box">
+      <h3 class="contact-top__heading">お問い合わせ</h3>
+
+      <div class="contact-top__item">
+        <h4 class="contact-top__subheading">電話</h4>
+        <p class="contact-top__text--bold">090-9535-2518</p>
+      </div>
+
+      <div class="contact-top__item">
+        <h4 class="contact-top__subheading">メールアドレス</h4>
+        <p class="contact-top__text--bold contact-top__text--underline"><a href="mailto:mio.casalo2023@gmail.com">mio.casalo2023@gmail.com</a></p>
+      </div>
+
+      <div class="contact-top__item">
+        <h4 class="contact-top__subheading">Instagram</h4>
+        <p class=" contact-top__text--bold contact-top__text--underline"><a href="https://www.instagram.com/miocasalo2023?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">@MIOCASALO2023</a></p>
+      </div>
+
+      <div class="contact-top__item">
+        <h4 class="contact-top__subheading">営業時間</h4>
+        <p class="contact-top__text--bold">9:00〜16:30（不定休）</p>
+
+    </div>
+
+          <!-- カレンダー差し込み用 -->
+        <div class="calendar-container">
+          <div class="calendar__header">
+            <button class="calendar__prev"></button>
+            <h3 class="calendar__title"></h3>
+            <button class="calendar__next"></button>
+          </div>
+        <div class="calendar"></div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!---
+<section class="daily-top">
+  <h2 class="daily-top__title">工房の日常</h2>
+
+  <div class="daily-top__instagram">
+
+    <iframe src="https://snapwidget.com/embed/your-widget-id" 
+            class="daily-top__iframe" 
+            allowtransparency="true" 
+            frameborder="0" 
+            scrolling="no">
+    </iframe>
+  </div>
+
+  <div class="daily-top__button-wrapper">
+    <a href="https://www.instagram.com/youraccount/" 
+       class="daily-top__button" 
+       target="_blank" 
+       rel="noopener noreferrer">
+      Instagramでさらに見る
+    </a>
+  </div>
+</section>
+--->
+
+<!---
+<section class="shop-top">
+  <h2 class="shop-top__title">Online Shop</h2>
+
+  <div class="shop-top__image-wrapper">
+    <img ="/bw83/bw83/assets/images/top_ohmori_profile.png" alt="オンラインショップ" class="shop-top__image">
+  </div>
+</section>--->
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <p class="small-text">藍染体験工房</p>
+      <h2 class="brand-title">藍染屋ミオカザロ</h2>
+    </div>
+
+    <div class="footer-section">
+      <h3>アクセス</h3>
+      <p>〒969-3302 <span class="sp-break"></span>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>コンタクト</h3>
+      <p>090-9535-2518</p>
+      <p><a href="mailto:mio.casalo2023@gmail.com">mio.casalo2023@gmail.com</a></p>
+    </div>
+
+    <div class="footer-section">
+      <h3>フォロー</h3>
+      <div class="social-links">
+        <a href="https://www.instagram.com/miocasalo2023?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+          <img ="/bw83/bw83/assets/images/Instagram_Glyph_Gradient.svg" alt="Instagram">
+        </a>
+        <a href="https://note.com" target="_blank" aria-label="Note">
+          <img ="/bw83/bw83/assets/images/note_icon.svg" alt="Note">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    <p>©<span id="year"></span> 藍染屋ミオカザロ All Rights Reserved.</p>
+  </div>
+
+  <!-- 年を自動更新するスクリプト -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+</footer>
+
+<script ="/bw83/bw83/assets/js/header.js" defer></script>
+
+</body>
+</html>

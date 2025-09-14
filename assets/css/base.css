@@ -1,0 +1,336 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-family: "Noto Sans JP", sans-serif;
+  background-color: #f5f7fc;
+  color: #1d1f63;
+}
+
+ul,
+ol,
+dd {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 画像を親幅に収める */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+/* ヘッダー */
+
+/* Google Fonts Zen Old Mincho */
+@import url("https://fonts.googleapis.com/css2?family=Zen+Old+Mincho&display=swap");
+
+/* =========================================
+   ヘッダー共通
+========================================= */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  z-index: 1000;
+  height: 60px;
+}
+
+/* body paddingでコンテンツがヘッダーと重ならないように調整 */
+body {
+  padding-top: 60px; /* SP高さに合わせる */
+}
+
+/* ロゴ */
+.logo {
+  flex: 1; /* 残り幅をすべて確保 */
+  min-width: 0; /* flex内で縮小可能に */
+}
+.logo a {
+  font-family: "Zen Old Mincho", serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #1d1f63;
+  white-space: nowrap; /* 改行防止 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* SP用フロートボタン＋ハンバーガー右寄せ */
+.sp-controls {
+  width: auto;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
+  flex-shrink: 0; /* 縮まらない */
+}
+
+/* ハンバーガー */
+.hamburger {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #1d1f63;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+}
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  position: absolute;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger span:nth-child(1) {
+  top: 11px;
+}
+.hamburger span:nth-child(2) {
+  top: 18px;
+}
+.hamburger span:nth-child(3) {
+  top: 25px;
+}
+
+.hamburger.is-active span:nth-child(1) {
+  transform: rotate(45deg);
+  top: 19px;
+}
+.hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.is-active span:nth-child(3) {
+  transform: rotate(-45deg);
+  top: 19px;
+}
+
+/* ドロワーメニュー（SP用） */
+.drawer-menu {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+.drawer-menu.open {
+  max-height: 500px;
+  opacity: 1;
+}
+.drawer-menu ul {
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+}
+.drawer-menu li + li {
+  margin-top: 0.5rem;
+}
+.drawer-menu a {
+  text-decoration: none;
+  color: #1d1f63;
+  display: block;
+  padding: 0.5rem 0;
+}
+
+/* フロートボタン */
+.float-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #1d1f63;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-left: 20px;
+}
+
+/* SP非表示、PC表示 */
+.pc-only {
+  display: none;
+}
+.sp-only {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* =========================================
+   PC版（min-width:768px）
+========================================= */
+@media (min-width: 768px) {
+  /* ヘッダー高さ調整 */
+  .site-header {
+    height: 70px;
+  }
+  body {
+    padding-top: 70px;
+  }
+
+  /* ロゴ */
+  .logo a {
+    font-size: 1.5rem;
+  }
+
+  /* SP非表示、PC表示 */
+  .pc-only {
+    display: inline-flex;
+  }
+  .sp-only {
+    display: none;
+  }
+
+  /* PC版グローバルナビ */
+  .global-nav {
+    display: block;
+  }
+  .global-nav ul {
+    display: flex;
+    gap: clamp(0.5rem, 2vw, 4rem); /* ナビ間gap可変 */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .global-nav a {
+    text-decoration: none;
+    color: #1d1f63;
+    font-weight: 500;
+    font-size: clamp(0.8rem, 1.2vw, 1.3rem); /* 文字サイズ可変 */
+  }
+
+  /* PC版フロートボタン */
+  .pc-controls {
+    display: flex;
+    gap: clamp(0.5rem, 1.5vw, 2rem);
+    align-items: center;
+  }
+}
+
+/* フッター */
+.site-footer {
+  background: #454c76;
+  color: #f2f2f2;
+  padding: 2rem 1rem;
+  font-size: 14px;
+}
+
+.footer-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.footer-brand .small-text {
+  font-size: 12px;
+  margin: 0;
+  color: #fff;
+}
+
+.footer-brand .brand-title {
+  font-family: "Zen Old Mincho", serif;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.footer-section h3 {
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.footer-section p,
+.footer-section a {
+  margin: 0.3rem 0;
+  color: #fff;
+  text-decoration: none;
+}
+
+.footer-section a:hover {
+  text-decoration: underline;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.social-links img {
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.3s;
+}
+
+.social-links img:hover {
+  opacity: 0.7;
+}
+
+.footer-copy {
+  border-top: 1px solid #0d1542;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+}

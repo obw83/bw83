@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Fonts Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- CSS/JS-->
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/normalize.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/base.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/style.css">
+  <link rel="stylesheet" ="/bw83/bw83/assets/css/calendar.css">
+
+  <script ="/bw83/bw83/assets/js/calendar.js" defer></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="logo">
+    <a ="/bw83/bw83/">藍染屋ミオカザロ</a>
+
+  </div>
+
+  <!-- SP用フロートボタン + ハンバーガー -->
+  <div class="sp-controls sp-only">
+    <a ="/bw83/bw83/reserve/" class="float-btn" aria-label="体験予約">体験予約</a>
+    <button class="hamburger" aria-label="メニュー">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <!-- ドロワーメニュー（SP用） -->
+  <nav class="drawer-menu sp-only">
+    <ul>
+      <li><a ="/bw83/bw83/">TOP</a></li>
+      <li><a ="/bw83/bw83/workshop/">藍染体験</a></li>
+      <li><a ="/bw83/bw83/about/">藍染屋ミオカザロの想い</a></li>
+      <li><a ="/bw83/bw83/profile/">代表紹介</a></li>
+      <!---<li><a ="/bw83/bw83/about-farm/">大森農園ミオカザロ</a></li>--->
+      <li><a ="/bw83/bw83/news/">お知らせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- PC用グローバルナビ -->
+  <div class="pc-controls">
+    <nav class="global-nav pc-only">
+      <ul>
+        <li><a ="/bw83/bw83/">TOP</a></li>
+        <li><a ="/bw83/bw83/workshop/">藍染体験</a></li>
+       <li><a ="/bw83/bw83/about/">藍染屋ミオカザロの想い</a></li>
+       <li><a ="/bw83/bw83/profile/">代表紹介</a></li>
+       <!---<li><a ="/bw83/bw83/about-farm/">大森農園ミオカザロ</a></li>--->
+        <li><a ="/bw83/bw83/news/">お知らせ</a></li>
+     </ul>
+    </nav>
+
+    <!-- PC用フロートボタン -->
+    <a ="/bw83/bw83/reserve/" class="float-btn pc-only" aria-label="体験予約">体験予約</a>
+  </div>
+</header>
+
+
+
+<main class="container">
+  
+<section class="charm-ws__page-hero">
+  <picture>
+    <!-- PC用画像 -->
+    <source srcset="/assets/images/head-pc-1.png" media="(min-width: 768px)">
+    <!-- SP用画像 -->
+    <img ="/bw83/bw83/assets/images/head-sp-1.png" alt="藍染屋ミオカザロの藍染体験" class="charm-ws__page-hero-image">
+  </picture>
+  <h1 class="charm-ws__page-hero-text">藍染屋ミオカザロの<span class="sp-break"></span>藍染体験</h1>
+</section>
+
+
+<!---
+<section class="charm-ws">
+  <div class="charm-ws__visual">
+    <picture>
+      
+      <source srcset="/assets/images/general_1440x540.jpg" media="(min-width: 768px)">
+      
+      <img ="/bw83/bw83/assets/images/general_600x600.jpg" alt="藍染工房の魅力" class="charm-ws__visual-image">
+    </picture>
+    <p class="charm-ws__visual-text">
+      あなたの手で生み出す<br>唯一無二の色
+    </p>
+  </div>
+
+  <h2 class="charm-ws__heading">なぜ、藍染は<span class="sp-break"></span>特別なのでしょうか</h2>
+
+  <div class="charm-ws__features">
+    <div class="charm-ws__feature">
+      <h3 class="charm-ws__feature-title">深い藍色を目指して</h3>
+      <img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="魅力1" class="charm-ws__feature-image">
+      <p class="charm-ws__feature-text">藍色は「ジャパンブルー」として世界でも認知される日本との結びつきの深い色と言われています。この色がどのように出来上がっているのか、知ってみませんか？</p>
+    </div>
+    <div class="charm-ws__feature">
+      <h3 class="charm-ws__feature-title">手仕事が生む喜び</h3>
+      <img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="魅力2" class="charm-ws__feature-image">
+      <p class="charm-ws__feature-text">自らの手で染めたいものを染めてみる。ただそれだけのことから手仕事の楽しみは広がります。</p>
+    </div>
+    <div class="charm-ws__feature">
+      <h3 class="charm-ws__feature-title">温かい出会い</h3>
+      <img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="魅力3" class="charm-ws__feature-image">
+      <p class="charm-ws__feature-text">工房主人との会話から、会津地方への扉は次々に開かれていきます。会津地方を知ることのきっかけとしてもぜひご利用ください。</p>
+    </div>
+  </div>
+
+  <div class="charm-ws__recommend">
+    <picture>
+      <source srcset="/assets/images/general_1440x540.jpg" media="(min-width: 768px)">
+      <img ="/bw83/bw83/assets/images/general_600x600.jpg" alt="予約イメージ" class="charm-ws__recommend-image">
+    </picture>
+    <div class="charm-ws__recommend-overlay">
+      <p class="charm-ws__recommend-text">あなたも、<span class="sp-break"></span>この特別な体験をしてみませんか？</p>
+      <p class="charm-ws__recommend-text-small">初心者の方も安心して<span class="sp-break"></span>ご参加いただけます。</p>
+      <a href="#reserve" class="charm-ws__recommend-button">体験予約はこちら</a>
+    </div>
+  </div>
+</section>
+---->
+
+
+<section class="workshop-ws__overview">
+  <!-- セクション見出し -->
+  <h2 class="workshop-ws__overview-heading visually-hidden">工房体験について</h2>
+
+  <div class="workshop-ws__overview-list">
+      <!-- 円1 -->
+  <div class="workshop-ws__overview-item-first">
+    <div class="workshop-ws__overview-circle">
+      <div class="workshop-ws__overview-texts">
+        <p class="workshop-ws__overview-text-small">選べる商品は10点以上！！</p>
+        <p class="workshop-ws__overview-text-big-1">1名 / ¥ 2,000~</p>
+        <p class="workshop-ws__overview-text-small">丁寧にお教えします<br>失敗も楽しみのひとつ</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 円2 -->
+  <div class="workshop-ws__overview-item-second">
+    <div class="workshop-ws__overview-circle">
+      <div class="workshop-ws__overview-texts">
+        <p class="workshop-ws__overview-text-big">約60~90分</p>
+        <p class="workshop-ws__overview-text-big-1">手ぶらでOK</p>
+        <p class="workshop-ws__overview-text-small">エプロン・材料<br>すべてご用意しております</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 円3 -->
+  <div class="workshop-ws__overview-item-third">
+    <div class="workshop-ws__overview-circle">
+      <div class="workshop-ws__overview-texts">
+        <p class="workshop-ws__overview-text-big">染めたいもの<br>持ち込み自由</p>
+        <p class="workshop-ws__overview-text-small">Tシャツでもハンカチでも<br>参加者の皆様の創作欲に<br>お答えします</p>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+
+<section class="workshop-ws__overview">
+  <!-- セクション見出し -->
+  <h2 class="workshop-ws__flow-heading">体験の流れ</h2>
+
+<div class="workshop-ws__flow-item-container">
+
+<div class="workshop-ws__flow-item">
+
+  <div class="workshop-ws__flow-item-upper">
+  <div class="workshop-ws__flow-step-circle">
+    <span class="workshop-ws__flow-step-number">1</span>
+  </div>
+
+  <!---<img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="体験1" class="workshop-ws__flow-image">--->
+
+  <div class="workshop-ws__flow-texts">
+    <h3 class="workshop-ws__flow-subheading">ご挨拶</h3>
+    <p class="workshop-ws__flow-description">ご予約時に入力いただいたお名前をお聞きいたします。</p>
+  </div>
+  </div>
+
+  <div class="workshop-ws__flow-item-lower">
+  <div class="workshop-ws__flow-bubble-wrapper">
+    <div class="workshop-ws__flow-bubble">
+      <p class="workshop-ws__flow-bubble-text">まずはお茶でも飲みながら<br>長旅の疲れを癒してください！</p>
+    </div>
+    <img ="/bw83/bw83/assets/images/ws-flow-comment.png" alt="代表写真" class="workshop-ws__flow-rep">
+  </div>
+  </div>
+</div>
+
+<div class="workshop-ws__flow-item">
+
+  <div class="workshop-ws__flow-item-upper">
+  <div class="workshop-ws__flow-step-circle">
+    <span class="workshop-ws__flow-step-number">2</span>
+  </div>
+
+  <!---<img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="体験1" class="workshop-ws__flow-image">--->
+
+  <div class="workshop-ws__flow-texts">
+    <h3 class="workshop-ws__flow-subheading">商品決定</h3>
+    <p class="workshop-ws__flow-description">染めたい商品を選んでください。商品によって、製作にかかる時間が変わりますので、気になることはご質問ください。</p>
+  </div>
+  </div>
+
+  <div class="workshop-ws__flow-item-lower">
+  <div class="workshop-ws__flow-bubble-wrapper">
+    <div class="workshop-ws__flow-bubble">
+      <p class="workshop-ws__flow-bubble-text">染めたいイメージを膨らませよう！</p>
+    </div>
+    <img ="/bw83/bw83/assets/images/ws-flow-comment.png" alt="代表写真" class="workshop-ws__flow-rep">
+  </div>
+  </div>
+</div>
+
+<div class="workshop-ws__flow-item">
+  <div class="workshop-ws__flow-item-upper">
+  <div class="workshop-ws__flow-step-circle">
+    <span class="workshop-ws__flow-step-number">3</span>
+  </div>
+
+  <!---<img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="体験1" class="workshop-ws__flow-image">--->
+
+  <div class="workshop-ws__flow-texts">
+    <h3 class="workshop-ws__flow-subheading">染め方について</h3>
+    <p class="workshop-ws__flow-description">染める方法についてレクチャーします。楽しく深く、藍という植物や藍染の工程についてご説明いたします！</p>
+  </div>
+  </div>
+
+  <div class="workshop-ws__flow-item-lower">
+  <div class="workshop-ws__flow-bubble-wrapper">
+    <div class="workshop-ws__flow-bubble">
+      <p class="workshop-ws__flow-bubble-text">藍についての質問など、なんでもどうぞ！</p>
+    </div>
+    <img ="/bw83/bw83/assets/images/ws-flow-comment.png" alt="代表写真" class="workshop-ws__flow-rep">
+  </div>
+  </div>
+</div>
+
+<div class="workshop-ws__flow-item">
+  <div class="workshop-ws__flow-item-upper">
+  <div class="workshop-ws__flow-step-circle">
+    <span class="workshop-ws__flow-step-number">4</span>
+  </div>
+
+  <!---<img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="体験1" class="workshop-ws__flow-image">--->
+
+  <div class="workshop-ws__flow-texts">
+    <h3 class="workshop-ws__flow-subheading">いよいよ<br>染めてみよう！</h3>
+    <p class="workshop-ws__flow-description">1番楽しい場面です！ドキドキを楽しもう！</p>
+  </div>
+  </div>
+
+  <div class="workshop-ws__flow-item-lower">
+  <div class="workshop-ws__flow-bubble-wrapper">
+    <div class="workshop-ws__flow-bubble">
+      <p class="workshop-ws__flow-bubble-text">どんなふうに染まるかな？</p>
+    </div>
+    <img ="/bw83/bw83/assets/images/ws-flow-comment.png" alt="代表写真" class="workshop-ws__flow-rep">
+  </div>
+  </div>
+</div>
+
+<div class="workshop-ws__flow-item">
+  <div class="workshop-ws__flow-item-upper">
+  <div class="workshop-ws__flow-step-circle">
+    <span class="workshop-ws__flow-step-number">5</span>
+  </div>
+
+  <!---<img ="/bw83/bw83/assets/images/general_600x240.jpg" alt="体験1" class="workshop-ws__flow-image">--->
+
+  <div class="workshop-ws__flow-texts">
+    <h3 class="workshop-ws__flow-subheading">完成！</h3>
+    <p class="workshop-ws__flow-description">完成です！大切にお持ち帰りください。</p>
+  </div>
+  </div>
+
+  <div class="workshop-ws__flow-item-lower">
+  <div class="workshop-ws__flow-bubble-wrapper">
+    <div class="workshop-ws__flow-bubble">
+      <p class="workshop-ws__flow-bubble-text">思い通りに染まりましたか？</p>
+    </div>
+    <img ="/bw83/bw83/assets/images/ws-flow-comment.png" alt="代表写真" class="workshop-ws__flow-rep">
+  </div>
+  </div>
+</div>
+
+</div>
+
+
+</section>
+
+
+<section class="price-ws">
+  <h2 class="price-ws__heading">料金</h2>
+
+  <div class="price-ws__top-description">
+    <p class="price-ws__top-text">2つのコースからお選びください</p>
+    <p class="price-ws__top-text">選べる商品は10点以上！！</p>
+  </div>
+
+  <!-- ボックス1 & ボックス2 ラッパー（PC横並び対応）-->
+  <div class="price-ws__box-wrapper-container">
+
+    <!-- ボックス1: おてがるコース -->
+    <div class="price-ws__box-wrapper">
+      <p class="price-ws__box-note">ライトに楽しむならこちら</p>
+
+      <div class="price-ws__course">
+        <p class="price-ws__course-main">おてがるコース</p>
+        <p class="price-ws__course-sub">時間:60分</p>
+        
+      </div>
+
+      <div class="price-ws__highlight">
+        <p class="price-ws__highlight-main">小さめの商品</p>
+      </div>
+
+      <div class="price-ws__box">
+        <p class="price-ws__box-text-price">料金: ¥2,000~</p>
+        <p class="price-ws__box-text">
+          染めたい商品を1つ選び、<br>
+          おでかけのお供に藍染を！
+        </p>
+        <p class="price-ws__box-text">
+          ハンカチ・てぬぐい・巾着など、<br>
+          小さな商品が選べます。
+        </p>
+
+        <img ="/bw83/bw83/assets/images/ws-work-small.png" alt="小さめの商品のイメージ" class="price-ws__box-image">
+      </div>
+    </div>
+
+    <!-- ボックス2: じっくりコース -->
+    <div class="price-ws__box-wrapper">
+      <p class="price-ws__box-note">大きめの商品をこだわって染めてみたい! <span class="sp-break"></span>商品持参で染めたい!</p>
+
+      <div class="price-ws__course">
+        <p class="price-ws__course-main">じっくりコース</p>
+        <p class="price-ws__course-sub">時間:90分</p>
+      </div>
+
+      <!-- プランA & プランB 横並びラッパー -->
+      <div class="price-ws__plan-container">
+        <!-- プランA -->
+        <div class="price-ws__plan">
+          <div class="price-ws__highlight">
+            <p class="price-ws__highlight-main">プランA - 大きめの商品</p>
+          </div>
+          <div class="price-ws__box">
+            <p class="price-ws__box-text-price">料金: ¥4,000~</p>
+            <p class="price-ws__box-text">
+              染めたい商品を1つ選んで、<br>
+              日常に藍の彩りを！
+            </p>
+            <p class="price-ws__box-text">
+              ストール・バック・Tシャツなど、<br>
+              大きめの商品が選べます。
+            </p>
+
+            <img ="/bw83/bw83/assets/images/ws-work-big.png" alt="小さめの商品のイメージ" class="price-ws__box-image">
+          </div>
+        </div>
+
+        <!-- プランB -->
+        <div class="price-ws__plan">
+          <div class="price-ws__highlight">
+            <p class="price-ws__highlight-main">プランB - お持ち込み商品</p>
+          </div>
+          <div class="price-ws__box">
+            <p class="price-ws__box-text-price">料金: 1g/¥30</p>
+            <p class="price-ws__box-text-small">
+              綿・麻・レーヨン・シルク・ウールのみ
+            </p>
+            <p class="price-ws__box-text">
+              持ち込み自由！<br>
+              あなたの染めたいものを自由に染めよう！<br>
+              例えば、スニーカーなら…<br>約10000円で染められます！
+            </p>
+          </div>
+
+      <!-- 注意事項 -->
+      <div class="price-ws__note-container">
+          <div class="price-ws__note-box">
+            <p class="price-ws__note-mention">※</p>
+            <p class="price-ws__note">持込み用は綺麗な状態でお願いいたします。土や泥が付いている状態では染められません。</p>
+          </div>
+          <div class="price-ws__note-box">
+            <p class="price-ws__note-mention">※</p>
+          <p class="price-ws__note">化学繊維の素材は染められません。</p>
+          </div>
+      </div>
+
+        </div>
+      </div>
+    </div>    
+  </div>
+
+      <div class="price-ws__bottom-description">
+        <div class="price-ws__bottom-description-box">
+        <div class="price-ws__bottom-description-circle"></div>
+        <p class="price-ws__bottom-description-text">
+          おてがるコース・じっくりコースのプランAでは、お選びいただく商品によって、お値段が変わります。
+        </p>
+        </div>
+
+        <div class="price-ws__bottom-description-box">
+        <div class="price-ws__bottom-description-circle"></div>
+        <p class="price-ws__bottom-description-text">
+          使い捨て手袋の支給・エプロンの貸出があります。
+        </p>
+        </div>
+
+        <div class="price-ws__bottom-description-box">
+        <div class="price-ws__bottom-description-circle"></div>
+        <p class="price-ws__bottom-description-text">
+          キャッシュレス決済可能です。
+        </p>
+        </div>
+      </div>
+
+</section>
+
+
+<section class="mention-ws">
+  <!-- 注意事項 -->
+  <div class="mention-ws__item">
+    <h2 class="workshop-ws__item-heading">注意事項</h2>
+    <p class="mention-ws__text">
+      藍染の特性上、お着物などお荷物への着色の可能性がございます。お荷物の管理はご自身で行っていただくようにお願いいたします。<br>
+      体験中に写真を撮られる方もいらっしゃるかと思いますが、特にスマートフォンはご自身の責任でご利用いただきますようお願いいたします。<br><br>
+      完成したお品物は、封のできる袋に入れて、濡れたままのお持ち帰りとなります。お帰りの道中ではお取り扱いにご注意ください。<br>
+      お品物のアフターケアについても、当日説明させていただきますので、ご安心ください。<br><br>
+      未就学児の方の体験は保護者の方の付き添いが必須となります。<br><br>
+      ご予約時間に遅れる場合。また、当日キャンセルの場合は必ずご連絡ください。
+    </p>
+  </div>
+</section>
+
+
+
+<section class="workshop-info-ws">
+  <div class="workshop-info-ws__boxes">
+    <!-- アクセス -->
+    <div class="access-ws__box">
+      <h2 class="access-ws__heading">アクセス</h2>
+
+      <div class="access-ws__map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d818489.0328619406!2d139.1129006154534!3d36.74122322315971!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5f8aa958262e378f%3A0x13ac4435760c5c3f!2z6JeN5p-T5bGL44Of44Kq44Kr44K244Ot!5e0!3m2!1sja!2sjp!4v1756988001460!5m2!1sja!2sjp" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+      <div class="access-ws__item">
+        <h4 class="access-ws__subheading">住所</h4>
+        <p>〒969-3302<br>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6</p>
+      </div>
+
+      <div class="access-ws__item">
+        <h4 class="access-ws__subheading">駐車場</h4>
+        <p>2台分あり</p>
+      </div>
+
+      <div class="access-ws__note">
+        <p>公共交通機関でのアクセスは難しくなっております。そのためお車でのお越しを推奨しております。<br>猪苗代駅・磐梯町駅から車で12分です。</p>
+      </div>
+
+      <img ="/bw83/bw83/assets/images/miocasalo-access.png" alt="藍染屋ミオカザロアクセス" class="access-ws__image">
+
+      <div class="access-ws__note">
+        <p>迷われたらお気軽にお電話ください。最後の曲がり角は写真のような細道です。</p>
+      </div>
+    </div>
+
+    <!-- 営業時間 -->
+    <div class="hours-ws__box">
+      <h2 class="access-ws__heading">営業日</h2>
+
+      <div class="hours-ws__item">
+        <h4 class="hours-ws__subheading">営業時間</h4>
+        <p>9:00〜16:30（不定休）</p>
+      </div>
+
+      <div class="hours-ws__item">
+        <h4 class="hours-ws__subheading">コース予約時間</h4>
+        <p>❶ 9:00〜</p>
+        <p>❷ 11:00〜</p>
+        <p>❸ 13:00〜</p>
+        <p>❹ 15:00〜</p>
+      </div>
+
+      <div class="hours-ws__item">
+        <h4 class="hours-ws__subheading">営業日カレンダー</h4>
+        <div class="calendar-container">
+          <div class="calendar__header">
+            <button class="calendar__prev"></button>
+            <h3 class="calendar__title"></h3>
+            <button class="calendar__next"></button>
+          </div>
+        <div class="calendar"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section class="reserve-ws">
+  <h2 class="workshop-ws__heading">ご予約について</h2>
+
+　<a href="予約フォームのURL" class="reserve-ws__cta">
+    <p class="reserve-ws__cta-text">フォームから予約する</p>
+    <p class="reserve-ws__cta-text-small">別ページに飛びます</p>
+  </a>
+
+  <div class="reserve-ws__note">
+    <div class="reserve-ws__note-box">
+      <p class="reserve-ws__note-mentionmark">※</p>
+      <p class="reserve-ws__note-text">ご希望日前日の12時までにご連絡ください。</p>
+    </div>
+    <div class="reserve-ws__note-box">
+      <p class="reserve-ws__note-mentionmark">※</p>
+      <p class="reserve-ws__note-text">予約フォーム・メール・Instagramの場合、2~3日以内にご連絡いたします。</p>
+    </div>
+  </div>
+
+  <!-- 枠線ボックス -->
+  <div class="reserve-ws__box">
+
+    <!-- 説明文ラッパー -->
+    <div class="reserve-ws__info">
+      <p class="reserve-ws__box-text">
+        または、<br>
+        電話・メール・InstagramのDMからもご予約いただけます。<br>
+      </p>
+
+      <hr/>
+
+      <p class="reserve-ws__box-text">
+        以下の内容をお知らせください。
+      </p>
+
+      <p class="reserve-ws__box-text-bold">
+        ① お名前<br>
+        ② 代表者様のお電話番号<br>
+        ③ 参加コース( おてがるor じっくり)<br>
+        ④ 参加人数<br>
+        ⑤ 参加希望時間<br>　（9時~,11時~,13時~,15時~）<br>
+      </p>
+    </div>
+
+    <!-- 連絡先ラッパー -->
+    <div class="reserve-ws__contacts">
+      <h3 class="reserve-ws__contacts-heading">予約連絡先</h3>
+      <div class="reserve-ws__item">
+        <h4 class="reserve-ws__subheading">⚫︎ 電話</h4>
+        <p>090-9535-2518</p>
+      </div>
+
+      <div class="reserve-ws__item">
+        <h4 class="reserve-ws__subheading">⚫︎ メールアドレス</h4>
+        <p><a href="mailto:mio.casalo2023@gmail.com">mio.casalo2023@gmail.com</a></p>
+      </div>
+
+      <div class="reserve-ws__item">
+        <h4 class="reserve-ws__subheading">⚫︎ Instagram（DM）</h4>
+        <p><a href="https://www.instagram.com/miocasalo2023?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">@MIOCASALO2023</a></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+<section class="faq-ws">
+  <h2 class="faq-ws__heading">よくある質問</h2>
+
+<div class="faq-ws__items">
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">全くの初心者ですが大丈夫ですか？</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">はい、むしろ初心者の方に丁寧に指導することを大切にしています。失敗を恐れず、一緒に楽しみましょう。</p>
+    </div>
+  </div>
+
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">服装や持ち物は？</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">手ぶらで問題ありません。エプロンを工房で用意しております。それでも汚れる可能性はございますので、服装はご注意ください。</p>
+    </div>
+  </div>
+
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">車でしかアクセスできませんか？</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">公共交通機関でのアクセスは困難です。そのためお車でのお越しを推奨しております。その分、工房周辺は静かで創作に集中できる環境です。</p>
+    </div>
+  </div>
+
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">作品の持ち帰りはその日にできますか？</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">濡れたままのお持ち帰りとなります。ご帰宅後に一度、お品物のみを洗濯してください。その後は、他のものと一緒に洗濯していただいても構いません。アフターケアについては、体験後に詳しく説明もさせていただく予定です。</p>
+    </div>
+  </div>
+
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">遅刻してしまいそうです。</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">お電話ください。予約時間をずらすなど対応させていただきます。</p>
+    </div>
+  </div>
+
+  <div class="faq-ws__item">
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">Q.</span>
+      <p class="faq-ws__text">工房の場所がわかりません。</p>
+    </div>
+    <div class="faq-ws__qa">
+      <span class="faq-ws__label">A.</span>
+      <p class="faq-ws__text">こちらも同様にお電話ください。</p>
+    </div>
+  </div>
+
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <p class="small-text">藍染体験工房</p>
+      <h2 class="brand-title">藍染屋ミオカザロ</h2>
+    </div>
+
+    <div class="footer-section">
+      <h3>アクセス</h3>
+      <p>〒969-3302 <span class="sp-break"></span>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>コンタクト</h3>
+      <p>090-9535-2518</p>
+      <p><a href="mailto:mio.casalo2023@gmail.com">mio.casalo2023@gmail.com</a></p>
+    </div>
+
+    <div class="footer-section">
+      <h3>フォロー</h3>
+      <div class="social-links">
+        <a href="https://www.instagram.com/miocasalo2023?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
+          <img ="/bw83/bw83/assets/images/Instagram_Glyph_Gradient.svg" alt="Instagram">
+        </a>
+        <a href="https://note.com" target="_blank" aria-label="Note">
+          <img ="/bw83/bw83/assets/images/note_icon.svg" alt="Note">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    <p>©<span id="year"></span> 藍染屋ミオカザロ All Rights Reserved.</p>
+  </div>
+
+  <!-- 年を自動更新するスクリプト -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+</footer>
+
+<script ="/bw83/bw83/assets/js/header.js" defer></script>
+
+</body>
+</html>
