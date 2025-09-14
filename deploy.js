@@ -30,8 +30,8 @@ function run() {
   console.log(`Copying _site → ${publicDir}`);
   execSync(`rsync -av --delete _site/ ${publicDir}/`, { stdio: "inherit" });
 
-  // 修正: _site_public 自体を add せず、内部のファイルだけ add
-  execSync(`git -C ${publicDir} add .`, { stdio: "inherit" });
+  // ★ 修正：_site_public 配下の全ファイルだけ add
+  execSync(`git -C ${publicDir} add -f .`, { stdio: "inherit" });
 
   try {
     execSync(`git -C ${publicDir} commit -m "Deploy site"`, {
