@@ -1,44 +1,61 @@
+// add-url-filter.js (完全版)
 const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 
-const pathPrefix = "/bw83/";
-const siteDir = "_site";
+const siteDir = "_site"; // Eleventy 出力ディレクトリ
+const pathPrefix = "/bw83"; // GitHub Pages 用 prefix
 
-// HTML ファイルを再帰的に取得
-function getHtmlFiles(dir) {
-  let results = [];
-  fs.readdirSync(dir).forEach((file) => {
-    const filePath = path.join(dir, file);
-    const stat = fs.statSync(filePath);
-    if (stat && stat.isDirectory()) {
-      results = results.concat(getHtmlFiles(filePath));
+// -------- HTML 処理 --------
+function updateHtmlLinks(filePath) {
+  const html = fs.readFileSync(filePath, "utf-8");
+  const $ = cheerio.load(html);
+
+  // <a> と <img>
+  $("a, img").each((i, el) => {
+    const attr = el.name === "a" ? "href" : "src";
+    const val = $(el).attr(attr);
+    if (val && val.startsWith("/")) {
+      $(el).attr(attr, `${pathPrefix}${val}`);
+    }
+  });
+
+  // <source srcset>
+  $("source").each((i, el) => {
+    const srcset = $(el).attr("srcset");
+    if (srcset && srcset.startsWith("/")) {
+      $(el).attr("srcset", `${pathPrefix}${srcset}`);
+    }
+  });
+
+  fs.writeFileSync(filePath, $.html(), "utf-8");
+}
+
+// -------- CSS 処理 --------
+function updateCssUrls(filePath) {
+  let css = fs.readFileSync(filePath, "utf-8");
+  css = css.replace(/url\(["']?(\/[^"')]+)["']?\)/g, (match, p1) => {
+    return `url(${pathPrefix}${p1})`;
+  });
+  fs.writeFileSync(filePath, css, "utf-8");
+}
+
+// -------- ディレクトリ再帰処理 --------
+function walkHtml(dir) {
+  const files = fs.readdirSync(dir);
+  files.forEach((file) => {
+    const fullPath = path.join(dir, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      walkHtml(fullPath);
     } else if (file.endsWith(".html")) {
-      results.push(filePath);
+      updateHtmlLinks(fullPath);
+    } else if (file.endsWith(".css")) {
+      updateCssUrls(fullPath);
     }
   });
-  return results;
 }
 
-// HTML 内リンク書き換え
-function updateLinks(filePath) {
-  const content = fs.readFileSync(filePath, "utf-8");
-  const $ = cheerio.load(content);
+// -------- 実行 --------
+walkHtml(siteDir);
 
-  $("a[href], link[href], script[src], img[src]").each((_, el) => {
-    const attr = el.name === "script" || el.name === "img" ? "src" : "href";
-    let val = $(el).attr(attr);
-    if (!val) return;
-    if (!val.startsWith("http") && !val.startsWith(pathPrefix)) {
-      val = val.replace(/^\.?\//, "");
-      $(el).attr(attr, pathPrefix + val);
-    }
-  });
-
-  fs.writeFileSync(filePath, $.html());
-  console.log("Updated:", filePath);
-}
-
-// 実行
-getHtmlFiles(siteDir).forEach(updateLinks);
-console.log("HTML links already updated via add-url-filter.js");
+console.log("HTML and CSS links updated successfully!");
