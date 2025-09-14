@@ -1,14 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
-// _site のパス
 const SITE_DIR = path.join(__dirname, "_site");
+const pathPrefix = "/bw83"; // GitHub Pages 用
 
-// 再帰的にディレクトリ内HTMLファイルを取得
+// HTML ファイルを再帰的に取得
 function getHtmlFiles(dir) {
   let results = [];
-  const list = fs.readdirSync(dir);
-  list.forEach((file) => {
+  fs.readdirSync(dir).forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
@@ -20,20 +19,20 @@ function getHtmlFiles(dir) {
   return results;
 }
 
-// HTML内のリンク・スクリプトを書き換え
+// HTML 内の {{ ... | url }} や /assets/... を pathPrefix 付きに変換
 function addUrlFilterToFile(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
 
-  // link タグ
+  // {{ ... | url }} の変換
   content = content.replace(
-    /<link\s+rel=["']stylesheet["']\s+href=["'](\/[^"']+)["']>/g,
-    (_, href) => `<link rel="stylesheet" href="{{ '${href}' | url }}">`
+    /\{\{\s*['"](.+?)['"]\s*\|\s*url\s*\}\}/g,
+    (_, url) => `${pathPrefix}${url}`
   );
 
-  // script タグ
+  // /assets/... の変換
   content = content.replace(
-    /<script\s+src=["'](\/[^"']+)["'](\s+defer)?>/g,
-    (_, src, defer) => `<script src="{{ '${src}' | url }}"${defer || ""}>`
+    /(\s(?:src|href|srcset)=["'])(\/assets\/.+?)["']/g,
+    (_, prefix, url) => `${prefix}${pathPrefix}${url.slice(1)}"` // 先頭の / を除去して pathPrefix 追加
   );
 
   fs.writeFileSync(filePath, content, "utf8");
@@ -41,7 +40,5 @@ function addUrlFilterToFile(filePath) {
 }
 
 // 実行
-const htmlFiles = getHtmlFiles(SITE_DIR);
-htmlFiles.forEach(addUrlFilterToFile);
-
-console.log("All HTML files updated with | url filter.");
+getHtmlFiles(SITE_DIR).forEach(addUrlFilterToFile);
+console.log("All HTML files updated with pathPrefix.");

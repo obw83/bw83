@@ -3,17 +3,19 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE_DIR = path.join(__dirname, "_site");
-const PUBLIC_REPO = "https://github.com/obw83/bw83.git";
-const COMMIT_MESSAGE = "Deploy Eleventy site";
+const PUBLIC_REPO = "git@github.com:username/bw83.git"; // Public リポジトリ SSH URL
+const BRANCH = "main"; // 公開ブランチ
+const PATH_PREFIX = "/bw83"; // GitHub Pages 用
 
-// 再帰的に HTML ファイルを取得
+// ------------------------------
+// 1. URL 書き換え関数
+// ------------------------------
 function getHtmlFiles(dir) {
   let results = [];
-  const list = fs.readdirSync(dir);
-  list.forEach((file) => {
+  fs.readdirSync(dir).forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
-    if (stat && stat.isDirectory()) {
+    if (stat.isDirectory()) {
       results = results.concat(getHtmlFiles(filePath));
     } else if (file.endsWith(".html")) {
       results.push(filePath);
@@ -22,73 +24,65 @@ function getHtmlFiles(dir) {
   return results;
 }
 
-// HTML 内のリンク・スクリプト・画像に URL フィルターを追加（未設定のもののみ）
-function applyUrlFilter(filePath) {
+function addUrlFilterToFile(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
 
-  // すでに | url がある場合は何もしない
-  if (/\|\s*url\s*\}/.test(content)) return;
-
-  // link タグ
+  // {{ ... | url }} の変換
   content = content.replace(
-    /<link\s+rel=["']stylesheet["']\s+href=["'](\/[^"']+)["']>/g,
-    (_, href) => `<link rel="stylesheet" href="{{ '${href}' | url }}">`
+    /\{\{\s*['"](.+?)['"]\s*\|\s*url\s*\}\}/g,
+    (_, url) => `${PATH_PREFIX}${url}`
   );
 
-  // script タグ
+  // /assets/... の変換
   content = content.replace(
-    /<script\s+src=["'](\/[^"']+)["'](\s+defer)?>/g,
-    (_, src, defer) => `<script src="{{ '${src}' | url }}"${defer || ""}>`
-  );
-
-  // img タグ
-  content = content.replace(
-    /<img\s+([^>]*?)src=["'](\/[^"']+)["']([^>]*?)>/g,
-    (_, before, src, after) =>
-      `<img ${before}src="{{ '${src}' | url }}"${after}>`
+    /(\s(?:src|href|srcset)=["'])(\/assets\/.+?)["']/g,
+    (_, prefix, url) => `${prefix}${PATH_PREFIX}${url.slice(1)}"`
   );
 
   fs.writeFileSync(filePath, content, "utf8");
   console.log(`Updated: ${filePath}`);
 }
 
-// --- 実行 ---
-try {
-  // 1️⃣ Eleventy ビルド
-  console.log("Building Eleventy site...");
-  execSync("npx eleventy", { stdio: "inherit" });
-
-  // 2️⃣ HTML ファイルに URL フィルター適用
-  console.log("Applying URL filter to HTML files...");
-  const htmlFiles = getHtmlFiles(SITE_DIR);
-  htmlFiles.forEach(applyUrlFilter);
-
-  // 3️⃣ Publicリポジトリの git 初期化
-  if (!fs.existsSync(path.join(SITE_DIR, ".git"))) {
-    console.log("Initializing git in _site...");
-    execSync("git init", { cwd: SITE_DIR });
-    execSync(`git remote add origin ${PUBLIC_REPO}`, { cwd: SITE_DIR });
-  }
-
-  // 4️⃣ 全ファイルステージング
-  execSync("git add .", { cwd: SITE_DIR });
-
-  // 5️⃣ 変更があれば commit
-  const status = execSync("git status --porcelain", {
-    cwd: SITE_DIR,
-  }).toString();
-  if (status.trim() !== "") {
-    execSync(`git commit -m "${COMMIT_MESSAGE}"`, { cwd: SITE_DIR });
-    console.log("Committed changes.");
-  } else {
-    console.log("No changes to commit.");
-  }
-
-  // 6️⃣ Public に強制 push
-  console.log("Pushing to Public repository...");
-  execSync("git push origin main --force", { cwd: SITE_DIR, stdio: "inherit" });
-
-  console.log("✅ Deployment complete!");
-} catch (err) {
-  console.error("❌ Deployment failed:", err);
+function updateUrls() {
+  const files = getHtmlFiles(SITE_DIR);
+  files.forEach(addUrlFilterToFile);
+  console.log("All HTML files updated with pathPrefix.");
 }
+
+// ------------------------------
+// 2. Public リポジトリへ push
+// ------------------------------
+function deploy() {
+  const publicDir = path.join(__dirname, "_site_public");
+
+  // 既存ディレクトリがあれば削除
+  if (fs.existsSync(publicDir)) {
+    fs.rmSync(publicDir, { recursive: true, force: true });
+  }
+
+  // clone Public リポジトリ
+  execSync(`git clone -b ${BRANCH} ${PUBLIC_REPO} ${publicDir}`, {
+    stdio: "inherit",
+  });
+
+  // _site の中身をコピー
+  execSync(`cp -r ${SITE_DIR}/* ${publicDir}/`, { stdio: "inherit" });
+
+  // Public リポジトリ内で commit & push
+  execSync(`cd ${publicDir} && git add .`, { stdio: "inherit" });
+  execSync(
+    `cd ${publicDir} && git commit -m "Deploy site" || echo "Nothing to commit"`,
+    { stdio: "inherit" }
+  );
+  execSync(`cd ${publicDir} && git push origin ${BRANCH}`, {
+    stdio: "inherit",
+  });
+
+  console.log("Deployment complete!");
+}
+
+// ------------------------------
+// 3. 実行フロー
+// ------------------------------
+updateUrls();
+deploy();
