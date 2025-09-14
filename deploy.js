@@ -1,103 +1,79 @@
-// deploy.js
 const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const cheerio = require("cheerio");
 
-const siteDir = "_site";
-const publicDir = "_site_public";
-const pathPrefix = "/bw83";
+// ----- 設定 -----
+const pathPrefix = "/bw83/"; // GitHub Pages pathPrefix
+const siteDir = "_site"; // Eleventy 出力先
+const publicDir = "_site_public"; // デプロイ用ディレクトリ
+const gitHost = "github-ohmori"; // SSH 設定で ohmori キーを使う
+const gitRepo = "obw83/bw83.git"; // リポジトリ
+const gitBranch = "main";
 
-// ----------------- HTML/CSS リンク書き換え -----------------
-function updateHtmlLinks(filePath) {
-  const html = fs.readFileSync(filePath, "utf-8");
-  const $ = cheerio.load(html);
-
-  $("a, img").each((i, el) => {
-    const attr = el.name === "a" ? "href" : "src";
-    const val = $(el).attr(attr);
-    if (val && val.startsWith("/") && !val.startsWith(pathPrefix + "/")) {
-      $(el).attr(attr, `${pathPrefix}${val}`);
-    }
-  });
-
-  $("source").each((i, el) => {
-    const srcset = $(el).attr("srcset");
-    if (
-      srcset &&
-      srcset.startsWith("/") &&
-      !srcset.startsWith(pathPrefix + "/")
-    ) {
-      $(el).attr("srcset", `${pathPrefix}${srcset}`);
-    }
-  });
-
-  fs.writeFileSync(filePath, $.html(), "utf-8");
-}
-
-function updateCssUrls(filePath) {
-  let css = fs.readFileSync(filePath, "utf-8");
-  css = css.replace(
-    /url\((["']?)(\/(?!bw83\/)[^"')]+)\1\)/g,
-    (match, quote, url) => {
-      return `url(${quote}${pathPrefix}${url}${quote})`;
-    }
-  );
-  fs.writeFileSync(filePath, css, "utf-8");
-}
-
-function walkDir(dir) {
-  fs.readdirSync(dir).forEach((file) => {
-    const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) {
-      walkDir(fullPath);
-    } else if (file.endsWith(".html")) {
-      updateHtmlLinks(fullPath);
-    } else if (file.endsWith(".css")) {
-      updateCssUrls(fullPath);
-    }
-  });
-}
-
-// ----------------- デプロイ -----------------
-function deploy() {
+// ----- HTML/CSS 内リンク書き換え -----
+function updateLinks(dir) {
   console.log("Running: update HTML/CSS links with pathPrefix...");
-  walkDir(siteDir);
+
+  const walk = (dir) => {
+    const files = fs.readdirSync(dir);
+    files.forEach((file) => {
+      const fullPath = path.join(dir, file);
+      const stat = fs.statSync(fullPath);
+      if (stat.isDirectory()) walk(fullPath);
+      else if (fullPath.endsWith(".html") || fullPath.endsWith(".css")) {
+        let content = fs.readFileSync(fullPath, "utf8");
+        // ここで /assets/ → pathPrefix + assets/ に書き換え
+        content = content.replace(
+          /(["'(])\/assets\//g,
+          `$1${pathPrefix}assets/`
+        );
+        fs.writeFileSync(fullPath, content);
+      }
+    });
+  };
+
+  walk(dir);
   console.log("HTML/CSS links updated!");
+}
+
+// ----- Git デプロイ -----
+function deploy() {
+  updateLinks(siteDir);
 
   if (!fs.existsSync(publicDir)) {
-    console.log(`'${publicDir}' does not exist, cloning repository...`);
+    console.log(`'_site_public' does not exist, cloning repo...`);
     execSync(
-      `git clone -b main git@github-ohmori:obw83/bw83.git ${publicDir}`,
+      `git clone -b ${gitBranch} git@${gitHost}:${gitRepo} ${publicDir}`,
       { stdio: "inherit" }
     );
   } else {
-    console.log(`'${publicDir}' already exists, pulling latest...`);
-    execSync(`git -C ${publicDir} pull origin main`, { stdio: "inherit" });
+    console.log(`'_site_public' already exists, pulling latest...`);
+    execSync(`git -C ${publicDir} pull ${gitHost} ${gitBranch}`, {
+      stdio: "inherit",
+    });
   }
 
   console.log(`Copying ${siteDir} → ${publicDir}`);
-  execSync(`rsync -av --delete ${siteDir}/ ${publicDir}/`, {
-    stdio: "inherit",
-  });
+  execSync(`rsync -a --delete ${siteDir}/ ${publicDir}/`, { stdio: "inherit" });
 
-  console.log("Adding changes...");
+  console.log("Staging changes...");
   execSync(`git -C ${publicDir} add .`, { stdio: "inherit" });
 
-  console.log("Committing changes...");
   try {
     execSync(`git -C ${publicDir} commit -m "Deploy site"`, {
       stdio: "inherit",
     });
   } catch (e) {
-    console.log("Nothing to commit, working tree clean.");
+    console.log("No changes to commit.");
   }
 
-  console.log("Pushing to GitHub...");
-  execSync(`git -C ${publicDir} push origin main`, { stdio: "inherit" });
+  console.log(`Pushing to ${gitHost}...`);
+  execSync(`git -C ${publicDir} push ${gitHost} ${gitBranch}`, {
+    stdio: "inherit",
+  });
 
   console.log("Deployment complete!");
 }
 
-// ----------------- 実行 -----------------
+// ----- 実行 -----
 deploy();
