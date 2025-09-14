@@ -21,23 +21,18 @@ if (!fs.existsSync(PUBLIC_DIR)) {
   execSync(`git clone -b ${BRANCH} ${PUBLIC_REPO} ${PUBLIC_DIR}`, {
     stdio: "inherit",
   });
-} else {
-  console.log(`${PUBLIC_DIR} already exists, pulling latest...`);
-  execSync(`cd ${PUBLIC_DIR} && git pull origin ${BRANCH} --rebase`, {
-    stdio: "inherit",
-  });
 }
 
 // ================================
-// _site 内のファイルをコピー
+// _site 内のファイルをコピー（丸ごと上書き）
 console.log("Copying _site files to _site_public...");
 execSync(`rsync -av --delete ${SITE_DIR}/ ${PUBLIC_DIR}/`, {
   stdio: "inherit",
 });
 
 // ================================
-// commit & push
-console.log("Adding, committing, and pushing changes...");
+// commit & push（強制）
+console.log("Adding, committing, and force pushing changes...");
 execSync(`cd ${PUBLIC_DIR} && git config user.name "obw83"`, {
   stdio: "inherit",
 });
@@ -49,6 +44,8 @@ execSync(
   `cd ${PUBLIC_DIR} && git commit -m "Deploy site from obw83" || echo "Nothing to commit"`,
   { stdio: "inherit" }
 );
-execSync(`cd ${PUBLIC_DIR} && git push origin ${BRANCH}`, { stdio: "inherit" });
+execSync(`cd ${PUBLIC_DIR} && git push origin ${BRANCH} -f`, {
+  stdio: "inherit",
+});
 
 console.log("Deployment complete!");
