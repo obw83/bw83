@@ -9,7 +9,7 @@ const gitUrl = `git@${gitHost}:${gitRepo}`;
 
 console.log("Running: update HTML/CSS links with pathPrefix...");
 execSync("node add-url-filter.js", { stdio: "inherit" });
-console.log("HTML/CSS links updated!");
+console.log("HTML and CSS links updated!");
 
 function run() {
   if (!fs.existsSync(publicDir)) {
@@ -30,6 +30,7 @@ function run() {
   console.log(`Copying _site → ${publicDir}`);
   execSync(`rsync -av --delete _site/ ${publicDir}/`, { stdio: "inherit" });
 
+  // 修正: _site_public 自体を add せず、内部のファイルだけ add
   execSync(`git -C ${publicDir} add .`, { stdio: "inherit" });
 
   try {
