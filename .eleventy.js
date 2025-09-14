@@ -1,11 +1,11 @@
 const { DateTime } = require("luxon");
 
-module.exports = function(eleventyConfig) {
-
+module.exports = function (eleventyConfig) {
   // posts collection
-  eleventyConfig.addCollection("posts", function(collectionApi) {
-    return collectionApi.getFilteredByGlob("src/posts/*.md")
-                        .sort((a, b) => b.date - a.date);
+  eleventyConfig.addCollection("posts", function (collectionApi) {
+    return collectionApi
+      .getFilteredByGlob("src/posts/*.md")
+      .sort((a, b) => b.date - a.date);
   });
 
   // date フィルター追加
@@ -14,21 +14,24 @@ module.exports = function(eleventyConfig) {
   });
 
   // Markdown / Nunjucksをコピー
-  eleventyConfig.addPassthroughCopy({"node_modules/normalize.css/normalize.css": "assets/css/normalize.css"});
-  eleventyConfig.addPassthroughCopy({"src/assets": "assets"});
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/normalize.css/normalize.css": "assets/css/normalize.css",
+  });
+  eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  eleventyConfig.addPassthroughCopy({ "src/assets/js": "assets/js" });
 
-  eleventyConfig.addPassthroughCopy({"src/assets/js": "assets/js"});
-
+  const pathPrefix = "/bw83/";
   return {
     dir: {
       input: "src",
       output: "_site",
       includes: "includes",
-      layouts: "includes/layouts"
+      layouts: "includes/layouts",
     },
     templateFormats: ["njk", "md", "html"],
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: "njk",
-    passthroughFileCopy: true
+    passthroughFileCopy: true,
+    pathPrefix: pathPrefix,
   };
 };
