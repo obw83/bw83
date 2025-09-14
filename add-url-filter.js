@@ -1,33 +1,37 @@
 const fs = require("fs");
 const path = require("path");
 
-const targetDir = "_site";
+const pathPrefix = "/bw83/";
 
-function walkDir(dir) {
-  let results = [];
-  const list = fs.readdirSync(dir);
-  list.forEach((file) => {
-    file = path.join(dir, file);
-    const stat = fs.statSync(file);
-    if (stat && stat.isDirectory()) {
-      results = results.concat(walkDir(file));
-    } else if (file.endsWith(".html")) {
-      results.push(file);
-    }
-  });
-  return results;
+function updateLinks(filePath) {
+  let content = fs.readFileSync(filePath, "utf-8");
+
+  // 例: href と src の書き換え
+  content = content.replace(
+    /href="\/(.*?)"/g,
+    (m, p1) => `href="${pathPrefix}${p1}"`
+  );
+  content = content.replace(
+    /src="\/(.*?)"/g,
+    (m, p1) => `src="${pathPrefix}${p1}"`
+  );
+
+  fs.writeFileSync(filePath, content, "utf-8");
+  console.log(`Updated: ${filePath}`);
 }
 
-const htmlFiles = walkDir(targetDir);
+// _site 内の HTML ファイルすべてに適用
+function walk(dir) {
+  const files = fs.readdirSync(dir);
+  for (const file of files) {
+    const fullPath = path.join(dir, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      walk(fullPath);
+    } else if (fullPath.endsWith(".html")) {
+      updateLinks(fullPath);
+    }
+  }
+}
 
-htmlFiles.forEach((file) => {
-  let content = fs.readFileSync(file, "utf8");
-
-  // {{ url }} 書き換え
-  content = content.replace(/{{\s*'([^']+)'\s*\|\s*url\s*}}/g, "/bw83/$1");
-
-  fs.writeFileSync(file, content, "utf8");
-  console.log("Updated:", file);
-});
-
+walk("_site");
 console.log("HTML links already updated via add-url-filter.js");

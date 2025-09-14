@@ -1,39 +1,35 @@
 const { execSync } = require("child_process");
 const fs = require("fs-extra");
-const path = require("path");
 
-const SITE_DIR = "_site";
-const PUBLIC_DIR = "_site_public";
-const REPO_SSH = "git@github-obw83:obw83/bw83.git"; // SSH config の Host 名使用
+const repoSSH = "git@github-obw83:bw83/bw83.git"; // SSH HostName は ~/.ssh/config に合わせる
+const deployDir = "_site_public";
 
-function run(cmd) {
-  console.log("Running:", cmd);
-  execSync(cmd, { stdio: "inherit" });
-}
+// URL 書き換え
+console.log("Running: node add-url-filter.js");
+execSync("node add-url-filter.js", { stdio: "inherit" });
 
-// 1. HTML 内リンクを書き換え
-run("node add-url-filter.js");
-
-// 2. _site_public を clone or pull
-if (!fs.existsSync(PUBLIC_DIR)) {
-  run(`git clone -b main ${REPO_SSH} ${PUBLIC_DIR}`);
+// clone か pull
+if (!fs.existsSync(deployDir)) {
+  console.log(`Cloning into '${deployDir}'...`);
+  execSync(`git clone -b main ${repoSSH} ${deployDir}`, { stdio: "inherit" });
 } else {
-  run(`git -C ${PUBLIC_DIR} pull origin main`);
+  console.log(`'${deployDir}' already exists, pulling latest...`);
+  execSync(`git -C ${deployDir} pull origin main`, { stdio: "inherit" });
 }
 
-// 3. _site → _site_public にコピー
-fs.copySync(SITE_DIR, PUBLIC_DIR, { overwrite: true });
-console.log(`Copied ${SITE_DIR} → ${PUBLIC_DIR}`);
+// _site の中身をコピー
+fs.copySync("_site", deployDir, { overwrite: true });
+console.log(`Copied _site → ${deployDir}`);
 
-// 4. git 操作
-run(`git -C ${PUBLIC_DIR} add .`);
-
+// git add/commit/push
 try {
-  run(`git -C ${PUBLIC_DIR} commit -m "Deploy site"`);
+  execSync(`git -C ${deployDir} add .`, { stdio: "inherit" });
+  execSync(`git -C ${deployDir} commit -m "Deploy site"`, { stdio: "inherit" });
 } catch (e) {
   console.log("Nothing to commit");
 }
 
-run(`git -C ${PUBLIC_DIR} push origin main`);
+console.log(`Running: git -C ${deployDir} push origin main`);
+execSync(`git -C ${deployDir} push origin main`, { stdio: "inherit" });
 
 console.log("Deployment complete!");
