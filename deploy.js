@@ -1,68 +1,92 @@
+// deploy.js
 const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const siteDir = path.resolve("./_site");
-const publicDir = path.resolve("./_site_public");
-const remoteRepo = "git@github-ohmori:obw83/bw83.git";
-const branch = "main";
+const siteDir = path.join(__dirname, "_site");
+const publicDir = path.join(__dirname, "_site_public");
 
-function run(cmd, options = {}) {
-  console.log(`Running: ${cmd}`);
-  return execSync(cmd, { stdio: "inherit", ...options });
-}
-
+// PathPrefix 更新用（必要であれば）
 function updateLinks() {
-  console.log("Running: node add-url-filter.js");
-  run("node add-url-filter.js");
-  console.log("HTML and CSS links updated successfully!");
-}
-
-function preparePublicDir() {
-  if (!fs.existsSync(publicDir)) {
-    console.log(`'_site_public' does not exist, cloning from remote...`);
-    run(`git clone -b ${branch} ${remoteRepo} ${publicDir}`);
-  } else {
-    console.log(`'_site_public' exists, resetting local changes...`);
-    try {
-      run(`git -C ${publicDir} fetch origin ${branch}`);
-      run(`git -C ${publicDir} reset --hard origin/${branch}`);
-      run(`git -C ${publicDir} clean -fd`);
-    } catch (e) {
-      console.log("Failed to reset, removing and recloning...");
-      fs.rmSync(publicDir, { recursive: true, force: true });
-      run(`git clone -b ${branch} ${remoteRepo} ${publicDir}`);
-    }
+  console.log("Updating HTML/CSS links with pathPrefix...");
+  try {
+    execSync("node add-url-filter.js", { stdio: "inherit" });
+    console.log("HTML and CSS links updated successfully!");
+  } catch (err) {
+    console.error("Error updating links:", err);
   }
 }
 
-function copySite() {
-  console.log(`Copying ${siteDir} → ${publicDir}`);
-  run(`rsync -a --delete ${siteDir}/ ${publicDir}/`);
+// _site_public の初期化とリモート設定
+function setupPublicRepo() {
+  if (!fs.existsSync(path.join(publicDir, ".git"))) {
+    console.log("_site_public is not a git repo, initializing...");
+    execSync(`git -C "${publicDir}" init`, { stdio: "inherit" });
+  }
+
+  // public リポジトリに origin を設定
+  execSync(`git -C "${publicDir}" remote remove origin || true`, {
+    stdio: "inherit",
+  });
+  execSync(
+    `git -C "${publicDir}" remote add origin git@github-ohmori:obw83/bw83.git`,
+    { stdio: "inherit" }
+  );
+
+  // リセットして clean
+  console.log("Resetting _site_public to latest origin/main...");
+  try {
+    execSync(`git -C "${publicDir}" fetch origin main`, { stdio: "inherit" });
+    execSync(`git -C "${publicDir}" reset --hard origin/main`, {
+      stdio: "inherit",
+    });
+  } catch (err) {
+    console.log("Branch main may not exist yet, continue.");
+  }
+  execSync(`git -C "${publicDir}" clean -fd`, { stdio: "inherit" });
 }
 
-function deploy() {
-  updateLinks();
-  preparePublicDir();
-  copySite();
+// _site → _site_public コピー
+function copySite() {
+  console.log(`Copying ${siteDir} → ${publicDir}`);
+  execSync(`rsync -a --delete "${siteDir}/" "${publicDir}/"`, {
+    stdio: "inherit",
+  });
+}
 
+// git commit & push
+function commitAndPush() {
   console.log("Staging files...");
-  run(`git -C ${publicDir} add -A`);
+  execSync(`git -C "${publicDir}" add -A`, { stdio: "inherit" });
+
+  console.log("Committing changes...");
   try {
-    run(`git -C ${publicDir} commit -m "Deploy site"`);
-  } catch (e) {
+    execSync(`git -C "${publicDir}" commit -m "Deploy site"`, {
+      stdio: "inherit",
+    });
+  } catch (err) {
     console.log("Nothing to commit, continuing...");
   }
 
-  console.log(`Pushing to ${branch}...`);
+  // ブランチ作成（初回 push 用）
   try {
-    run(`git -C ${publicDir} push origin ${branch} --force`);
-  } catch (e) {
-    console.error("Deployment failed.");
-    process.exit(1);
+    execSync(`git -C "${publicDir}" branch -M main`, { stdio: "inherit" });
+  } catch (err) {
+    // すでに main なら無視
   }
 
+  console.log("Pushing to GitHub Pages repository...");
+  execSync(`git -C "${publicDir}" push origin main --force`, {
+    stdio: "inherit",
+  });
+}
+
+function main() {
+  updateLinks();
+  setupPublicRepo();
+  copySite();
+  commitAndPush();
   console.log("Deployment complete!");
 }
 
-deploy();
+main();
