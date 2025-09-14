@@ -1,63 +1,34 @@
-#!/usr/bin/env node
-
+const fs = require("fs-extra");
 const { execSync } = require("child_process");
-const fs = require("fs");
-const path = require("path");
 
-const SITE_DIR = "_site";
-const PUBLIC_DIR = "_site_public";
-
-// ここに GitHub リポジトリ URL を指定
-// SSH 例: git@github.com:obw83/bw83.git
-// HTTPS 例: https://github.com/obw83/bw83.git
-const REMOTE_REPO = process.env.DEPLOY_REPO || "git@github.com:obw83/bw83.git";
-const BRANCH = "main";
-
-function run(cmd, options = {}) {
-  console.log("Running:", cmd);
-  try {
-    const output = execSync(cmd, { stdio: "inherit", ...options });
-    return output;
-  } catch (err) {
-    throw err;
-  }
+function run(cmd) {
+  console.log(`Running: ${cmd}`);
+  execSync(cmd, { stdio: "inherit" });
 }
 
-// 1. HTML 内リンク書き換え
-console.log("Running: node add-url-filter.js");
+// 1. HTML 内リンク更新
 run("node add-url-filter.js");
 
-// 2. _site_public の準備
-if (!fs.existsSync(PUBLIC_DIR)) {
-  console.log(`${PUBLIC_DIR} does not exist, cloning...`);
-  run(`git clone -b ${BRANCH} ${REMOTE_REPO} ${PUBLIC_DIR}`);
+// 2. _site_public の git リポ確認
+if (!fs.existsSync("_site_public")) {
+  run("git clone -b main git@github-obw83:obw83/bw83.git _site_public");
 } else {
-  console.log(`'${PUBLIC_DIR}' already exists, pulling latest...`);
-  run(`git -C ${PUBLIC_DIR} pull origin ${BRANCH}`);
+  run("git -C _site_public pull git@github-obw83:obw83/bw83.git main");
 }
 
 // 3. _site → _site_public にコピー
-console.log(`Copying ${SITE_DIR} → ${PUBLIC_DIR}`);
-function copyDir(src, dest) {
-  if (!fs.existsSync(src)) throw new Error(`${src} does not exist`);
-  run(`rsync -a --delete ${src}/ ${dest}/`);
-}
-copyDir(SITE_DIR, PUBLIC_DIR);
+fs.copySync("_site", "_site_public", { overwrite: true });
+console.log("Copied _site → _site_public");
 
-// 4. GitHub へ push
-try {
-  run(`git -C ${PUBLIC_DIR} add .`);
-  run(`git -C ${PUBLIC_DIR} commit -m "Deploy site"`);
-} catch (err) {
-  console.log("Nothing to commit, continuing...");
-}
+// 4. git commit & push
+run("git -C _site_public add .");
 
 try {
-  run(`git -C ${PUBLIC_DIR} push origin ${BRANCH}`);
-  console.log("Deployment complete!");
-} catch (err) {
-  console.error(
-    "Push failed. Check your SSH/HTTPS credentials and repository access."
-  );
-  process.exit(1);
+  run('git -C _site_public commit -m "Deploy site"');
+} catch (e) {
+  console.log("No changes to commit.");
 }
+
+run("git -C _site_public push git@github-obw83:obw83/bw83.git main");
+
+console.log("Deployment complete!");
