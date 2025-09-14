@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const maxDate = new Date(today.getFullYear(), today.getMonth() + 2, 1); // 翌々月まで
 
   // JSONを読み込む
-  fetch("/assets/data/calendar.json")
+  fetch("/bw83/assets/data/calendar.json")
     .then((res) => res.json())
     .then((data) => {
       calendarData = data;

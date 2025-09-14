@@ -182,9 +182,9 @@ a {
   cursor: pointer;
 
   /* SVGをマスクとして使用 */
-  -webkit-mask: url(/bw83/assets/images/arrow_triangle.svg") no-repeat center;
+  -webkit-mask: url("/bw83/assets/images/arrow_triangle.svg") no-repeat center;
   -webkit-mask-size: contain;
-  mask: url(/bw83/assets/images/arrow_triangle.svg") no-repeat center;
+  mask: url("/bw83/assets/images/arrow_triangle.svg") no-repeat center;
   mask-size: contain;
 
   /* 文字を非表示に */
@@ -1028,15 +1028,15 @@ a {
 }
 
 .workshop-ws__overview-item-first .workshop-ws__overview-circle {
-  background-image: url(/bw83/assets/images/ws-main-bg1.png");
+  background-image: url("/bw83/assets/images/ws-main-bg1.png");
 }
 
 .workshop-ws__overview-item-second .workshop-ws__overview-circle {
-  background-image: url(/bw83/assets/images/ws-main-bg2.png");
+  background-image: url("/bw83/assets/images/ws-main-bg2.png");
 }
 
 .workshop-ws__overview-item-third .workshop-ws__overview-circle {
-  background-image: url(/bw83/assets/images/ws-main-bg3.png");
+  background-image: url("/bw83/assets/images/ws-main-bg3.png");
 }
 
 .workshop-ws__overview-texts {
