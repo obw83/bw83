@@ -1,51 +1,47 @@
+const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
-const { execSync } = require("child_process");
 
-// ================================
-// 設定
-// ================================
-const SITE_DIR = path.join(__dirname, "_site"); // Eleventy ビルド済みサイト
-const PUBLIC_DIR = path.join(__dirname, "_site_public"); // clone 先
-const PUBLIC_REPO = "git@github-obw83:obw83/bw83.git"; // obw83 用リポジトリ
+const SITE_DIR = "_site";
+const PUBLIC_DIR = "_site_public";
+const REPO_URL = "git@github.com:obw83/bw83.git"; // SSH URL
 const BRANCH = "main";
 
-// ================================
-// HTML 内リンク書き換えは add-url-filter.js で実行済み前提
-console.log("HTML links already updated via add-url-filter.js");
+try {
+  // HTML 内のリンク書き換え
+  console.log("HTML links already updated via add-url-filter.js");
+  execSync("node add-url-filter.js", { stdio: "inherit" });
 
-// ================================
-// Public リポジトリの clone / 初期化
-if (!fs.existsSync(PUBLIC_DIR)) {
-  console.log(`Cloning ${PUBLIC_REPO} into ${PUBLIC_DIR}...`);
-  execSync(`git clone -b ${BRANCH} ${PUBLIC_REPO} ${PUBLIC_DIR}`, {
+  // _site_public がなければ clone
+  if (!fs.existsSync(PUBLIC_DIR)) {
+    console.log(`${PUBLIC_DIR} does not exist, cloning...`);
+    execSync(`git clone -b ${BRANCH} ${REPO_URL} ${PUBLIC_DIR}`, {
+      stdio: "inherit",
+    });
+  }
+
+  // 最新を pull して rebase
+  console.log(`${PUBLIC_DIR} already exists, pulling latest...`);
+  execSync(`cd ${PUBLIC_DIR} && git pull origin ${BRANCH} --rebase`, {
     stdio: "inherit",
   });
+
+  // _site の内容を _site_public にコピー
+  execSync(`rsync -a --delete ${SITE_DIR}/ ${PUBLIC_DIR}/`, {
+    stdio: "inherit",
+  });
+
+  // commit & push
+  execSync(
+    `cd ${PUBLIC_DIR} && git add . && git commit -m "Deploy site" || echo "Nothing to commit"`,
+    { stdio: "inherit" }
+  );
+  execSync(`cd ${PUBLIC_DIR} && git push origin ${BRANCH}`, {
+    stdio: "inherit",
+  });
+
+  console.log("Deployment complete!");
+} catch (err) {
+  console.error(err);
+  process.exit(1);
 }
-
-// ================================
-// _site 内のファイルをコピー（丸ごと上書き）
-console.log("Copying _site files to _site_public...");
-execSync(`rsync -av --delete ${SITE_DIR}/ ${PUBLIC_DIR}/`, {
-  stdio: "inherit",
-});
-
-// ================================
-// commit & push（強制）
-console.log("Adding, committing, and force pushing changes...");
-execSync(`cd ${PUBLIC_DIR} && git config user.name "obw83"`, {
-  stdio: "inherit",
-});
-execSync(`cd ${PUBLIC_DIR} && git config user.email "for.yo.chiko@gmail.com"`, {
-  stdio: "inherit",
-});
-execSync(`cd ${PUBLIC_DIR} && git add .`, { stdio: "inherit" });
-execSync(
-  `cd ${PUBLIC_DIR} && git commit -m "Deploy site from obw83" || echo "Nothing to commit"`,
-  { stdio: "inherit" }
-);
-execSync(`cd ${PUBLIC_DIR} && git push origin ${BRANCH} -f`, {
-  stdio: "inherit",
-});
-
-console.log("Deployment complete!");

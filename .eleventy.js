@@ -1,5 +1,4 @@
 const { DateTime } = require("luxon");
-
 const pathPrefix = "/bw83/"; // GitHub Pages の場合
 
 module.exports = function (eleventyConfig) {
@@ -15,8 +14,10 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
 
-  // assets をコピー
+  // assets / images / favicon をコピー
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
+  eleventyConfig.addPassthroughCopy({ "src/images": "images" });
+  eleventyConfig.addPassthroughCopy({ "src/favicon.ico": "favicon.ico" });
 
   // URL 書き換え用フィルター（テンプレートで使用可）
   eleventyConfig.addFilter("absUrl", (url) => `${pathPrefix}${url}`);
