@@ -1,79 +1,56 @@
-const { execSync } = require("child_process");
+// deploy.js
 const fs = require("fs");
+const { execSync } = require("child_process");
 const path = require("path");
 
-// ----- 設定 -----
-const pathPrefix = "/bw83/"; // GitHub Pages pathPrefix
-const siteDir = "_site"; // Eleventy 出力先
-const publicDir = "_site_public"; // デプロイ用ディレクトリ
-const gitHost = "github-ohmori"; // SSH 設定で ohmori キーを使う
-const gitRepo = "obw83/bw83.git"; // リポジトリ
-const gitBranch = "main";
+// 設定
+const publicDir = "_site_public"; // デプロイ先ディレクトリ
+const gitHost = "github-ohmori"; // SSH config の alias
+const gitRepo = "obw83/bw83.git"; // リポジトリ名
+const gitBranch = "main"; // デプロイ先ブランチ
 
-// ----- HTML/CSS 内リンク書き換え -----
-function updateLinks(dir) {
-  console.log("Running: update HTML/CSS links with pathPrefix...");
+// HTML/CSS の pathPrefix 更新用スクリプト
+console.log("Running: update HTML/CSS links with pathPrefix...");
+execSync("node add-url-filter.js", { stdio: "inherit" });
+console.log("HTML/CSS links updated!");
 
-  const walk = (dir) => {
-    const files = fs.readdirSync(dir);
-    files.forEach((file) => {
-      const fullPath = path.join(dir, file);
-      const stat = fs.statSync(fullPath);
-      if (stat.isDirectory()) walk(fullPath);
-      else if (fullPath.endsWith(".html") || fullPath.endsWith(".css")) {
-        let content = fs.readFileSync(fullPath, "utf8");
-        // ここで /assets/ → pathPrefix + assets/ に書き換え
-        content = content.replace(
-          /(["'(])\/assets\//g,
-          `$1${pathPrefix}assets/`
-        );
-        fs.writeFileSync(fullPath, content);
-      }
-    });
-  };
+// Git URL 作成
+const gitUrl = `git@${gitHost}:${gitRepo}`;
 
-  walk(dir);
-  console.log("HTML/CSS links updated!");
-}
-
-// ----- Git デプロイ -----
-function deploy() {
-  updateLinks(siteDir);
-
+function run() {
+  // clone または pull
   if (!fs.existsSync(publicDir)) {
     console.log(`'_site_public' does not exist, cloning repo...`);
-    execSync(
-      `git clone -b ${gitBranch} git@${gitHost}:${gitRepo} ${publicDir}`,
-      { stdio: "inherit" }
-    );
+    execSync(`git clone -b ${gitBranch} ${gitUrl} ${publicDir}`, {
+      stdio: "inherit",
+    });
   } else {
     console.log(`'_site_public' already exists, pulling latest...`);
-    execSync(`git -C ${publicDir} pull ${gitHost} ${gitBranch}`, {
+    execSync(`git -C ${publicDir} pull ${gitUrl} ${gitBranch}`, {
       stdio: "inherit",
     });
   }
 
-  console.log(`Copying ${siteDir} → ${publicDir}`);
-  execSync(`rsync -a --delete ${siteDir}/ ${publicDir}/`, { stdio: "inherit" });
+  // _site → _site_public にコピー
+  console.log(`Copying _site → ${publicDir}`);
+  execSync(`rsync -av --delete _site/ ${publicDir}/`, { stdio: "inherit" });
 
-  console.log("Staging changes...");
-  execSync(`git -C ${publicDir} add .`, { stdio: "inherit" });
-
+  // Git add / commit / push
   try {
+    execSync(`git -C ${publicDir} add .`, { stdio: "inherit" });
     execSync(`git -C ${publicDir} commit -m "Deploy site"`, {
       stdio: "inherit",
     });
   } catch (e) {
-    console.log("No changes to commit.");
+    console.log("Nothing to commit, all files up-to-date.");
   }
 
-  console.log(`Pushing to ${gitHost}...`);
-  execSync(`git -C ${publicDir} push ${gitHost} ${gitBranch}`, {
+  console.log(`Pushing to ${gitBranch}...`);
+  execSync(`git -C ${publicDir} push ${gitUrl} ${gitBranch}`, {
     stdio: "inherit",
   });
 
   console.log("Deployment complete!");
 }
 
-// ----- 実行 -----
-deploy();
+run();
