@@ -1,37 +1,71 @@
 const fs = require("fs");
 const path = require("path");
+const cheerio = require("cheerio");
 
-const pathPrefix = "/bw83/";
+// GitHub Pages 用 pathPrefix
+const PATH_PREFIX = "/bw83/";
 
-function updateLinks(filePath) {
+// 対象ディレクトリ
+const SITE_DIR = "_site";
+
+// 再帰的に HTML ファイルを取得
+function getHtmlFiles(dir) {
+  let results = [];
+  fs.readdirSync(dir).forEach((file) => {
+    const fullPath = path.join(dir, file);
+    const stat = fs.statSync(fullPath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(getHtmlFiles(fullPath));
+    } else if (file.endsWith(".html")) {
+      results.push(fullPath);
+    }
+  });
+  return results;
+}
+
+// URL 書き換え
+function rewriteUrls(filePath) {
   let content = fs.readFileSync(filePath, "utf-8");
+  const $ = cheerio.load(content);
 
-  // 例: href と src の書き換え
-  content = content.replace(
-    /href="\/(.*?)"/g,
-    (m, p1) => `href="${pathPrefix}${p1}"`
-  );
-  content = content.replace(
-    /src="\/(.*?)"/g,
-    (m, p1) => `src="${pathPrefix}${p1}"`
-  );
+  // a[href]
+  $("a").each((_, el) => {
+    const href = $(el).attr("href");
+    if (href && !href.startsWith("http") && !href.startsWith("#")) {
+      $(el).attr("href", PATH_PREFIX + href.replace(/^\/+/, ""));
+    }
+  });
 
-  fs.writeFileSync(filePath, content, "utf-8");
+  // link[href]（CSS）
+  $("link").each((_, el) => {
+    const href = $(el).attr("href");
+    if (href && !href.startsWith("http")) {
+      $(el).attr("href", PATH_PREFIX + href.replace(/^\/+/, ""));
+    }
+  });
+
+  // script[src]（JS）
+  $("script").each((_, el) => {
+    const src = $(el).attr("src");
+    if (src && !src.startsWith("http")) {
+      $(el).attr("src", PATH_PREFIX + src.replace(/^\/+/, ""));
+    }
+  });
+
+  // img[src]
+  $("img").each((_, el) => {
+    const src = $(el).attr("src");
+    if (src && !src.startsWith("http")) {
+      $(el).attr("src", PATH_PREFIX + src.replace(/^\/+/, ""));
+    }
+  });
+
+  fs.writeFileSync(filePath, $.html());
   console.log(`Updated: ${filePath}`);
 }
 
-// _site 内の HTML ファイルすべてに適用
-function walk(dir) {
-  const files = fs.readdirSync(dir);
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    if (fs.statSync(fullPath).isDirectory()) {
-      walk(fullPath);
-    } else if (fullPath.endsWith(".html")) {
-      updateLinks(fullPath);
-    }
-  }
-}
+// メイン処理
+const htmlFiles = getHtmlFiles(SITE_DIR);
+htmlFiles.forEach((file) => rewriteUrls(file));
 
-walk("_site");
 console.log("HTML links already updated via add-url-filter.js");

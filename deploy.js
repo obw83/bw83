@@ -1,35 +1,51 @@
 const { execSync } = require("child_process");
 const fs = require("fs-extra");
+const path = require("path");
 
-const repoSSH = "git@github-obw83:bw83/bw83.git"; // SSH HostName は ~/.ssh/config に合わせる
-const deployDir = "_site_public";
+// GitHub SSH 設定
+const SSH_REMOTE = "git@github-obw83:bw83/bw83.git"; // ~/.ssh/config の Host github-obw83 に対応
+const BRANCH = "main";
 
-// URL 書き換え
-console.log("Running: node add-url-filter.js");
-execSync("node add-url-filter.js", { stdio: "inherit" });
+const SITE_DIR = "_site";
+const PUBLIC_DIR = "_site_public";
 
-// clone か pull
-if (!fs.existsSync(deployDir)) {
-  console.log(`Cloning into '${deployDir}'...`);
-  execSync(`git clone -b main ${repoSSH} ${deployDir}`, { stdio: "inherit" });
-} else {
-  console.log(`'${deployDir}' already exists, pulling latest...`);
-  execSync(`git -C ${deployDir} pull origin main`, { stdio: "inherit" });
+function run(cmd) {
+  console.log(`Running: ${cmd}`);
+  execSync(cmd, { stdio: "inherit" });
 }
 
-// _site の中身をコピー
-fs.copySync("_site", deployDir, { overwrite: true });
-console.log(`Copied _site → ${deployDir}`);
+async function main() {
+  // 1. HTMLリンク書き換え
+  run("node add-url-filter.js");
 
-// git add/commit/push
-try {
-  execSync(`git -C ${deployDir} add .`, { stdio: "inherit" });
-  execSync(`git -C ${deployDir} commit -m "Deploy site"`, { stdio: "inherit" });
-} catch (e) {
-  console.log("Nothing to commit");
+  // 2. _site_public が存在するか
+  if (!fs.existsSync(PUBLIC_DIR)) {
+    // 初回は clone
+    run(`git clone -b ${BRANCH} ${SSH_REMOTE} ${PUBLIC_DIR}`);
+  } else {
+    // 存在する場合は pull
+    run(`git -C ${PUBLIC_DIR} pull ${SSH_REMOTE} ${BRANCH}`);
+  }
+
+  // 3. _site の内容を _site_public にコピー
+  fs.copySync(SITE_DIR, PUBLIC_DIR, { overwrite: true });
+  console.log(`Copied ${SITE_DIR} → ${PUBLIC_DIR}`);
+
+  // 4. Git add / commit / push
+  run(`git -C ${PUBLIC_DIR} add .`);
+
+  try {
+    run(`git -C ${PUBLIC_DIR} commit -m "Deploy site"`);
+  } catch (err) {
+    console.log("Nothing to commit, continuing...");
+  }
+
+  run(`git -C ${PUBLIC_DIR} push ${SSH_REMOTE} ${BRANCH}`);
+
+  console.log("Deployment complete!");
 }
 
-console.log(`Running: git -C ${deployDir} push origin main`);
-execSync(`git -C ${deployDir} push origin main`, { stdio: "inherit" });
-
-console.log("Deployment complete!");
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
