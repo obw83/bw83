@@ -41,10 +41,9 @@ console.log("Adding, committing, and pushing changes...");
 execSync(`cd ${PUBLIC_DIR} && git config user.name "obw83"`, {
   stdio: "inherit",
 });
-execSync(
-  `cd ${PUBLIC_DIR} && git config user.email "あなたの obw83 メールアドレス"`,
-  { stdio: "inherit" }
-);
+execSync(`cd ${PUBLIC_DIR} && git config user.email "for.yo.chiko@gmail.com"`, {
+  stdio: "inherit",
+});
 execSync(`cd ${PUBLIC_DIR} && git add .`, { stdio: "inherit" });
 execSync(
   `cd ${PUBLIC_DIR} && git commit -m "Deploy site from obw83" || echo "Nothing to commit"`,

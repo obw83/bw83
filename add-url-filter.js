@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const SITE_DIR = path.join(__dirname, "_site");
-const pathPrefix = "/bw83"; // GitHub Pages 用
+const pathPrefix = "/bw83/"; // GitHub Pages 用
 
 // HTML ファイルを再帰的に取得
 function getHtmlFiles(dir) {
