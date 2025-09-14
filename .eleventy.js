@@ -10,16 +10,19 @@ module.exports = function (eleventyConfig) {
       .sort((a, b) => b.date - a.date);
   });
 
-  // date フィルター追加
+  // 日付フィルター
   eleventyConfig.addFilter("date", (dateObj, format = "yyyy-MM-dd") => {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
 
-  // assets をコピー（CSS/JS/画像）
+  // assets をコピー（CSS / JS / 画像）
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
   // URL 書き換え用フィルター（テンプレートで使用可）
-  eleventyConfig.addFilter("absUrl", (url) => `${pathPrefix}${url}`);
+  eleventyConfig.addFilter(
+    "absUrl",
+    (url) => `${pathPrefix}${url.replace(/^\.?\//, "")}`
+  );
 
   return {
     dir: {

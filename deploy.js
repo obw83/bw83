@@ -1,34 +1,37 @@
-const fs = require("fs-extra");
 const { execSync } = require("child_process");
+const fs = require("fs-extra");
+
+const siteDir = "_site";
+const deployDir = "_site_public";
+const gitHost = "github-ohmori"; // SSH 設定済みホスト
 
 function run(cmd) {
-  console.log(`Running: ${cmd}`);
+  console.log("Running:", cmd);
   execSync(cmd, { stdio: "inherit" });
 }
 
-// 1. HTML 内リンク更新
-run("node add-url-filter.js");
+function main() {
+  // HTML 内リンク書き換え
+  run("node add-url-filter.js");
 
-// 2. _site_public の git リポ確認
-if (!fs.existsSync("_site_public")) {
-  run("git clone -b main git@github-obw83:obw83/bw83.git _site_public");
-} else {
-  run("git -C _site_public pull git@github-obw83:obw83/bw83.git main");
+  // _site_public がなければクローン
+  if (!fs.existsSync(deployDir)) {
+    run(`git clone -b main ${gitHost}:obw83/bw83.git ${deployDir}`);
+  } else {
+    // pull 最新
+    run(`git -C ${deployDir} pull origin main`);
+  }
+
+  // _site → _site_public へコピー（全 assets 含む）
+  fs.copySync(siteDir, deployDir, { overwrite: true });
+
+  // commit & push
+  run(`git -C ${deployDir} add .`);
+  run(
+    `git -C ${deployDir} commit -m "Deploy site" || echo "Nothing to commit"`
+  );
+  run(`git -C ${deployDir} push origin main`);
+  console.log("Deployment complete!");
 }
 
-// 3. _site → _site_public にコピー
-fs.copySync("_site", "_site_public", { overwrite: true });
-console.log("Copied _site → _site_public");
-
-// 4. git commit & push
-run("git -C _site_public add .");
-
-try {
-  run('git -C _site_public commit -m "Deploy site"');
-} catch (e) {
-  console.log("No changes to commit.");
-}
-
-run("git -C _site_public push git@github-obw83:obw83/bw83.git main");
-
-console.log("Deployment complete!");
+main();
