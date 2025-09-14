@@ -1,9 +1,11 @@
+// deploy.js (完全版)
 const { execSync } = require("child_process");
 const fs = require("fs-extra");
 
-const siteDir = "_site";
-const deployDir = "_site_public";
+const siteDir = "_site"; // Eleventy 出力ディレクトリ
+const deployDir = "_site_public"; // デプロイ用リポジトリ
 const gitHost = "github-ohmori"; // SSH 設定済みホスト
+const repoName = "obw83/bw83.git";
 
 function run(cmd) {
   console.log("Running:", cmd);
@@ -14,23 +16,25 @@ function main() {
   // HTML 内リンク書き換え
   run("node add-url-filter.js");
 
-  // _site_public がなければクローン
+  // _site_public が存在しなければクローン、あれば pull
   if (!fs.existsSync(deployDir)) {
-    run(`git clone -b main ${gitHost}:obw83/bw83.git ${deployDir}`);
+    run(`git clone -b main ${gitHost}:${repoName} ${deployDir}`);
   } else {
-    // pull 最新
-    run(`git -C ${deployDir} pull origin main`);
+    run(`git -C ${deployDir} pull ${gitHost} main`);
   }
 
-  // _site → _site_public へコピー（全 assets 含む）
+  // _site → _site_public に全コピー
   fs.copySync(siteDir, deployDir, { overwrite: true });
 
   // commit & push
   run(`git -C ${deployDir} add .`);
-  run(
-    `git -C ${deployDir} commit -m "Deploy site" || echo "Nothing to commit"`
-  );
-  run(`git -C ${deployDir} push origin main`);
+  try {
+    run(`git -C ${deployDir} commit -m "Deploy site"`);
+  } catch (e) {
+    console.log("Nothing to commit");
+  }
+  run(`git -C ${deployDir} push ${gitHost} main`);
+
   console.log("Deployment complete!");
 }
 
