@@ -1,34 +1,33 @@
 const fs = require("fs");
 const path = require("path");
 
-const pathPrefix = "/bw83/"; // GitHub Pages の場合
-const siteDir = "_site";
+const targetDir = "_site";
 
-function updateLinks(dir) {
-  const files = fs.readdirSync(dir);
-
-  files.forEach((file) => {
-    const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
-
-    if (stat.isDirectory()) {
-      updateLinks(fullPath);
+function walkDir(dir) {
+  let results = [];
+  const list = fs.readdirSync(dir);
+  list.forEach((file) => {
+    file = path.join(dir, file);
+    const stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(walkDir(file));
     } else if (file.endsWith(".html")) {
-      let content = fs.readFileSync(fullPath, "utf-8");
-
-      // href と src を pathPrefix付きに書き換え
-      content = content.replace(
-        /(?:href|src)=["'](\/[^"']+)["']/g,
-        (match, p1) => {
-          return match.replace(p1, `${pathPrefix}${p1.replace(/^\//, "")}`);
-        }
-      );
-
-      fs.writeFileSync(fullPath, content);
-      console.log("Updated:", fullPath);
+      results.push(file);
     }
   });
+  return results;
 }
 
-updateLinks(siteDir);
+const htmlFiles = walkDir(targetDir);
+
+htmlFiles.forEach((file) => {
+  let content = fs.readFileSync(file, "utf8");
+
+  // {{ url }} 書き換え
+  content = content.replace(/{{\s*'([^']+)'\s*\|\s*url\s*}}/g, "/bw83/$1");
+
+  fs.writeFileSync(file, content, "utf8");
+  console.log("Updated:", file);
+});
+
 console.log("HTML links already updated via add-url-filter.js");
