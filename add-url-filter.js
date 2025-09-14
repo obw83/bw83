@@ -1,17 +1,20 @@
+#!/usr/bin/env node
+
 const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 
-// GitHub Pages 用 pathPrefix
-const PATH_PREFIX = "/bw83/";
+// Eleventy の pathPrefix に合わせる
+const pathPrefix = "/bw83/";
 
 // 対象ディレクトリ
 const SITE_DIR = "_site";
 
-// 再帰的に HTML ファイルを取得
+// 再帰的にディレクトリ内の HTML ファイルを取得
 function getHtmlFiles(dir) {
   let results = [];
-  fs.readdirSync(dir).forEach((file) => {
+  const list = fs.readdirSync(dir);
+  list.forEach((file) => {
     const fullPath = path.join(dir, file);
     const stat = fs.statSync(fullPath);
     if (stat && stat.isDirectory()) {
@@ -23,49 +26,41 @@ function getHtmlFiles(dir) {
   return results;
 }
 
-// URL 書き換え
-function rewriteUrls(filePath) {
-  let content = fs.readFileSync(filePath, "utf-8");
-  const $ = cheerio.load(content);
+// HTML 内のリンクを書き換える
+function updateLinks(filePath) {
+  let html = fs.readFileSync(filePath, "utf-8");
+  const $ = cheerio.load(html);
 
-  // a[href]
-  $("a").each((_, el) => {
+  // <a href>
+  $("a").each((i, el) => {
     const href = $(el).attr("href");
     if (href && !href.startsWith("http") && !href.startsWith("#")) {
-      $(el).attr("href", PATH_PREFIX + href.replace(/^\/+/, ""));
+      $(el).attr("href", pathPrefix + href.replace(/^\/?/, ""));
     }
   });
 
-  // link[href]（CSS）
-  $("link").each((_, el) => {
+  // <script src>
+  $("script").each((i, el) => {
+    const src = $(el).attr("src");
+    if (src && !src.startsWith("http")) {
+      $(el).attr("src", pathPrefix + src.replace(/^\/?/, ""));
+    }
+  });
+
+  // <link href>
+  $("link").each((i, el) => {
     const href = $(el).attr("href");
     if (href && !href.startsWith("http")) {
-      $(el).attr("href", PATH_PREFIX + href.replace(/^\/+/, ""));
+      $(el).attr("href", pathPrefix + href.replace(/^\/?/, ""));
     }
   });
 
-  // script[src]（JS）
-  $("script").each((_, el) => {
-    const src = $(el).attr("src");
-    if (src && !src.startsWith("http")) {
-      $(el).attr("src", PATH_PREFIX + src.replace(/^\/+/, ""));
-    }
-  });
-
-  // img[src]
-  $("img").each((_, el) => {
-    const src = $(el).attr("src");
-    if (src && !src.startsWith("http")) {
-      $(el).attr("src", PATH_PREFIX + src.replace(/^\/+/, ""));
-    }
-  });
-
-  fs.writeFileSync(filePath, $.html());
-  console.log(`Updated: ${filePath}`);
+  fs.writeFileSync(filePath, $.html(), "utf-8");
+  console.log("Updated:", filePath);
 }
 
-// メイン処理
+// 実行
 const htmlFiles = getHtmlFiles(SITE_DIR);
-htmlFiles.forEach((file) => rewriteUrls(file));
+htmlFiles.forEach(updateLinks);
 
 console.log("HTML links already updated via add-url-filter.js");

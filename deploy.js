@@ -1,51 +1,63 @@
-const { execSync } = require("child_process");
-const fs = require("fs-extra");
-const path = require("path");
+#!/usr/bin/env node
 
-// GitHub SSH 設定
-const SSH_REMOTE = "git@github-obw83:bw83/bw83.git"; // ~/.ssh/config の Host github-obw83 に対応
-const BRANCH = "main";
+const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 const SITE_DIR = "_site";
 const PUBLIC_DIR = "_site_public";
 
-function run(cmd) {
-  console.log(`Running: ${cmd}`);
-  execSync(cmd, { stdio: "inherit" });
-}
+// ここに GitHub リポジトリ URL を指定
+// SSH 例: git@github.com:obw83/bw83.git
+// HTTPS 例: https://github.com/obw83/bw83.git
+const REMOTE_REPO = process.env.DEPLOY_REPO || "git@github.com:obw83/bw83.git";
+const BRANCH = "main";
 
-async function main() {
-  // 1. HTMLリンク書き換え
-  run("node add-url-filter.js");
-
-  // 2. _site_public が存在するか
-  if (!fs.existsSync(PUBLIC_DIR)) {
-    // 初回は clone
-    run(`git clone -b ${BRANCH} ${SSH_REMOTE} ${PUBLIC_DIR}`);
-  } else {
-    // 存在する場合は pull
-    run(`git -C ${PUBLIC_DIR} pull ${SSH_REMOTE} ${BRANCH}`);
-  }
-
-  // 3. _site の内容を _site_public にコピー
-  fs.copySync(SITE_DIR, PUBLIC_DIR, { overwrite: true });
-  console.log(`Copied ${SITE_DIR} → ${PUBLIC_DIR}`);
-
-  // 4. Git add / commit / push
-  run(`git -C ${PUBLIC_DIR} add .`);
-
+function run(cmd, options = {}) {
+  console.log("Running:", cmd);
   try {
-    run(`git -C ${PUBLIC_DIR} commit -m "Deploy site"`);
+    const output = execSync(cmd, { stdio: "inherit", ...options });
+    return output;
   } catch (err) {
-    console.log("Nothing to commit, continuing...");
+    throw err;
   }
-
-  run(`git -C ${PUBLIC_DIR} push ${SSH_REMOTE} ${BRANCH}`);
-
-  console.log("Deployment complete!");
 }
 
-main().catch((err) => {
-  console.error(err);
+// 1. HTML 内リンク書き換え
+console.log("Running: node add-url-filter.js");
+run("node add-url-filter.js");
+
+// 2. _site_public の準備
+if (!fs.existsSync(PUBLIC_DIR)) {
+  console.log(`${PUBLIC_DIR} does not exist, cloning...`);
+  run(`git clone -b ${BRANCH} ${REMOTE_REPO} ${PUBLIC_DIR}`);
+} else {
+  console.log(`'${PUBLIC_DIR}' already exists, pulling latest...`);
+  run(`git -C ${PUBLIC_DIR} pull origin ${BRANCH}`);
+}
+
+// 3. _site → _site_public にコピー
+console.log(`Copying ${SITE_DIR} → ${PUBLIC_DIR}`);
+function copyDir(src, dest) {
+  if (!fs.existsSync(src)) throw new Error(`${src} does not exist`);
+  run(`rsync -a --delete ${src}/ ${dest}/`);
+}
+copyDir(SITE_DIR, PUBLIC_DIR);
+
+// 4. GitHub へ push
+try {
+  run(`git -C ${PUBLIC_DIR} add .`);
+  run(`git -C ${PUBLIC_DIR} commit -m "Deploy site"`);
+} catch (err) {
+  console.log("Nothing to commit, continuing...");
+}
+
+try {
+  run(`git -C ${PUBLIC_DIR} push origin ${BRANCH}`);
+  console.log("Deployment complete!");
+} catch (err) {
+  console.error(
+    "Push failed. Check your SSH/HTTPS credentials and repository access."
+  );
   process.exit(1);
-});
+}
