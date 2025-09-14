@@ -22,13 +22,12 @@ function getHtmlFiles(dir) {
   return results;
 }
 
-// HTML 内のリンク・スクリプト・画像を書き換え
+// HTML 内のリンク・スクリプト・画像に URL フィルターを追加（未設定のもののみ）
 function applyUrlFilter(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
 
-  // 既に | url が付いていればスキップ
-  const hasUrlFilter = /\|\s*url\s*\}/.test(content);
-  if (hasUrlFilter) return;
+  // すでに | url がある場合は何もしない
+  if (/\|\s*url\s*\}/.test(content)) return;
 
   // link タグ
   content = content.replace(
