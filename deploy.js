@@ -1,91 +1,293 @@
-// deploy.js
+#!/usr/bin/env node
 const fs = require("fs");
 const path = require("path");
 const { execSync } = require("child_process");
 
 const siteDir = path.resolve(__dirname, "_site");
 const publicDir = path.resolve(__dirname, "_site_public");
-const remoteRepo = "git@github.com:obw83/bw83.git";
+const repoUrl = "git@github.com:obw83/bw83.git";
 const branch = "main";
 
-// -----------------------------
-// 1. HTML/CSS 内リンクを書き換え
-// -----------------------------
-function updateLinks(dir) {
-  const files = fs.readdirSync(dir);
+// --- 実行ヘルパー ---
+function run(cmd, opts = {}) {
+  console.log(`🚀 Running: ${cmd}`);
+  try {
+    return execSync(cmd, { stdio: "pipe", encoding: "utf8", ...opts });
+  } catch (e) {
+    console.error(`❌ Command failed: ${cmd}`);
+    console.error(`❌ Error: ${e.message}`);
+    process.exit(1);
+  }
+}
 
-  files.forEach((file) => {
-    const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
+// --- 安全な文字列置換（正規表現を使わない） ---
+function updateLinksWithStringReplace(dir) {
+  console.log("🔄 Updating links with safe string replacement...");
+  let totalFilesChanged = 0;
 
-    if (stat.isDirectory()) {
-      updateLinks(fullPath);
-    } else if (file.endsWith(".html") || file.endsWith(".css")) {
-      let content = fs.readFileSync(fullPath, "utf8");
+  // よくあるパターンをリストアップ
+  const replacements = [
+    // HTML属性（クォート付き）
+    { from: 'href="/', to: 'href="/bw83/' },
+    { from: "href='/", to: "href='/bw83/" },
+    { from: 'src="/', to: 'src="/bw83/' },
+    { from: "src='/", to: "src='/bw83/" },
+    { from: 'action="/', to: 'action="/bw83/' },
+    { from: "action='/", to: "action='/bw83/" },
 
-      // 例: 全リンクに /prefix を付与する
-      // 実際のルールに合わせて正規表現を調整してください
-      content = content.replace(
-        /(href|src)=["'](?!http)([^"']+)["']/g,
-        '$1="/prefix/$2"'
-      );
+    // CSS url()
+    { from: "url(/", to: "url(/bw83/" },
+    { from: 'url("/', to: 'url("/bw83/' },
+    { from: "url('/", to: "url('/bw83/" },
+    { from: "url( /", to: "url( /bw83/" },
+    { from: 'url( "/', to: 'url( "/bw83/' },
+    { from: "url( '/", to: "url( '/bw83/" },
 
-      fs.writeFileSync(fullPath, content, "utf8");
+    // JavaScript文字列
+    { from: '"/', to: '"/bw83/' },
+    { from: "'/", to: "'/bw83/" },
+    { from: "`/", to: "`/bw83/" },
+  ];
+
+  // 重複を避けるためのチェック用パターン
+  const skipPatterns = [
+    "/bw83/",
+    "https://",
+    "http://",
+    "mailto:",
+    "tel:",
+    "data:",
+    "//",
+    'href="#',
+    'src="#',
+    'srcset="#',
+  ];
+
+  function shouldSkipReplacement(content, fromIndex, replacement) {
+    const beforeContext = content.substring(
+      Math.max(0, fromIndex - 20),
+      fromIndex + replacement.from.length + 20
+    );
+
+    // 既にprefixがついているかチェック
+    for (const pattern of skipPatterns) {
+      if (beforeContext.includes(pattern)) {
+        return true;
+      }
     }
-  });
+    return false;
+  }
+
+  function processFile(filePath) {
+    let content = fs.readFileSync(filePath, "utf8");
+    const originalContent = content;
+    const ext = path.extname(filePath);
+
+    // ファイルタイプに応じて使用する置換パターンを選択
+    let applicableReplacements = [];
+
+    if (ext === ".html") {
+      applicableReplacements = replacements.filter(
+        (r) =>
+          r.from.includes("href=") ||
+          r.from.includes("src=") ||
+          r.from.includes("action=")
+      );
+    } else if (ext === ".css") {
+      applicableReplacements = replacements.filter((r) =>
+        r.from.includes("url(")
+      );
+    } else if (ext === ".js") {
+      applicableReplacements = replacements.filter(
+        (r) => r.from === '"/' || r.from === "'/" || r.from === "`/"
+      );
+    }
+
+    // 安全な置換実行
+    for (const replacement of applicableReplacements) {
+      let searchIndex = 0;
+      while (true) {
+        const foundIndex = content.indexOf(replacement.from, searchIndex);
+        if (foundIndex === -1) break;
+
+        // コンテキストチェックでスキップ
+        if (!shouldSkipReplacement(content, foundIndex, replacement)) {
+          // 置換実行
+          content =
+            content.substring(0, foundIndex) +
+            replacement.to +
+            content.substring(foundIndex + replacement.from.length);
+
+          searchIndex = foundIndex + replacement.to.length;
+        } else {
+          searchIndex = foundIndex + replacement.from.length;
+        }
+      }
+    }
+
+    // 変更があった場合のみファイル書き込み
+    if (content !== originalContent) {
+      fs.writeFileSync(filePath, content, "utf8");
+      totalFilesChanged++;
+      console.log(`✏️  Updated: ${path.relative(dir, filePath)}`);
+
+      // デバッグ: 変更内容の一部を表示
+      const diff = content.length - originalContent.length;
+      console.log(`    Size change: ${diff > 0 ? "+" : ""}${diff} chars`);
+    }
+  }
+
+  function walk(currentDir) {
+    for (const item of fs.readdirSync(currentDir)) {
+      const fullPath = path.join(currentDir, item);
+      const stat = fs.statSync(fullPath);
+
+      if (stat.isDirectory() && !item.startsWith(".")) {
+        walk(fullPath);
+      } else if ([".html", ".css", ".js"].includes(path.extname(item))) {
+        processFile(fullPath);
+      }
+    }
+  }
+
+  walk(dir);
+  console.log(
+    `✅ Safe string replacement complete! ${totalFilesChanged} files modified.`
+  );
+  return totalFilesChanged;
 }
-console.log("Updating HTML/CSS links with pathPrefix...");
-updateLinks(siteDir);
-console.log("HTML and CSS links updated successfully!");
 
-// -----------------------------
-// 2. _site → _site_public にコピー
-// -----------------------------
-const rsyncCmd = `rsync -a --delete "${siteDir}/" "${publicDir}/"`;
-console.log(`Copying ${siteDir} → ${publicDir}`);
-execSync(rsyncCmd, { stdio: "inherit" });
+// --- 修正確認用の検証関数 ---
+function validateChanges(dir) {
+  console.log("🔍 Validating changes...");
+  let issuesFound = 0;
 
-// -----------------------------
-// 3. Git デプロイ処理
-// -----------------------------
-function git(cmd) {
-  return execSync(`git -C "${publicDir}" ${cmd}`, { stdio: "inherit" });
+  function checkFile(filePath) {
+    const content = fs.readFileSync(filePath, "utf8");
+    const lines = content.split("\n");
+
+    lines.forEach((line, index) => {
+      // 問題のあるパターンをチェック
+      if (
+        line.includes('="="" bw83=""') ||
+        line.includes("='''' bw83=''''") ||
+        line.includes('href="" bw83')
+      ) {
+        console.log(
+          `❌ Issue found in ${path.relative(dir, filePath)}:${index + 1}`
+        );
+        console.log(`    ${line.trim()}`);
+        issuesFound++;
+      }
+    });
+  }
+
+  function walk(currentDir) {
+    for (const item of fs.readdirSync(currentDir)) {
+      const fullPath = path.join(currentDir, item);
+      if (fs.statSync(fullPath).isDirectory() && !item.startsWith(".")) {
+        walk(fullPath);
+      } else if ([".html", ".css", ".js"].includes(path.extname(item))) {
+        checkFile(fullPath);
+      }
+    }
+  }
+
+  walk(dir);
+
+  if (issuesFound === 0) {
+    console.log("✅ No issues found in generated files");
+  } else {
+    console.log(`⚠️  Found ${issuesFound} potential issues`);
+  }
+
+  return issuesFound;
 }
 
-if (!fs.existsSync(path.join(publicDir, ".git"))) {
-  console.log("_site_public is not a git repo, initializing...");
-  git("init");
-  git(`remote add origin ${remoteRepo}`);
+// --- タイムスタンプファイル追加 ---
+function addTimestamp(dir) {
+  const timestampFile = path.join(dir, ".last-deploy");
+  const timestamp = new Date().toISOString();
+  fs.writeFileSync(
+    timestampFile,
+    `Last deployment: ${timestamp}\nBuild: ${Date.now()}`
+  );
+  console.log(`📅 Added timestamp: ${timestamp}`);
 }
 
-// 最新状態でリセット
-console.log("_site_public exists, resetting local changes...");
-try {
-  git(`fetch origin ${branch}`);
-} catch (e) {}
-try {
-  git(`reset --hard origin/${branch}`);
-} catch (e) {}
-git("clean -fd");
+// --- メイン処理 ---
+(async () => {
+  console.log("🚀 === SAFE REPLACEMENT DEPLOY SCRIPT ===");
 
-// 再コピー（上書き）
-execSync(rsyncCmd, { stdio: "inherit" });
+  if (!fs.existsSync(siteDir)) {
+    console.error(`❌ Source directory '${siteDir}' not found`);
+    console.error("Please run your build command first (e.g., npm run build)");
+    process.exit(1);
+  }
 
-// コミット & push
-console.log("Staging files...");
-git("add -A");
+  // 1. 元のファイルをバックアップしながら一時処理
+  const tempDir = path.resolve(__dirname, "_site_temp");
+  if (fs.existsSync(tempDir)) {
+    run(`rm -rf ${tempDir}`);
+  }
+  run(`cp -r ${siteDir} ${tempDir}`);
 
-try {
-  git(`commit -m "Deploy site"`);
-} catch (e) {
-  console.log("Nothing to commit, continuing...");
-}
+  // 2. 安全な文字列置換でリンク変換
+  console.log("Starting safe link replacement...");
+  const filesChanged = updateLinksWithStringReplace(tempDir);
 
-// ブランチ作成 or 移動
-git(`branch -M ${branch}`);
+  // 3. 変更内容の検証
+  const issues = validateChanges(tempDir);
+  if (issues > 0) {
+    console.log("⚠️  Issues detected, but continuing with deployment...");
+  }
 
-// 強制 push
-console.log(`Pushing to ${branch}...`);
-git(`push origin ${branch} --force`);
+  // 4. タイムスタンプ追加
+  addTimestamp(tempDir);
 
-console.log("Deployment complete!");
+  // 5. 公開ディレクトリにコピー
+  if (!fs.existsSync(publicDir)) {
+    fs.mkdirSync(publicDir, { recursive: true });
+  }
+  run(`rsync -a --delete --exclude='.git' ${tempDir}/ ${publicDir}/`);
+
+  // 6. Git設定
+  if (!fs.existsSync(path.join(publicDir, ".git"))) {
+    console.log("🔧 Setting up git repository...");
+    run(`git -C ${publicDir} init`);
+    run(`git -C ${publicDir} branch -M ${branch}`);
+    run(`git -C ${publicDir} remote add origin ${repoUrl}`);
+  }
+
+  // 7. コミットとプッシュ
+  run(`git -C ${publicDir} add -A`);
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const commitMsg = `Safe deploy - ${timestamp} (${filesChanged} files, ${issues} issues)`;
+
+  try {
+    run(`git -C ${publicDir} commit -m "${commitMsg}"`);
+  } catch (e) {
+    run(`git -C ${publicDir} commit --allow-empty -m "${commitMsg}"`);
+  }
+
+  console.log("🚀 Pushing to GitHub...");
+  try {
+    run(`git -C ${publicDir} push origin ${branch}`);
+  } catch (e) {
+    console.log("Using force push...");
+    run(`git -C ${publicDir} push origin ${branch} --force`);
+  }
+
+  // 8. クリーンアップ
+  run(`rm -rf ${tempDir}`);
+
+  console.log("\n✅ === SAFE DEPLOYMENT COMPLETE ===");
+  console.log(`🌍 Site URL: https://obw83.github.io/bw83/`);
+  console.log(`📊 Files updated: ${filesChanged}`);
+  console.log(`🔍 Issues found: ${issues}`);
+  console.log(`⏰ Deployed at: ${timestamp}`);
+})().catch((error) => {
+  console.error("❌ Deployment failed:", error);
+  process.exit(1);
+});
