@@ -959,6 +959,24 @@ a {
 }
 
 /* ========= workshop-ws__overview ========= */
+
+.charm-ws__page-hero-image {
+  width: 100%; /* 画面幅いっぱい */
+  padding-top: 53.33333333%;
+  background-image: url("/bw83/assets/images/head-sp-1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* PC用 */
+@media (min-width: 768px) {
+  .charm-ws__page-hero-image {
+    background-image: url("/bw83/assets/images/head-pc-1.png");
+    padding-top: 13.8888889%;
+  }
+}
+
 .workshop-ws__overview {
   width: 90%;
   max-width: 1200px;
