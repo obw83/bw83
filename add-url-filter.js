@@ -1,16 +1,17 @@
+// add-url-filter.js
 const fs = require("fs");
 const path = require("path");
 
 const SITE_DIR = path.join(__dirname, "_site");
-const pathPrefix = "/bw83/"; // GitHub Pages 用
 
-// HTML ファイルを再帰的に取得
+// 再帰的に HTML ファイルを取得
 function getHtmlFiles(dir) {
   let results = [];
-  fs.readdirSync(dir).forEach((file) => {
+  const list = fs.readdirSync(dir);
+  list.forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
-    if (stat && stat.isDirectory()) {
+    if (stat.isDirectory()) {
       results = results.concat(getHtmlFiles(filePath));
     } else if (file.endsWith(".html")) {
       results.push(filePath);
@@ -19,20 +20,28 @@ function getHtmlFiles(dir) {
   return results;
 }
 
-// HTML 内の {{ ... | url }} や /assets/... を pathPrefix 付きに変換
+// HTML 内のリンク・スクリプト・aタグを書き換え
 function addUrlFilterToFile(filePath) {
   let content = fs.readFileSync(filePath, "utf8");
 
-  // {{ ... | url }} の変換
+  // CSS リンク
   content = content.replace(
-    /\{\{\s*['"](.+?)['"]\s*\|\s*url\s*\}\}/g,
-    (_, url) => `${pathPrefix}${url}`
+    /<link\s+rel=["']stylesheet["']\s+href=["'](\/[^"']+)["']>/g,
+    (_, href) => `<link rel="stylesheet" href="{{ '${href}' | url }}">`
   );
 
-  // /assets/... の変換
+  // JS スクリプト
   content = content.replace(
-    /(\s(?:src|href|srcset)=["'])(\/assets\/.+?)["']/g,
-    (_, prefix, url) => `${prefix}${pathPrefix}${url.slice(1)}"` // 先頭の / を除去して pathPrefix 追加
+    /<script\s+src=["'](\/[^"']+)["'](\s+defer)?\s*>/g,
+    (_, src, defer) =>
+      `<script src="{{ '${src}' | url }}"${defer || ""}></script>`
+  );
+
+  // a タグ href
+  content = content.replace(
+    /<a\s+([^>]*?)href=["'](\/[^"']+)["'](.*?)>/g,
+    (_, before, href, after) =>
+      `<a ${before}href="{{ '${href}' | url }}"${after}>`
   );
 
   fs.writeFileSync(filePath, content, "utf8");
@@ -40,5 +49,7 @@ function addUrlFilterToFile(filePath) {
 }
 
 // 実行
-getHtmlFiles(SITE_DIR).forEach(addUrlFilterToFile);
-console.log("All HTML files updated with pathPrefix.");
+const htmlFiles = getHtmlFiles(SITE_DIR);
+htmlFiles.forEach(addUrlFilterToFile);
+
+console.log("All HTML files updated with | url filter.");
