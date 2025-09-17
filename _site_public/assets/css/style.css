@@ -51,8 +51,19 @@ a {
 
 .hero-top__image {
   width: 100%;
-  height: auto;
-  display: block;
+  padding-top: 140.125%; /* SP画像の比率 (例: 16:9なら56.25%) */
+  background-image: url("/bw83/assets/images/index-main-sp.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* PC用 */
+@media (min-width: 768px) {
+  .hero-top__image {
+    background-image: url("/bw83/assets/images/index-main-pc.png");
+    padding-top: 44.44444444%;
+  }
 }
 
 .hero-top__content {
@@ -1855,11 +1866,22 @@ a {
   text-align: center;
   margin-bottom: 2rem;
 }
-.about-ws__page-hero img,
-.about-ws__page-hero picture {
+
+.about-ws__page-hero-image {
   width: 100%;
-  height: auto;
-  display: block;
+  padding-top: 53.33333333%;
+  background-image: url("/bw83/assets/images/head-sp-2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* PC用 */
+@media (min-width: 768px) {
+  .about-ws__page-hero-image {
+    background-image: url("/bw83/assets/images/head-pc-2.png");
+    padding-top: 13.8888889%;
+  }
 }
 
 /* 中央テキスト */
