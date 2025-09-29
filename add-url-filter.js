@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 
-const siteDir = "_site"; // Eleventy 出力ディレクトリ
+const siteDir = "_site_public"; // Eleventy 出力ディレクトリ
 const pathPrefix = "/bw83"; // GitHub Pages 用 prefix
 
 // -------- HTML 処理 --------
