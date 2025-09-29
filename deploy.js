@@ -283,7 +283,7 @@ function addTimestamp(dir) {
   run(`rm -rf ${tempDir}`);
 
   console.log("\n✅ === SAFE DEPLOYMENT COMPLETE ===");
-  console.log(`🌍 Site URL: https://obw83.github.io/bw83/`);
+  console.log(`🌍 Site URL: https://aizomeya-miocasalo.com/`);
   console.log(`📊 Files updated: ${filesChanged}`);
   console.log(`🔍 Issues found: ${issues}`);
   console.log(`⏰ Deployed at: ${timestamp}`);
