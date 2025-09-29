@@ -28,30 +28,29 @@ function updateLinksWithStringReplace(dir) {
   // よくあるパターンをリストアップ
   const replacements = [
     // HTML属性（クォート付き）
-    { from: 'href="/', to: 'href="/aizomeya-miocasalo/' },
-    { from: "href='/", to: "href='/aizomeya-miocasalo/" },
-    { from: 'src="/', to: 'src="/aizomeya-miocasalo/' },
-    { from: "src='/", to: "src='/aizomeya-miocasalo/" },
-    { from: 'action="/', to: 'action="/aizomeya-miocasalo/' },
-    { from: "action='/", to: "action='/aizomeya-miocasalo/" },
+    { from: 'href="/', to: 'href="/' },
+    { from: "href='/", to: "href='/" },
+    { from: 'src="/', to: 'src="/' },
+    { from: "src='/", to: "src='/" },
+    { from: 'action="/', to: 'action="/' },
+    { from: "action='/", to: "action='/" },
 
     // CSS url()
-    { from: "url(/", to: "url(/aizomeya-miocasalo/" },
-    { from: 'url("/', to: 'url("/aizomeya-miocasalo/' },
-    { from: "url('/", to: "url('/aizomeya-miocasalo/" },
-    { from: "url( /", to: "url( /aizomeya-miocasalo/" },
-    { from: 'url( "/', to: 'url( "/aizomeya-miocasalo/' },
-    { from: "url( '/", to: "url( '/aizomeya-miocasalo/" },
+    { from: "url(/", to: "url(/" },
+    { from: 'url("/', to: 'url("/' },
+    { from: "url('/", to: "url('/" },
+    { from: "url( /", to: "url( /" },
+    { from: 'url( "/', to: 'url( "/' },
+    { from: "url( '/", to: "url( '/" },
 
     // JavaScript文字列
-    { from: '"/', to: '"/aizomeya-miocasalo/' },
-    { from: "'/", to: "'/aizomeya-miocasalo/" },
-    { from: "`/", to: "`/aizomeya-miocasalo/" },
+    { from: '"/', to: '"/' },
+    { from: "'/", to: "'/" },
+    { from: "`/", to: "`/" },
   ];
 
   // 重複を避けるためのチェック用パターン
   const skipPatterns = [
-    "/aizomeya-miocasalo/",
     "https://",
     "http://",
     "mailto:",
@@ -169,9 +168,9 @@ function validateChanges(dir) {
     lines.forEach((line, index) => {
       // 問題のあるパターンをチェック
       if (
-        line.includes('="="" aizomeya-miocasalo=""') ||
-        line.includes("='''' aizomeya-miocasalo=''''") ||
-        line.includes('href="" aizomeya-miocasalo')
+        line.includes('="=""') ||
+        line.includes("=''''") ||
+        line.includes('href=""')
       ) {
         console.log(
           `❌ Issue found in ${path.relative(dir, filePath)}:${index + 1}`
