@@ -236,7 +236,9 @@ function addTimestamp(dir) {
   if (!fs.existsSync(cnamePath)) {
     fs.writeFileSync(cnamePath, "aizomeya-miocasalo.com");
   }
-  run(`rsync -a --delete --exclude='.git' --exclude='CNAME' ${tempDir}/ ${publicDir}/`);
+  run(
+    `rsync -a --delete --exclude='.git' --exclude='CNAME' ${tempDir}/ ${publicDir}/`
+  );
   // ─────────────────────
 
   // 6. Git設定
@@ -274,4 +276,5 @@ function addTimestamp(dir) {
   console.log(`🌍 Site URL: https://aizomeya-miocasalo.com/`);
   console.log(`📊 Files updated: ${filesChanged}`);
   console.log(`🔍 Issues found: ${issues}`);
-  console.log(`⏰ Deployed at:
+  console.log(`⏰ Deployed at: ${timestamp}`);
+})();
