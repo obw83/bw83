@@ -1,6 +1,7 @@
 const { DateTime } = require("luxon");
 
-const pathPrefix = "/bw83/"; // GitHub Pages の場合
+// 環境変数で切り替え
+const pathPrefix = process.env.ELEVENTY_ENV === "production" ? "/bw83/" : "";
 
 module.exports = function (eleventyConfig) {
   // posts collection
