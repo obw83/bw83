@@ -25,31 +25,24 @@ function updateLinksWithStringReplace(dir) {
   console.log("🔄 Updating links with safe string replacement...");
   let totalFilesChanged = 0;
 
-  // よくあるパターンをリストアップ
   const replacements = [
-    // HTML属性（クォート付き）
     { from: 'href="/', to: 'href="/' },
     { from: "href='/", to: "href='/" },
     { from: 'src="/', to: 'src="/' },
     { from: "src='/", to: "src='/" },
     { from: 'action="/', to: 'action="/' },
     { from: "action='/", to: "action='/" },
-
-    // CSS url()
     { from: "url(/", to: "url(/" },
     { from: 'url("/', to: 'url("/' },
     { from: "url('/", to: "url('/" },
     { from: "url( /", to: "url( /" },
     { from: 'url( "/', to: 'url( "/' },
     { from: "url( '/", to: "url( '/" },
-
-    // JavaScript文字列
     { from: '"/', to: '"/' },
     { from: "'/", to: "'/" },
     { from: "`/", to: "`/" },
   ];
 
-  // 重複を避けるためのチェック用パターン
   const skipPatterns = [
     "https://",
     "http://",
@@ -67,8 +60,6 @@ function updateLinksWithStringReplace(dir) {
       Math.max(0, fromIndex - 20),
       fromIndex + replacement.from.length + 20
     );
-
-    // 既にprefixがついているかチェック
     for (const pattern of skipPatterns) {
       if (beforeContext.includes(pattern)) {
         return true;
@@ -81,8 +72,6 @@ function updateLinksWithStringReplace(dir) {
     let content = fs.readFileSync(filePath, "utf8");
     const originalContent = content;
     const ext = path.extname(filePath);
-
-    // ファイルタイプに応じて使用する置換パターンを選択
     let applicableReplacements = [];
 
     if (ext === ".html") {
@@ -102,16 +91,13 @@ function updateLinksWithStringReplace(dir) {
       );
     }
 
-    // 安全な置換実行
     for (const replacement of applicableReplacements) {
       let searchIndex = 0;
       while (true) {
         const foundIndex = content.indexOf(replacement.from, searchIndex);
         if (foundIndex === -1) break;
 
-        // コンテキストチェックでスキップ
         if (!shouldSkipReplacement(content, foundIndex, replacement)) {
-          // 置換実行
           content =
             content.substring(0, foundIndex) +
             replacement.to +
@@ -124,13 +110,10 @@ function updateLinksWithStringReplace(dir) {
       }
     }
 
-    // 変更があった場合のみファイル書き込み
     if (content !== originalContent) {
       fs.writeFileSync(filePath, content, "utf8");
       totalFilesChanged++;
       console.log(`✏️  Updated: ${path.relative(dir, filePath)}`);
-
-      // デバッグ: 変更内容の一部を表示
       const diff = content.length - originalContent.length;
       console.log(`    Size change: ${diff > 0 ? "+" : ""}${diff} chars`);
     }
@@ -166,7 +149,6 @@ function validateChanges(dir) {
     const lines = content.split("\n");
 
     lines.forEach((line, index) => {
-      // 問題のあるパターンをチェック
       if (
         line.includes('="=""') ||
         line.includes("=''''") ||
@@ -248,7 +230,14 @@ function addTimestamp(dir) {
   if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir, { recursive: true });
   }
-  run(`rsync -a --delete --exclude='.git' ${tempDir}/ ${publicDir}/`);
+
+  // ────── 追記部分 ──────
+  const cnamePath = path.join(publicDir, "CNAME");
+  if (!fs.existsSync(cnamePath)) {
+    fs.writeFileSync(cnamePath, "aizomeya-miocasalo.com");
+  }
+  run(`rsync -a --delete --exclude='.git' --exclude='CNAME' ${tempDir}/ ${publicDir}/`);
+  // ─────────────────────
 
   // 6. Git設定
   if (!fs.existsSync(path.join(publicDir, ".git"))) {
@@ -285,8 +274,4 @@ function addTimestamp(dir) {
   console.log(`🌍 Site URL: https://aizomeya-miocasalo.com/`);
   console.log(`📊 Files updated: ${filesChanged}`);
   console.log(`🔍 Issues found: ${issues}`);
-  console.log(`⏰ Deployed at: ${timestamp}`);
-})().catch((error) => {
-  console.error("❌ Deployment failed:", error);
-  process.exit(1);
-});
+  console.log(`⏰ Deployed at:
