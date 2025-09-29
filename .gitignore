@@ -1,3 +1,11 @@
+# ビルド/デプロイ生成物
 _site/
+_site_public/
+
+# 依存関係
 node_modules/
-_site_public
+
+# OS/エディタ関連
+.DS_Store
+.vscode/
+*.log
