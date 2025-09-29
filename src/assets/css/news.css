@@ -1,0 +1,129 @@
+/* お知らせ一覧ページ */
+.news {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.news__heading {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #aec4e9;
+  padding-bottom: 0.5rem;
+}
+
+.news__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.news__item {
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.news__link {
+  text-decoration: underline;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s;
+}
+
+.news__link:hover {
+  color: #004466;
+}
+
+.news__date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* タブレット以上 */
+@media (min-width: 600px) {
+  .news__item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .news__link {
+    flex: 1 1 auto;
+    min-width: 0; /* overflow-wrap対応 */
+    white-space: normal;
+    overflow-wrap: anywhere; /* 長い単語も改行可能 */
+  }
+
+  .news__date {
+    flex-shrink: 0; /* 日付は縮めない */
+    margin-left: 1rem;
+    white-space: nowrap; /* 改行しない */
+  }
+}
+
+/* 個別記事ページ */
+.news-detail {
+  padding: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+}
+
+.news-detail__title {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #004466;
+  border-bottom: 2px solid #004466;
+  padding-bottom: 0.3rem;
+}
+
+.news-detail__date {
+  display: block;
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.news-detail__body p {
+  margin-bottom: 1rem;
+}
+
+.news-detail__body ul,
+.news-detail__body ol {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+  list-style: disc;
+}
+
+.news-detail__body blockquote {
+  border-left: 3px solid #004466;
+  padding-left: 1rem;
+  color: #555;
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.news-detail__body a {
+  color: #004466;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.news-detail__body a:hover {
+  color: #006699;
+}
+
+/* タブレット以上 */
+@media (min-width: 600px) {
+  .news-detail {
+    padding: 2rem;
+  }
+}

@@ -16,6 +16,13 @@ module.exports = function (eleventyConfig) {
     return DateTime.fromJSDate(dateObj).toFormat(format);
   });
 
+  // 日本語日付用フィルター
+  eleventyConfig.addFilter("jpDate", (dateObj) => {
+    return DateTime.fromJSDate(dateObj)
+      .setLocale("ja")
+      .toFormat("yyyy年M月d日");
+  });
+
   // assets をコピー（CSS / JS / 画像）
   eleventyConfig.addPassthroughCopy({ "src/assets": "assets" });
 
