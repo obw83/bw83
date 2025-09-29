@@ -1,7 +1,8 @@
 const { DateTime } = require("luxon");
 
 // 環境変数で切り替え
-const pathPrefix = process.env.ELEVENTY_ENV === "production" ? "/bw83/" : "";
+const pathPrefix =
+  process.env.ELEVENTY_ENV === "production" ? "/aizomeya-miocasalo/" : "";
 
 module.exports = function (eleventyConfig) {
   // posts collection
