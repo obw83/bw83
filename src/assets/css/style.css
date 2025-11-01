@@ -2425,3 +2425,152 @@ a {
     border: 1px solid #ddd;
   }
 }
+
+/* ===============================
+   特定商取引法ページ
+   =============================== */
+
+.tokutei {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+  line-height: 1.8;
+}
+
+.tokutei__header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 3px solid #2c5f8d;
+}
+
+.tokutei__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c5f8d;
+  margin: 0;
+}
+
+.tokutei__intro {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+.tokutei__section {
+  margin-bottom: 3rem;
+}
+
+.tokutei__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c5f8d;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #2c5f8d;
+}
+
+.tokutei__text {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.tokutei__text strong {
+  color: #d32f2f;
+  font-weight: 700;
+}
+
+.tokutei__list {
+  margin: 1rem 0 1rem 1.5rem;
+  color: #333;
+}
+
+.tokutei__list-item {
+  margin-bottom: 0.5rem;
+}
+
+.tokutei__list-item a {
+  color: #2c5f8d;
+  text-decoration: none;
+}
+
+.tokutei__list-item a:hover {
+  text-decoration: underline;
+}
+
+.tokutei__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0 3rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tokutei__table-header,
+.tokutei__table-data {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tokutei__table-header {
+  background: #f0f4f8;
+  font-weight: 600;
+  color: #2c5f8d;
+  width: 30%;
+}
+
+.tokutei__table-data {
+  color: #333;
+}
+
+.tokutei__table-data a {
+  color: #2c5f8d;
+  text-decoration: none;
+}
+
+.tokutei__table-data a:hover {
+  text-decoration: underline;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .tokutei {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .tokutei__title {
+    font-size: 1.5rem;
+  }
+
+  .tokutei__heading {
+    font-size: 1.25rem;
+  }
+
+  .tokutei__table {
+    font-size: 0.9rem;
+  }
+
+  .tokutei__table-header,
+  .tokutei__table-data {
+    padding: 0.75rem;
+    display: block;
+    width: 100%;
+  }
+
+  .tokutei__table-header {
+    border-bottom: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .tokutei__table-data {
+    border-top: none;
+    padding-top: 0.5rem;
+  }
+
+  .tokutei__table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+  }
+}
