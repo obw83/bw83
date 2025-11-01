@@ -2266,3 +2266,162 @@ a {
     flex: 1; /* 記事リストが余白で伸びる */
   }
 }
+
+/* ===============================
+   プライバシーポリシーページ
+   =============================== */
+
+.privacy-policy {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+  line-height: 1.8;
+}
+
+.privacy-policy__header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #2c5f8d;
+}
+
+.privacy-policy__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2c5f8d;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-policy__subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+.privacy-policy__intro {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background: #ffffff;
+}
+
+/* 以下、既存のCSSは変更なし */
+.privacy-policy__section {
+  margin-bottom: 3rem;
+}
+
+.privacy-policy__heading {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c5f8d;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #2c5f8d;
+}
+
+.privacy-policy__text {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.privacy-policy__list {
+  margin: 1rem 0 1rem 1.5rem;
+  color: #333;
+}
+
+.privacy-policy__list--ordered {
+  list-style-type: decimal;
+}
+
+.privacy-policy__list-item {
+  margin-bottom: 0.5rem;
+}
+
+.privacy-policy__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.privacy-policy__table-header,
+.privacy-policy__table-data {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.privacy-policy__table-header {
+  background: #f0f4f8;
+  font-weight: 600;
+  color: #2c5f8d;
+  width: 30%;
+}
+
+.privacy-policy__table-data {
+  color: #333;
+}
+
+.privacy-policy__table-data a {
+  color: #2c5f8d;
+  text-decoration: none;
+}
+
+.privacy-policy__table-data a:hover {
+  text-decoration: underline;
+}
+
+.privacy-policy__footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid #ddd;
+  text-align: right;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .privacy-policy {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .privacy-policy__title {
+    font-size: 1.5rem;
+  }
+
+  .privacy-policy__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .privacy-policy__heading {
+    font-size: 1.25rem;
+  }
+
+  .privacy-policy__table {
+    font-size: 0.9rem;
+  }
+
+  .privacy-policy__table-header,
+  .privacy-policy__table-data {
+    padding: 0.75rem;
+    display: block;
+    width: 100%;
+  }
+
+  .privacy-policy__table-header {
+    border-bottom: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .privacy-policy__table-data {
+    border-top: none;
+    padding-top: 0.5rem;
+  }
+
+  .privacy-policy__table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+  }
+}
