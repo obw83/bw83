@@ -1,6 +1,41 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  
+  <!-- ページ情報（各ページで上書き可能） -->
+  <title>{{ title or "藍染屋ミオカザロ - 福島県磐梯町の藍染体験工房" }}</title>
+  <meta name="description" content="{{ description or "福島県磐梯町にある藍染体験工房「藍染屋ミオカザロ」。藍の栽培から営む藍染工房です。初心者の方も楽しい自由なものづくりを目指しています。" }}">
+  <meta name="keywords" content="藍染,藍染体験,工房,福島,磐梯町,ワークショップ,ミオカザロ">
+  
+  <!-- OGP設定 -->
+  <meta property="og:type" content="{{ ogType or 'website' }}">
+  <meta property="og:title" content="{{ ogTitle or title or '藍染屋ミオカザロ - 福島県磐梯町の藍染体験工房' }}">
+  <meta property="og:description" content="{{ ogDescription or description or '福島県磐梯町にある藍染体験工房「藍染屋ミオカザロ」。藍の栽培から営む藍染工房です。初心者の方も楽しい自由なものづくりを目指しています。' }}">
+  <meta property="og:url" content="{{ ogUrl or 'https://aizomeya-miocasalo.com/' }}{{ page.url }}">
+  <meta property="og:image" content="{{ ogImage or '/assets/images/ogp.png' }}">
+  <meta property="og:site_name" content="藍染屋ミオカザロ">
+  <meta property="og:locale" content="ja_JP">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ ogTitle or title or '藍染屋ミオカザロ' }}">
+  <meta name="twitter:description" content="{{ ogDescription or description or '福島県磐梯町の藍染体験工房' }}">
+  <meta name="twitter:image" content="{{ ogImage or '/assets/images/ogp.png' }}">
+  
+  <!-- Favicon 
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
+
+  -->
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ canonicalUrl or 'https://aizomeya-miocasalo.com/' }}{{ page.url }}">
+  
   <!-- Google Fonts Noto Sans JP -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,8 +49,40 @@
   <link rel="stylesheet" href="/assets/css/news.css">
 
   <script src="/assets/js/calendar.js" defer></script>
+  
+  <!-- 構造化データ（JSON-LD） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "藍染屋ミオカザロ",
+    "image": "/assets/images/ogp.png",
+    "description": "福島県磐梯町にある藍染体験工房",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "大字更科字法正尻坂下2788-6",
+      "addressLocality": "耶麻郡磐梯町",
+      "addressRegion": "福島県",
+      "postalCode": "969-3302",
+      "addressCountry": "JP"
+    },
+    "telephone": "+81-90-9535-2518",
+    "email": "mio.casalo2023@gmail.com",
+    "url": "https://aizomeya-miocasalo.com/",
+    "priceRange": "$$",
+    "openingHours": "Mo-Su 09:00-17:00"
+  }
+  </script>
+  
+  <!-- Google Analytics（トラッキングIDを設定してください） ーまだやってない
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -29,7 +96,7 @@
   <!-- SP用フロートボタン + ハンバーガー -->
   <div class="sp-controls sp-only">
     <a href="/reserve/" class="float-btn" aria-label="体験予約">体験予約</a>
-    <button class="hamburger" aria-label="メニュー">
+    <button class="hamburger" aria-label="メニュー" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
@@ -37,7 +104,7 @@
   </div>
 
   <!-- ドロワーメニュー（SP用） -->
-  <nav class="drawer-menu sp-only">
+  <nav class="drawer-menu sp-only" aria-label="モバイルメニュー">
     <ul>
       <li><a href="/">TOP</a></li>
       <li><a href="/workshop/">藍染体験</a></li>
@@ -50,7 +117,7 @@
 
   <!-- PC用グローバルナビ -->
   <div class="pc-controls">
-    <nav class="global-nav pc-only">
+    <nav class="global-nav pc-only" aria-label="メインメニュー">
       <ul>
         <li><a href="/">TOP</a></li>
         <li><a href="/workshop/">藍染体験</a></li>
@@ -81,30 +148,32 @@
 
     <div class="footer-section">
       <h3>アクセス</h3>
-      <p>〒969-3302 <span class="sp-break"></span>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6</p>
+      <address class="footer-address">
+        〒969-3302 <span class="sp-break"></span>福島県耶麻郡磐梯町大字更科字法正尻坂下2788-6
+      </address>
     </div>
 
     <div class="footer-section">
       <h3>コンタクト</h3>
-      <p>090-9535-2518</p>
+      <p><a href="tel:+819095352518">090-9535-2518</a></p>
       <p><a href="mailto:mio.casalo2023@gmail.com">mio.casalo2023@gmail.com</a></p>
     </div>
 
     <div class="footer-section">
       <h3>フォロー</h3>
       <div class="social-links">
-        <a href="https://www.instagram.com/miocasalo2023?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" aria-label="Instagram">
-          <img src="/assets/images/Instagram_Glyph_Gradient.svg" alt="Instagram">
+        <a href="https://www.instagram.com/miocasalo2023/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <img src="/assets/images/Instagram_Glyph_Gradient.svg" alt="Instagram" width="32" height="32">
         </a>
-        <a href="https://note.com" target="_blank" aria-label="Note">
-          <img src="/assets/images/note_icon.svg" alt="Note">
+        <a href="https://note.com/miocasalo2023" target="_blank" rel="noopener noreferrer" aria-label="Note">
+          <img src="/assets/images/note_icon.svg" alt="Note" width="32" height="32">
         </a>
       </div>
     </div>
   </div>
 
   <div class="footer-copy">
-    <p>©<span id="year"></span> 藍染屋ミオカザロ All Rights Reserved.</p>
+    <p><small>©<span id="year"></span> 藍染屋ミオカザロ All Rights Reserved.</small></p>
   </div>
 
   <!-- 年を自動更新するスクリプト -->
