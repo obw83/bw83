@@ -1,10 +1,18 @@
 const { DateTime } = require("luxon");
+const sitemap = require("@quasibit/eleventy-plugin-sitemap");
 
 // 環境変数で切り替え
 const pathPrefix =
   process.env.ELEVENTY_ENV === "production" ? "/aizomeya-miocasalo/" : "";
 
 module.exports = function (eleventyConfig) {
+  // sitemap プラグイン
+  eleventyConfig.addPlugin(sitemap, {
+    sitemap: {
+      hostname: "https://aizomeya-miocasalo.com/",
+    },
+  });
+
   // posts collection
   eleventyConfig.addCollection("posts", function (collectionApi) {
     return collectionApi
