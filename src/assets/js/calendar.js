@@ -61,16 +61,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dateObj < today) {
         mark = "";
         className = "calendar__day--past";
-      } else if (monthData && monthData.closed.includes(dateString)) {
-        mark = "×";
-        className = "calendar__day--closed";
-      } else if (monthData) {
-        // openの日を青く
-        mark = "◯";
-        className = "calendar__day--open";
-      } else {
+      } else if (!monthData) {
         mark = "未定";
         className = "calendar__day--future";
+      } else if (monthData.closed && monthData.closed.includes(dateString)) {
+        mark = "×";
+        className = "calendar__day--closed";
+      } else if (monthData.limited && monthData.limited.includes(dateString)) {
+        mark = "△";
+        className = "calendar__day--limited";
+      } else if (monthData.blank && monthData.blank.includes(dateString)) {
+        mark = "";
+        className = "calendar__day--blank";
+      } else {
+        mark = "◯";
+        className = "calendar__day--open";
       }
 
       html += `<td class="${className}"><span>${day}<br>${mark}</span></td>`;

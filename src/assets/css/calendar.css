@@ -95,6 +95,15 @@
   font-weight: bold;
 }
 
+.calendar__day--limited {
+  color: #717ffa;
+  font-weight: bold;
+}
+
+.calendar__day--blank {
+  color: #555;
+}
+
 .calendar__day--future {
   color: #999;
   font-size: 0.8rem;
