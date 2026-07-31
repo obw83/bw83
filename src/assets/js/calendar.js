@@ -65,11 +65,14 @@ document.addEventListener("DOMContentLoaded", () => {
         mark = "未定";
         className = "calendar__day--future";
       } else if (monthData.closed && monthData.closed.includes(dateString)) {
-        mark = "×";
+        mark = "-";
         className = "calendar__day--closed";
       } else if (monthData.limited && monthData.limited.includes(dateString)) {
         mark = "△";
         className = "calendar__day--limited";
+      } else if (monthData.full && monthData.full.includes(dateString)) {
+        mark = "●";
+        className = "calendar__day--full";
       } else if (monthData.blank && monthData.blank.includes(dateString)) {
         mark = "";
         className = "calendar__day--blank";
@@ -86,6 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     html += "</tr></tbody></table>";
+    html +=
+      '<div class="calendar__legend">' +
+      '<div class="calendar__legend-row"><span>◯空き</span><span>●満員</span></div>' +
+      '<div class="calendar__legend-row calendar__legend-row--closed"><span>-お休み</span></div>' +
+      "</div>";
     calendarEl.innerHTML = html;
   }
 

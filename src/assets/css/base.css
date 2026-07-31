@@ -322,6 +322,10 @@ body {
   transition: opacity 0.3s;
 }
 
+.social-links a[aria-label="Instagram"] img {
+  filter: brightness(0) invert(1);
+}
+
 .social-links img:hover {
   opacity: 0.7;
 }

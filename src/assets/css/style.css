@@ -1533,7 +1533,7 @@ a {
 }
 
 .mention-ws__item {
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .workshop-ws__item-heading {
@@ -1571,7 +1571,7 @@ a {
 /* ========= workshop-ws__Access&CTA ========= */
 
 .workshop-info-ws {
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem;
 }
 
 .workshop-info-ws__boxes {
@@ -1809,6 +1809,22 @@ a {
   max-width: 1200px;
   margin: 0 auto 2rem auto;
   gap: 1.5rem;
+}
+
+/* workshop ページ: セクション間余白を40pxで統一 */
+.workshop-page > section {
+  margin-top: 0;
+  margin-bottom: 40px;
+}
+.workshop-page > section:last-child {
+  margin-bottom: 80px;
+}
+
+/* SPのみ 予約連絡先のメアド・Instagramアカウント名を小さめに */
+@media (max-width: 767px) {
+  .reserve-ws__item p.reserve-ws__contact-value {
+    font-size: 12px;
+  }
 }
 
 .faq-ws__heading {
