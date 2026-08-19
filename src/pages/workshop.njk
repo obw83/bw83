@@ -437,10 +437,9 @@ permalink: /workshop/index.html
         <p>❹ 15:00〜</p>
       </div>
 
-      {#
       <div class="hours-ws__item">
         <h4 class="hours-ws__subheading">営業日カレンダー</h4>
-        <p class="contact-top__text--bold"></p>
+        <p class="calendar-notice">8月のご予約は満員となっております。9月以降のご予約を承っております。</p>
         <div class="calendar-container">
           <div class="calendar__header">
             <button class="calendar__prev"></button>
@@ -449,8 +448,8 @@ permalink: /workshop/index.html
           </div>
         <div class="calendar"></div>
       </div>
-      #}
 
+      {# カレンダー全体を隠して長文のお知らせに切り替える時は、上の hours-ws__item を Nunjucks コメントで囲み、下のブロックの Nunjucks コメントを外す
       <div class="hours-ws__item">
         <div class="notice-suspend">
           <p class="notice-suspend__heading">【藍染め体験をご検討いただいている皆さまへ】</p>
@@ -462,6 +461,7 @@ permalink: /workshop/index.html
           <p class="notice-suspend__signature">藍染屋ミオカザロ　大森</p>
         </div>
       </div>
+      #}
 
     </div>
   </div>

@@ -1827,6 +1827,15 @@ a {
   }
 }
 
+/* カレンダー上の一言案内 */
+.calendar-notice {
+  margin: 1rem 0 0.5rem;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #404170;
+  font-weight: bold;
+}
+
 /* 一時休業のお知らせ（カレンダー差し込み位置に表示） */
 .notice-suspend {
   background: #f3f7fd;

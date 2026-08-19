@@ -189,8 +189,8 @@ title: トップ
 
     </div>
 
-          <!-- カレンダー差し込み用（現在一時非表示） -->
-        {#
+        <!-- カレンダー差し込み用 -->
+        <p class="calendar-notice">8月のご予約は満員となっております。9月以降のご予約を承っております。</p>
         <div class="calendar-container">
           <div class="calendar__header">
             <button class="calendar__prev"></button>
@@ -199,9 +199,7 @@ title: トップ
           </div>
         <div class="calendar"></div>
 
-      </div>
-        #}
-
+        {# カレンダー全体を隠して長文のお知らせに切り替える時は、上の calendar-container を Nunjucks コメントで囲み、下のブロックの Nunjucks コメントを外す
         <div class="notice-suspend">
           <p class="notice-suspend__heading">【藍染め体験をご検討いただいている皆さまへ】</p>
           <p>いつも藍染屋ミオカザロをご利用いただき、誠にありがとうございます。</p>
@@ -210,6 +208,9 @@ title: トップ
           <p>9月以降のご予約は承っておりますので、体験をご希望の方は来月以降の日程でご予約いただけますと幸いです。</p>
           <p>ご不便をおかけしますが、ご理解のほどよろしくお願いいたします。</p>
           <p class="notice-suspend__signature">藍染屋ミオカザロ　大森</p>
+        </div>
+        #}
+
       </div>
     </div>
   </div>
