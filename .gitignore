@@ -2,6 +2,9 @@
 _site/
 _site_public/
 
+# 旧作業の残骸（掃除済み・再発防止）
+bw83/
+
 # 依存関係
 node_modules/
 
