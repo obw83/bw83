@@ -1,8 +1,7 @@
 {
   "name": "for_mr-ohmori",
   "version": "1.0.0",
-  "description": "cd /Users/lapis/git/neon/for_Mr-Ohmori",
-  "main": "index.js",
+  "description": "藍染屋 miocasalo サイト (Eleventy + GitHub Pages / Actions 自動デプロイ)",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "eleventy --serve",
@@ -10,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com-ohmori:obw83/for_Mr-Ohmori.git"
+    "url": "git@github-obw83:obw83/bw83.git"
   },
   "keywords": [],
   "author": "",

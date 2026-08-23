@@ -5,6 +5,9 @@ _site_public/
 # 旧作業の残骸（掃除済み・再発防止）
 bw83/
 
+# Claude Code のローカル設定（個人用・公開しない）
+.claude/settings.local.json
+
 # 依存関係
 node_modules/
 
