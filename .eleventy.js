@@ -1,9 +1,8 @@
 const { DateTime } = require("luxon");
 const sitemap = require("@quasibit/eleventy-plugin-sitemap");
 
-// 環境変数で切り替え
-const pathPrefix =
-  process.env.ELEVENTY_ENV === "production" ? "/aizomeya-miocasalo/" : "";
+// カスタムドメイン(aizomeya-miocasalo.com)のルート配信のため prefix は不要（常に空）
+const pathPrefix = "";
 
 module.exports = function (eleventyConfig) {
   // sitemap プラグイン
