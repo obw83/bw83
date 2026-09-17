@@ -15,7 +15,7 @@
   <meta property="og:title" content="{{ ogTitle or title or '藍染屋ミオカザロ - 福島県磐梯町の藍染体験工房' }}">
   <meta property="og:description" content="{{ ogDescription or description or '福島県磐梯町にある藍染体験工房「藍染屋ミオカザロ」。藍の栽培から営む藍染工房です。初心者の方も楽しい自由なものづくりを目指しています。' }}">
   <meta property="og:url" content="{{ ogUrl or 'https://aizomeya-miocasalo.com/' }}{{ page.url }}">
-  <meta property="og:image" content="{{ ogImage or '/assets/images/ogp.png' }}">
+  <meta property="og:image" content="{{ ogImage or 'https://aizomeya-miocasalo.com/assets/images/ogp.png' }}">
   <meta property="og:site_name" content="藍染屋ミオカザロ">
   <meta property="og:locale" content="ja_JP">
   
@@ -23,7 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ ogTitle or title or '藍染屋ミオカザロ' }}">
   <meta name="twitter:description" content="{{ ogDescription or description or '福島県磐梯町の藍染体験工房' }}">
-  <meta name="twitter:image" content="{{ ogImage or '/assets/images/ogp.png' }}">
+  <meta name="twitter:image" content="{{ ogImage or 'https://aizomeya-miocasalo.com/assets/images/ogp.png' }}">
   
   <!-- Favicon 
   <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
@@ -55,9 +55,10 @@
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": "https://aizomeya-miocasalo.com/#business",
     "name": "藍染屋ミオカザロ",
-    "image": "/assets/images/ogp.png",
-    "description": "福島県磐梯町にある藍染体験工房",
+    "image": "https://aizomeya-miocasalo.com/assets/images/ogp.png",
+    "description": "福島県磐梯町にある藍染体験工房。藍の栽培から手がける工房で、初心者も手ぶらで藍染体験を楽しめます。",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "大字更科字法正尻坂下2788-6",
@@ -69,8 +70,17 @@
     "telephone": "+81-90-9535-2518",
     "email": "aizomeya.miocasalo.9@gmail.com",
     "url": "https://aizomeya-miocasalo.com/",
-    "priceRange": "$$",
-    "openingHours": "Mo-Su 09:00-17:00"
+    "priceRange": "¥¥",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "09:30",
+      "closes": "16:30"
+    },
+    "sameAs": [
+      "https://www.instagram.com/miocasalo2023/",
+      "https://note.com/miocasalo2023"
+    ]
   }
   </script>
   

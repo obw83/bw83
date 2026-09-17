@@ -1,6 +1,7 @@
 ---
 layout: base.njk
-title: 工房紹介
+title: 藍染体験・料金｜藍染屋ミオカザロ（福島県磐梯町）
+description: 福島県磐梯町の藍染体験。おてがるコース¥2,000〜(60分)、じっくりコース¥4,000〜(90分)。持ち込み可・手ぶらOK・初心者歓迎。会津の工房で藍染を楽しめます。
 permalink: /workshop/index.html
 ---
 
@@ -439,7 +440,8 @@ permalink: /workshop/index.html
 
       <div class="hours-ws__item">
         <h4 class="hours-ws__subheading">営業日カレンダー</h4>
-        <p class="calendar-notice">8月のご予約は満員となっております。9月以降のご予約を承っております。</p>
+        {# 満席などの一言はここに入れる（不要な時はコメントアウトのまま） #}
+        {# <p class="calendar-notice">8月のご予約は満員となっております。9月以降のご予約を承っております。</p> #}
         <div class="calendar-container">
           <div class="calendar__header">
             <button class="calendar__prev"></button>
@@ -610,5 +612,35 @@ permalink: /workshop/index.html
   </div>
 </div>
 </section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"全くの初心者ですが大丈夫ですか？","acceptedAnswer":{"@type":"Answer","text":"はい、むしろ初心者の方に丁寧に指導することを大切にしています。失敗を恐れず、一緒に楽しみましょう。"}},
+    {"@type":"Question","name":"服装や持ち物は？","acceptedAnswer":{"@type":"Answer","text":"手ぶらで問題ありません。エプロンを工房で用意しております。それでも汚れる可能性はございますので、服装はご注意ください。"}},
+    {"@type":"Question","name":"車でしかアクセスできませんか？","acceptedAnswer":{"@type":"Answer","text":"公共交通機関でのアクセスは困難です。そのためお車でのお越しを推奨しております。その分、工房周辺は静かで創作に集中できる環境です。"}},
+    {"@type":"Question","name":"作品の持ち帰りはその日にできますか？","acceptedAnswer":{"@type":"Answer","text":"濡れたままのお持ち帰りとなります。ご帰宅後に一度、お品物のみを洗濯してください。その後は、他のものと一緒に洗濯していただいても構いません。アフターケアについては体験後に詳しく説明いたします。"}},
+    {"@type":"Question","name":"遅刻してしまいそうです。","acceptedAnswer":{"@type":"Answer","text":"お電話ください。予約時間をずらすなど対応させていただきます。"}},
+    {"@type":"Question","name":"工房の場所がわかりません。","acceptedAnswer":{"@type":"Answer","text":"お電話ください。道順をご案内いたします。"}}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "藍染体験",
+  "name": "藍染体験（藍染屋ミオカザロ）",
+  "description": "福島県磐梯町の藍染体験。初心者も手ぶらでOK。ハンカチなどの小物からストール・バッグまで、世界にひとつの藍染を作れます。",
+  "provider": {"@type":"LocalBusiness","name":"藍染屋ミオカザロ","@id":"https://aizomeya-miocasalo.com/#business"},
+  "areaServed": {"@type":"AdministrativeArea","name":"福島県磐梯町・会津地方"},
+  "offers": [
+    {"@type":"Offer","name":"おてがるコース","price":"2000","priceCurrency":"JPY","description":"約60分。ハンカチ・てぬぐい・巾着などの小物を1点染めるコース。"},
+    {"@type":"Offer","name":"じっくりコース","price":"4000","priceCurrency":"JPY","description":"約90分。ストール・バッグ・Tシャツなど大きめの商品。持ち込み染めも可能。"}
+  ]
+}
+</script>
 
 </div>

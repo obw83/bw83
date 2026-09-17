@@ -2,7 +2,66 @@
 permalink: /robots.txt
 eleventyExcludeFromCollections: true
 ---
+# 検索エンジンには全ページを許可（Google/Bing など通常検索に出したい）
 User-agent: *
 Allow: /
+
+# ------------------------------------------------------------------
+# 方針: AI「学習」用クローラーは拒否。ただしAI「検索・回答」で
+#       サイトが紹介されるための bot（OAI-SearchBot / ChatGPT-User /
+#       PerplexityBot）は許可（＝ここに載せない）。
+#       Googlebot/Bingbot/Applebot（検索用）も無関係なので順位に影響なし。
+# ------------------------------------------------------------------
+
+# --- OpenAI: 学習用は拒否（ChatGPTの検索botは許可のまま） ---
+User-agent: GPTBot
+Disallow: /
+
+# --- Google: AI学習/Geminiグラウンディング用（※通常のGoogle検索には影響なし） ---
+User-agent: Google-Extended
+Disallow: /
+
+# --- Apple: AI学習用（※Applebot本体＝検索用は許可のまま） ---
+User-agent: Applebot-Extended
+Disallow: /
+
+# --- Anthropic (Claude): 学習/収集用 ---
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# --- Common Crawl（多くのAI学習の元データ） ---
+User-agent: CCBot
+Disallow: /
+
+# --- ByteDance / Meta / Amazon / その他 学習・収集bot ---
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
 
 Sitemap: https://aizomeya-miocasalo.com/sitemap.xml
